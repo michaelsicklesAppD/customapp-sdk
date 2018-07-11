@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BiQ App - Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<% include ./partials/include %>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><img width="180px" src="/img/AppDynamicsLogo.svg"/></a><div id="spinnerDiv" style="margin:10px"></div>
+            </div>
+            <!-- Left Menu -->
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+					<ul class="nav" id="side-menu"></ul>
+				</div>
+			</div>
+        </nav>    
+        <div id="page-wrapper">   
+            <!-- Main Page -->
+			<div class="row">
+				<div class="col-lg-4 col-md-4">
+					<div id="comp1" class="panel panel-red"></div>
+				</div>
+				<div class="col-lg-4 col-md-4">
+					<div id="comp2" class="panel panel-green"></div>
+				</div>
+				<div class="col-lg-4 col-md-4">
+					<div id="comp3" class="panel panel-yellow"></div>
+				</div>
+			</div>
+			<div class="row"> 
+				<div id="errorTable"> </div>
+				<div id="errorTrend"> </div>
+				<div id="serviceTable"> </div>
+				<div id="serviceTrend"> </div>
+				
+			</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+	//Your BiQ App Components ...
+	
+	var errorDetails = function () {
+		hideElements(["errorTrend","serviceTable","serviceTrend"]);
+		new TableComponent({
+			//query : "",
+			targetId:"errorTable",
+			title:"Error Counts",
+			panelHeadingCSS:"panel-red",
+			columns: [{ title: "Error" },{ title: "Counts" }]
+		}).draw(function(record){
+			new LineChartComponent({
+				//query: "",    
+				targetId:"errorTrend",
+				title:"Error Details: "+record[0]+" - "+record[1],
+				panelHeadingCSS:"panel-red"
+			}).draw(function(id,date){
+				
+			});		
+		});
+	}
+	
+	var serviceDetails = function () {
+		hideElements(["serviceTrend","errorTable","errorTrend"]);
+		new TableComponent({
+			//query : "",
+			targetId:"serviceTable",
+			title:"Service Counts",
+			panelHeadingCSS:"panel-green",
+			columns: [{ title: "Service" },{ title: "Counts" }]
+		}).draw(function(record){
+			new LineChartComponent({
+				//query: "",    
+				targetId:"serviceTrend",
+				title:"Service Details: "+record[0]+" - "+record[1],
+				panelHeadingCSS:"panel-green"
+			}).draw(function(id,date){
+				
+			});		
+		});
+	}
+	
+	var headers = function () {
+		new BoxChartComponent({
+			title:"Errors",
+			targetId:"comp1",
+			action:"View Details",
+			actionClick: "errorDetails()",
+			icon:"fa fa-exclamation fa-2x",
+			//icon:"fa fa-cogs fa-2x",
+			//icon:"fa fa-tasks fa-2x",
+			height:75,
+			width:200
+			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'Sabre Web Services' and segments.userData.Error IS NOT NULL"
+		}).draw(errorDetails);
+		
+		new BoxChartComponent({
+			title:"Service",
+			targetId:"comp2",
+			action:"View Details",
+			actionClick: "serviceDetails()",
+			//icon:"fa fa-exclamation fa-2x",
+			icon:"fa fa-cogs fa-2x",
+			//icon:"fa fa-tasks fa-2x",
+			height:75,
+			width:200
+			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'Sabre Web Services' and segments.userData.Error IS NOT NULL"
+		}).draw();
+		
+		new BoxChartComponent({
+			title:"Chart",
+			targetId:"comp3",
+			action:"View Details",
+			actionClick: "action()",
+			//icon:"fa fa-exclamation fa-2x",
+			//icon:"fa fa-cogs fa-2x",
+			icon:"fa fa-tasks fa-2x",
+			height:75,
+			width:200
+			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'Sabre Web Services' and segments.userData.Error IS NOT NULL"
+		}).draw();
+	}
+	
+	var filters = function () {
+		new FilterComponent({
+			targetId:"side-menu",
+			filters:[{
+				label:"Error",
+				id:"errorInput",
+				adqlField :"segments.userData.Error",
+				query:""
+			},{
+				label:"Service",
+				id:"serviceInput",
+				adqlField :"segments.userData.Service",
+				query:""
+			}]
+		}).draw(function(filters){
+			buildDashboard();
+		});
+	}
+	
+	var buildDashboard = function () {
+		headers();
+		filters();
+		new TimeRangeComponent({
+			targetId:"timeSelector"
+		}).draw();
+	}
+	
+	buildDashboard();
+	
+</script>
+</html>

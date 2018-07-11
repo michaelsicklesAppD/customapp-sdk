@@ -1,0 +1,21 @@
+
+spinnerDiv {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.navbar {
+  background-color:#080808;
+}
+
+.ui-autocomplete { 
+  position: absolute; 
+  cursor: default;
+  z-index:30 !important
+}  
+
+.page-wrapper{
+  min-height: 100%;
+}
+

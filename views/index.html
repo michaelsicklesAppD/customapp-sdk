@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BiQ App - Dashboards</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<% include ./partials/include %>
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/"><img width="180px" src="/img/AppDynamicsLogo.svg"/></a>
+            </div>
+            <span class="navbar-left" style="color: aliceblue">Version : <%= version %></span>
+            
+            <!-- Left Menu -->
+        </nav>    
+        <div id="page-wrapper">   
+            <!-- Main Page -->
+			<div class="row">
+                <div class="col-lg-4 col-md-4">
+                    <div id="ErrorCounts" class="panel panel-red">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-exclamation fa-2x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">Error Dashboard</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left" onClick="window.location.replace('/views/execdashboard.html')">View Dashboard</span>
+                                <span class="pull-right" onClick="window.location.replace('/views/execdashboard.html')"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
