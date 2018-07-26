@@ -21,7 +21,7 @@ app.use(function(req,res,next){
     req.restManager = restManager;
     req.analyticsManager = analyticsManager;
     res.locals.controller = configManager.getControllerUrl();
-    res.locals.version = config.version;
+    res.locals.version = configManager.getVersion();
     next();
 });
 
@@ -53,8 +53,8 @@ app.get('/views/index.html', function(req, res){
     res.render('index.html'); 
 }); 
 
-if (configManager.getConfig().dashboards){
-    configManager.getConfig().dashboards.forEach(function(dashboard){
+if (configManager.getDashboards()){
+    configManager.getDashboards().forEach(function(dashboard){
         console.log("registering : "+dashboard);
         app.get("/views/"+dashboard, function(req, res){ 
             res.render(dashboard); 

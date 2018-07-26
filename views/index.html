@@ -4,7 +4,7 @@
 <title>BiQ App - Dashboards</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<% include ./partials/include %>
+<%- include ./partials/include %>
 </head>
 <body>
     <div id="wrapper">
@@ -19,29 +19,45 @@
         <div id="page-wrapper">   
             <!-- Main Page -->
 			<div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <div id="ErrorCounts" class="panel panel-red">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-exclamation fa-2x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">Error Dashboard</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left" onClick="window.location.replace('/views/execdashboard.html')">View Dashboard</span>
-                                <span class="pull-right" onClick="window.location.replace('/views/execdashboard.html')"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>  
-                    </div>
-                </div>
+                <div id="newdash" class="col-lg-3 col-md-3"></div>
+                <div id="boxexample" class="col-lg-3 col-md-3"></div>
+                <div id="drilldown" class="col-lg-3 col-md-3"></div>
             </div>
         </div>
     </div>
 </body>
+<script type="text/javascript">
+    
+    var buildMenus = function(){
+        new BoxComponent({
+            title:"New Empty Dashboard",
+            targetId:"newdash",
+            action:"Empty Dashboard",
+            actionClick: "window.location.replace('/views/newdash.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"panel-green"
+        }).draw();
+
+        new BoxComponent({
+            title:"Box Example Dashboard",
+            targetId:"boxexample",
+            action:"Box Example Dashboard",
+            actionClick: "window.location.replace('/views/boxexample.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"panel-green"
+        }).draw();
+
+        new BoxComponent({
+            title:"Drill Down Example Dashboard",
+            targetId:"drilldown",
+            action:"Drill Down Example Dashboard",
+            actionClick: "window.location.replace('/views/drilldown.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"panel-green"
+        }).draw();
+
+    }
+
+    buildMenus();
+</script>        
 </html>

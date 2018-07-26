@@ -28,3 +28,15 @@ exports.query = function(query,start,end,limit){
 	});
 	return deferred.promise;
 }
+
+exports.restUIADQL = function(query,start,end,limit){
+	var deferred = Q.defer();
+	restManager.restUIADQL(query,start,end,limit,function(err,response){
+		if(err){
+			deferred.reject(new Error(err));
+		}else{
+			deferred.resolve(response);
+		}
+	});
+	return deferred.promise;
+}

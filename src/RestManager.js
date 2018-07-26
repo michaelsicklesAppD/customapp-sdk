@@ -652,6 +652,7 @@ exports.analyticsQuery = function(query,start,end,limit,callback){
 			"X-CSRF-TOKEN" : "Content-type: application/vnd.appd.events+text;v=2"
 		}
 	};
+	addproxy(options);
 	if(config.restdebug){
 		logmessage(url);
 		logmessage("Date Range :"+dateHelper.getMillisecondsAsDate(start)+" : "+dateHelper.getMillisecondsAsDate(end));
@@ -677,5 +678,28 @@ exports.analyticsQuery = function(query,start,end,limit,callback){
 			}
 		}
 		handleResponse(err,resp,callback);
+	});
+}
+
+
+
+exports.restUIADQL = function(query,start,end,limit,callback){
+	var request = {"requests":[{"query":query,"label":"VisualizationQuery","customResponseRequest":true,"responseConverter":"UIGRID","responseType":"ORDERED","start":start,"end":end,"chunk":false,"mode":"none","scrollId":"","size":"","offset":"","limit":"10000"}],"start":"","end":"","chunk":true,"mode":"none","scrollId":"","size":"","offset":"","limit":"10000","chunkDelayMillis":"","chunkBreakDelayMillis":"","chunkBreakBytes":"","others":"false","emptyOnError":"false","token":"","dashboardId":0,"warRoomToken":"","warRoom":false};
+	if(config.restdebug){
+		logmessage("restUIADQL Call");
+		logmessage(JSON.stringify(request));
+	}
+	postUICall(config.controller,"/controller/restui/analytics/adql/query",request,function(err,resp){
+		var data = JSON.parse(resp.body);
+		if(config.restdebug){
+			logmessage("Results");
+			logmessage(JSON.stringify(data));
+		}
+		if(data[0].chunk){
+            var chunk = data[0].chunk;
+            handleResponse(chunk[0].error,chunk,callback);
+        }else{
+			handleResponse("System Error : No Response Results",null,callback);
+		}
 	});
 }

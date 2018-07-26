@@ -1,3 +1,37 @@
+var generateRandomTimeData = function(){
+    //For last 60 mins generate random counts
+    var date = new Date();
+    var results = [];
+    var i = 0;
+    for (i = 0; i < 60; i++) { 
+        results.push([date.getTime(),Math.floor(Math.random() * 1000)]);
+        date.setMinutes(date.getMinutes() - i);
+    }
+    return results;
+}
+
+var SI_PREFIXES = ["", "K", "M", "G", "T", "P", "E"];
+
+function abbreviateNumber(number){
+
+    // what tier? (determines SI prefix)
+    var tier = Math.log10(number) / 3 | 0;
+
+    // if zero, we don't need a prefix
+    if(tier == 0) return number;
+
+    // get prefix and determine scale
+    var prefix = SI_PREFIXES[tier];
+    var scale = Math.pow(10, tier * 3);
+
+    // scale the number
+    var scaled = number / scale;
+
+    // format number and add prefix as suffix
+    return scaled.toFixed(1) + prefix;
+}
+  
+
 
 class BaseChart {
     constructor(options){
@@ -107,7 +141,6 @@ class LineChart extends BaseChart {
 
     prepColumnGroupData(options,data){
         var dates = ["dates"];
-
         data.forEach(function(rec){
             dates.push(parseInt(rec[0]));
             buildGroups(rec,options.groups)
@@ -154,6 +187,9 @@ class LineChart extends BaseChart {
             }else{
                 chartData = data;
             }
+        }else if (!key && !options.data){
+            key = "columns";
+            chartData = this.prepColumnData(data);
         }else{
             key = "columns";
             chartData = data;
@@ -198,7 +234,7 @@ class SparkLineChart extends LineChart{
         this.template = $.templates("#chartComponent");
     }
 
-    renderGraph(isColumnData,data,clickFunction) {
+    renderGraph(dataKey,data,clickFunction) {
         var options = super.getOptions();
         var chartOptions = {
             bindto: super.getDiv(),
@@ -215,19 +251,15 @@ class SparkLineChart extends LineChart{
             legend: {show: false},
             tooltip:{show:false},
             axis: {
-                    x: {show:false},
-                    y: {show:false}
-                }, 
-            size: {height:options.height, width:options.width},     //TODO replace with chartOptions
+                x: {show:false},
+                y: {show:false}
+            }, 
+            size: {height:options.height, width:options.width},     
             point: {
                 show: false
             }
         };
-        if(isColumnData){
-            chartOptions.data.columns = data;
-        }else{
-            chartOptions.data.rows = data;
-        }
+        chartOptions.data[dataKey] = data;
         super.updateChartOptions(chartOptions,super.getOptions().chartOptions);
         this.chart = c3.generate(chartOptions);
     } 
@@ -305,18 +337,23 @@ class TableChart extends BaseChart {
     }
 
     renderChart(data,clickFunction) {
-        var columns = super.getOptions().columns;
         super.renderOuterComponent(this.template);
         super.setTitle(super.getOptions());
         var id = this.getDiv();
         var table = $(id); 
-
+        
         if ( ! $.fn.DataTable.isDataTable(id) ) {
-            table.DataTable({
-                data: data,
-                columns: columns,
-                order: this.order
-            });
+            var initOptions = super.getOptions().tableInitOptions;
+            if(!initOptions){
+                initOptions = {};
+            }else{
+                initOptions = jQuery.extend({}, initOptions);
+            }
+            initOptions.data = data;
+            initOptions.columns = super.getOptions().columns;
+            initOptions.order = this.order;
+            
+            table.DataTable(initOptions);
             table.DataTable().on('click', 'tr[role="row"]', function () {
                 table.DataTable().$('tr.selected').removeClass('selected');
                 var tr = $(this);
@@ -334,7 +371,7 @@ class TableChart extends BaseChart {
     }
 }
 
-class BaseComponent{
+class BaseComponent {
 
     constructor(options,chart) {
         this.options = options;
@@ -414,7 +451,7 @@ class BaseComponent{
         }else{
             var data;
             if(options.data == true || !options.data){
-                data = generateRandomCounts();
+                data = generateRandomTimeData();
             }else{
                 data = options.data;
             }
@@ -458,7 +495,6 @@ class LineChartComponent extends BaseComponent {
     constructor(options) {
         super(options,new LineChart(options));
     }
-
 }
 
 class DonutChartComponent extends BaseComponent {
@@ -588,11 +624,132 @@ var _biqFilters = [];
 var updateQueryWithFilters = function(query){
     if(_biqFilters && _biqFilters.length > 0){
         _biqFilters.forEach(function(filter){
-            var noSpaceQuery = query.split(' ').replace('');
+            var noSpaceQuery = query.replace(/\s/g, '');;
             if(!noSpaceQuery.includes(filter.field+"=")){
                 query +=" AND "+filter.field+" = '"+filter.value+"'";
             }
         });
     }
     return query;
+}
+
+class PieChartComponent extends BaseComponent {
+    constructor(options) {
+        super(options,new PieChart(options));
+    }
+}
+
+class PlotlySankeyChart extends BaseChart {
+    constructor(options) {
+        super(options);
+    }
+
+    renderChart(data,onClick){
+        var options = {
+            type: "sankey",
+            orientation: "h",
+            node: {
+              pad: 15,
+              thickness: 30,
+              line: {
+                color: "black",
+                width: 0.5
+              },
+             label: data.nodes,
+             color: ["blue", "blue", "blue", "blue", "blue", "blue"]
+            },
+          
+            link: {
+              source: data.source,
+              target: data.target,
+              value:  data.values
+            }
+          }
+          
+          var layout = {
+            title: super.getOptions().title,
+            font: {
+              size: 10
+            }
+          }
+          
+          Plotly.react(super.getDivId(), [options], layout);
+
+          var elem = document.getElementById(super.getDivId());
+          elem.on('plotly_click',function(data){
+            var source = data.points[0].source.label;
+            var target = data.points[0].target.label;
+            onClick({source:source,target:target});
+          });
+    }
+}
+
+class ButterflySankeyChart extends BaseChart {
+    constructor(options) {
+        super(options);
+    }
+
+    renderChart(data,onClick){
+        var function_color = d3.scale.category20();
+        var sankeyOptions = {
+            // Bind to the DOM and set height.
+            anchor: '#'+super.getDivId(),
+            // Link to control flow graph `functions` and `links` **data**
+            data: data.nodes,
+            links: data.links,
+            // Define unique **key** accessor for functions
+            key: function (func) { return func.id; },
+            // **Align** CFG to start on the `left`
+            align: 'left',
+            // **Style** nodes based on the function name and create tooltips.
+            // **Animate** transitions for all of the nodes and links.
+            node_options: {
+                title: function (func) { return func.name; },
+                animate: true,
+                duration: 2000
+            },
+            rect_options: {
+                styles: {
+                    fill: function (func) { return function_color(func.name); },
+                    stroke: 'black'
+                },
+                animate: true,
+                duration: 2000
+            },
+            link_options: {
+                // A poor-performing method of constructing a tooltip with function names.
+                // A look-up hash could be used.  The sankey object could be extended with this
+                // functionality if requested for relatively little additional space cost.
+                title: function (link) { return cfg.data.filter(function (f) { return f.id == link.source; })[0].name + " → " + cfg.data.filter(function (f) { return f.id == link.target; })[0].name; },
+                animate: true,
+                duration: 2000
+            },
+            path_options: {
+                animate: true,
+                duration: 2000
+            },
+            // Add text **labels** for each node
+            node_label_options: {
+                text: function (func) { return func.name; },
+                styles: {
+                    'font-weight': 'bold',
+                    'font-size': 'x-small'
+                },
+                orientation: 'horizontal',
+                animate: true,
+                duration: 2000
+            }
+        };
+        super.updateChartOptions(sankeyOptions,super.getOptions().chartOptions);
+        var cfg = new c3.Butterfly(sankeyOptions);
+        cfg.render();
+        cfg.on("selectNode",function(context,value){
+            console.log(value);
+            console.log(context);
+        });
+    }
+
+    resize(){
+        this.sankey.resize();
+    }
 }

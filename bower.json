@@ -1,11 +1,11 @@
 {
-  "name": "appscore",
+  "name": "biqapp",
   "version": "0.0.0",
-  "homepage": "https://github.com/appdynamics/biqappsdk",
+  "homepage": "https://github.com/Appdynamics/biqapp-sdk",
   "authors": [
     "Richard Paul"
   ],
-  "description": "Application Scoring",
+  "description": "BiQ App",
   "license": "MIT",
   "dependencies": {
     "d3": "~3.5.6",

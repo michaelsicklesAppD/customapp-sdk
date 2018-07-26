@@ -36,9 +36,11 @@
 <!--custom scripts-->
 <script type="text/javascript" src="/analytics/js/custom-biq-app.js"></script>
 
+<!--plotly-->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<%= include component-templates %>
-<%= include custom-component-templates %>
+<%- include component-templates %>
+<%- include custom-component-templates %>
 
 <script>
 var controller = "<%= controller %>";

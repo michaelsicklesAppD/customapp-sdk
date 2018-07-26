@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>BiQ App - Level One Dashboard</title>
+<meta charset="UTF-8">
+<% include ./partials/include %>
+<% include ./partials/sankey %>
+</head>
+<body>
+    <% include ./partials/monitor %>
+    <div id="wrapper">
+        <div class="row">
+            <div class="col-md-11">
+                <div id="sankeyChart1"></div>
+            </div>
+        </div>
+    <div>	
+</body>
+<script type="text/javascript">
+// adqlApiResultsLimit = 500;
+// debugApp = true;
+
+var find = function(){
+
+        var data={
+            nodes : [{"id":1,"name":"RuntimeException"},
+            {"id":2,"name":"Login Service"},
+            {"id":3,"name":"DB Service"},
+            {"id":4,"name":"Customer A"},
+            {"id":5,"name":"Customer B"}],
+            links : [{"source":1,"target":2,"value":15},
+            {"source":1,"target":3,"value":5},
+            {"source":2,"target":4,"value":10},
+            {"source":2,"target":5,"value":5}
+            ]
+        }
+
+        sankeyChart = new ButterflySankeyChart({div:"sankeyChart1",chartOptions:{height:"800px",width:"1200px",margin:["10","10","10","10"]}});
+        sankeyChart.renderChart(data,function(selection){
+
+        });
+}
+
+
+</script>
+</html>

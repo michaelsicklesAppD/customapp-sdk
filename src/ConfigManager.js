@@ -1,4 +1,5 @@
 var config	= require("../config.json");
+var dashboards	= require("../dashboards.json");
 
 exports.getExcludedApps = function(){
 	return config.exclude_app_ids;
@@ -103,11 +104,11 @@ exports.getAgentAvailabilityHrs = function(){
 }
 
 exports.getGlobalAccount = function(){
-	return config.gobal;
+	return config.globalKey;
 }
 
 exports.getAccessKey = function(){
-	return config.accesskey;
+	return config.accessKey;
 }
 
 exports.getAnalyticsUrl = function(){
@@ -120,4 +121,12 @@ exports.getPort = function(){
 
 exports.getLocalPort = function(){
 	return config.localport;
+}
+
+exports.getVersion = function(){
+	return dashboards.version;
+}
+
+exports.getDashboards = function(){
+	return dashboards.dashboards;
 }

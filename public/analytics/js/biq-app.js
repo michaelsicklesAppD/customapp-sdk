@@ -90,8 +90,14 @@ function updateDateBasedOnSelection(start,selection){
         case '1h' : 
             start.setHours(start.getHours() - 1);
             break;
+        case '2h' : 
+            start.setHours(start.getHours() - 2);
+            break;
         case '3h' : 
             start.setHours(start.getHours() - 3);
+            break;
+        case '4h' : 
+            start.setHours(start.getHours() - 4);
             break;
         case '6h' : 
             start.setHours(start.getHours() - 6);
@@ -150,7 +156,13 @@ function getTimeBucket(){
         case '1h' : 
             return '5m';
             break;
+        case '2h' : 
+            return '5m';
+            break;
         case '3h' : 
+            return '10m';
+            break;
+        case '4h' : 
             return '10m';
             break;
         case '6h' : 
@@ -558,40 +570,6 @@ var hasValue = function(value){
 
 var round = function(value){
     return Math.round(value * 10) / 10;
-}
-
-var SI_PREFIXES = ["", "K", "M", "G", "T", "P", "E"];
-
-function abbreviateNumber(number){
-
-    // what tier? (determines SI prefix)
-    var tier = Math.log10(number) / 3 | 0;
-
-    // if zero, we don't need a prefix
-    if(tier == 0) return number;
-
-    // get prefix and determine scale
-    var prefix = SI_PREFIXES[tier];
-    var scale = Math.pow(10, tier * 3);
-
-    // scale the number
-    var scaled = number / scale;
-
-    // format number and add prefix as suffix
-    return scaled.toFixed(1) + prefix;
-}
-  
-
-var generateRandomCounts = function(){
-    //For last 30 mins generate random counts
-    var date = new Date();
-    var results = [];
-    var i = 0;
-    for (i = 0; i < 60; i++) { 
-        results.push([date.getTime(),Math.floor(Math.random() * 1000)]);
-        date.setMinutes(date.getMinutes() - i);
-    }
-    return results;
 }
 
 var copyTextToClipBoard = function(text){

@@ -37,7 +37,8 @@
 				<div id="errorTrend"> </div>
 				<div id="serviceTable"> </div>
 				<div id="serviceTrend"> </div>
-				
+				<div id="customerTable"> </div>
+				<div id="customerTrend"> </div>
 			</div>
         </div>
     </div>
@@ -46,7 +47,7 @@
 	//Your BiQ App Components ...
 	
 	var errorDetails = function () {
-		hideElements(["errorTrend","serviceTable","serviceTrend"]);
+		hideElements(["errorTrend","serviceTable","serviceTrend","customerTable","customerTrend"]);
 		new TableComponent({
 			//query : "",
 			targetId:"errorTable",
@@ -66,7 +67,7 @@
 	}
 	
 	var serviceDetails = function () {
-		hideElements(["serviceTrend","errorTable","errorTrend"]);
+		hideElements(["serviceTrend","errorTable","errorTrend","customerTable","customerTrend"]);
 		new TableComponent({
 			//query : "",
 			targetId:"serviceTable",
@@ -84,6 +85,26 @@
 			});		
 		});
 	}
+
+	var customerDetails = function () {
+		hideElements(["customerTrend","serviceTable","serviceTrend","errorTable","errorTrend"]);
+		new TableComponent({
+			//query : "",
+			targetId:"customerTable",
+			title:"Customer Error Counts",
+			panelHeadingCSS:"panel-yellow",
+			columns: [{ title: "Service" },{ title: "Counts" }]
+		}).draw(function(record){
+			new LineChartComponent({
+				//query: "",    
+				targetId:"Trend",
+				title:"Customer Error Details: "+record[0]+" - "+record[1],
+				panelHeadingCSS:"panel-yellow"
+			}).draw(function(id,date){
+				
+			});		
+		});
+	}
 	
 	var headers = function () {
 		new BoxChartComponent({
@@ -92,37 +113,31 @@
 			action:"View Details",
 			actionClick: "errorDetails()",
 			icon:"fa fa-exclamation fa-2x",
-			//icon:"fa fa-cogs fa-2x",
-			//icon:"fa fa-tasks fa-2x",
 			height:75,
 			width:200
-			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'Sabre Web Services' and segments.userData.Error IS NOT NULL"
-		}).draw(errorDetails);
-		
-		new BoxChartComponent({
-			title:"Service",
-			targetId:"comp2",
-			action:"View Details",
-			actionClick: "serviceDetails()",
-			//icon:"fa fa-exclamation fa-2x",
-			icon:"fa fa-cogs fa-2x",
-			//icon:"fa fa-tasks fa-2x",
-			height:75,
-			width:200
-			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'Sabre Web Services' and segments.userData.Error IS NOT NULL"
+			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 		
 		new BoxChartComponent({
-			title:"Chart",
+			title:"Service Errors",
+			targetId:"comp2",
+			action:"View Details",
+			actionClick: "serviceDetails()",
+			icon:"fa fa-cogs fa-2x",
+			height:75,
+			width:200
+			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
+		}).draw();
+		
+		new BoxChartComponent({
+			title:"Customer Errors",
 			targetId:"comp3",
 			action:"View Details",
-			actionClick: "action()",
-			//icon:"fa fa-exclamation fa-2x",
-			//icon:"fa fa-cogs fa-2x",
+			actionClick: "customerDetails()",
 			icon:"fa fa-tasks fa-2x",
 			height:75,
 			width:200
-			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'Sabre Web Services' and segments.userData.Error IS NOT NULL"
+			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 	}
 	
@@ -138,6 +153,11 @@
 				label:"Service",
 				id:"serviceInput",
 				adqlField :"segments.userData.Service",
+				query:""
+			},{
+				label:"Customer",
+				id:"customerInput",
+				adqlField :"segments.userData.Customer",
 				query:""
 			}]
 		}).draw(function(filters){
