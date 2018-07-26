@@ -7,4 +7,5 @@ config.json
 .settings
 data/
 logs
+log
 bower_components
