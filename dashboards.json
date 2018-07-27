@@ -1,4 +1,13 @@
 {
 	"version":"1.0",
-	"dashboards":["newdash.html","filterdash.html","boxexample.html","sankey.html","drilldown.html"]
+	"dashboards":[
+		{ 
+		  "path":"/",
+		  "views":["newdash.html"]
+		},
+		{ 
+			"path":"/examples",
+			"views":["piechart.html","examples.html","sankey.html","drilldown.html","boxexample.html","components.html"]
+		}
+	]
 }

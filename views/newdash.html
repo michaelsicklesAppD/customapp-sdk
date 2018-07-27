@@ -21,17 +21,7 @@
         <div id="page-wrapper">   
             <!-- Main Page -->
 			<div class="row">
-				<div id="ErrorTotals" class="panel-red"></div>
-				<div id="ErrorBreakDown"></div>
-			</div>
-			<div class="row">
-				<div id="ErrorTable" class="panel-red"></div>
-			</div>
-			<div class="row">
-				<div id="ErrorTrend" class="panel-red"></div>
-            </div>
-            <div class="row">
-				<div id="sankeyChart"></div>
+				<div id="ErrorTotals" class="panel-red col-md-3"></div>				
 			</div>
         </div>
     </div>
@@ -43,54 +33,13 @@
 			title:"Error Counts",
 			targetId:"ErrorTotals",
 			action:"View Details",
-			actionClick: "action()",
+			actionClick: "alert('setup an action for your component')",
 			icon:"fa fa-exclamation fa-2x",
 			height:75,
 			width:300
 			//query:""
 		}).draw();
-		
-		new DonutChartComponent({
-			//query: "",    
-			targetId:"ErrorBreakDown",
-			title:"Error Breakdown",
-		}).draw(function(id){
-            //hide elements lower down the chain
-            hideElements(["ErrorTrend"]);
-            
-			new TableComponent({
-				//query : "",
-				targetId:"ErrorTable",
-				title:"Table Chart",
-				panelHeadingCSS:"panel-red",
-				columns: [{ title: "Name" },{ title: "Counts" }]
-			}).draw(function(record){
-				new LineChartComponent({
-					//query: "",    
-					targetId:"ErrorTrend",
-					title:"Error Trend Chart",
-					panelHeadingCSS:"panel-red"
-				}).draw(function(rec){
-                    
-                    var data={
-                        nodes : ["RuntimeException",
-                        "Login Service",
-                        "DB Service",
-                        "Customer A",
-                        "Customer B"],
-                        source : [1,1,2,2,3],
-                        target : [2,3,4,5,5],
-                        values : [15,5,10,5,2]
-                    }
-
-                    sankeyChart = new PlotlySankeyChart({div:"sankeyChart",title:"Flow"});
-                    sankeyChart.renderChart(data,function(selection){
-                        alert(JSON.stringify(selection));
-                    });
-				});
-			});
-		});
-		
+				
 		new FilterComponent({
 			targetId:"side-menu",
 			filters:[{
@@ -98,22 +47,10 @@
 				id:"idError",
 				adqlField :"<field name required>",
 				query:""
-			},{
-				label:"Customer",
-				id:"idCustomer",
-				adqlField :"<field name required>",
-				query:""
 			}]
 		}).draw(function(filters){
-            //hide elements lower down the chain
-            hideElements(["ErrorTable","ErrorTrend"]);
-			buildDashboard();
-		});
-		
-		new TimeRangeComponent({
-			targetId:"timeSelector"
-		}).draw();
-		
+            buildDashboard();
+		});		
 	}
 	buildDashboard();
 </script>

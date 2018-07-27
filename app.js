@@ -55,10 +55,20 @@ app.get('/views/index.html', function(req, res){
 
 if (configManager.getDashboards()){
     configManager.getDashboards().forEach(function(dashboard){
-        console.log("registering : "+dashboard);
-        app.get("/views/"+dashboard, function(req, res){ 
-            res.render(dashboard); 
-        }); 
+        dashboard.views.forEach(function(view){
+            var viewUrl = "";
+            if(dashboard.path.length>1){
+                viewUrl = dashboard.path+"/"+view;
+            }else{
+                viewUrl = "/"+view;
+            }
+            var path = "/views"+viewUrl;
+            console.log("registring : "+path);
+            app.get( path, function(req, res){ 
+                console.log(".."+req.path);
+                res.render(".."+req.path); 
+            }); 
+        });
     });
 }
 

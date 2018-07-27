@@ -37,6 +37,11 @@ class BaseChart {
     constructor(options){
         this.updateDivs(options);
         this.options = options;
+        if(options.template){
+            this.template = $.templates(options.template);
+        }else{
+            this.template = $.templates("#noPanelComponent");
+        }
     }
 
     getOptions(){
@@ -86,6 +91,14 @@ class BaseChart {
             }
         }
     }
+
+    renderChart(data,clickFunction) {
+        //implemented by subclasses
+    }
+
+    draw(onClick,callback){
+        this.renderChart(this.options.data,onClick);  
+    }
     
 }
 
@@ -93,7 +106,6 @@ class BaseChart {
 class LineChart extends BaseChart {
     constructor(options) {
         super(options);
-        this.template = $.templates("#chartComponent");
     }
 
     isColumnData(data){
@@ -231,7 +243,6 @@ class LineChart extends BaseChart {
 class SparkLineChart extends LineChart{
     constructor(options) {
         super(options);
-        this.template = $.templates("#chartComponent");
     }
 
     renderGraph(dataKey,data,clickFunction) {
@@ -268,7 +279,6 @@ class SparkLineChart extends LineChart{
 class DonutChart extends BaseChart {
     constructor(options) {
         super(options);
-        this.template = $.templates("#noPanelComponent");
     }
 
     renderChart(data,clickFunction) {
@@ -301,7 +311,6 @@ class DonutChart extends BaseChart {
 class PieChart extends BaseChart {
     constructor(options) {
         super(options);
-        this.template = $.templates("#noPanelComponent");
     }
 
     renderChart(data,clickFunction) {
@@ -329,7 +338,6 @@ class PieChart extends BaseChart {
 class TableChart extends BaseChart {
     constructor(options) {
         super(options);
-        this.template = $.templates("#tableComponent");
         this.order = options.order;
         if(!this.order){
             this.order = [[options.columns.length-1,"desc"]];
@@ -388,6 +396,9 @@ class BaseComponent {
         if(this.options.postRenderFn)
         {
            this.postRender = this.options.postRenderFn;
+        }
+        if(!options.template){
+            options.template = "#chartComponent";
         }
     }
 
@@ -451,7 +462,7 @@ class BaseComponent {
         }else{
             var data;
             if(options.data == true || !options.data){
-                data = generateRandomTimeData();
+                data = this.generateRandomData();
             }else{
                 data = options.data;
             }
@@ -460,6 +471,10 @@ class BaseComponent {
             }
             _render(chart,options,onClick,resetChildrenFunction,preProcess,data,preRender,postRender,callback);
         }
+    }
+
+    generateRandomData(){
+        return generateRandomTimeData();
     }
 
     _render(chart,options,onClick,resetChildrenFunction,preProcess,data,preRender,postRender,callback){
@@ -487,26 +502,35 @@ class BaseComponent {
 
 class TableComponent extends BaseComponent {
     constructor(options) {
+        if(!options.template){
+            options.template = "#tableComponent";
+        }
         super(options,new TableChart(options));
     }
 }
 
 class LineChartComponent extends BaseComponent {
     constructor(options) {
+        if(!options.template){
+            options.template = "#chartComponent";
+        }
         super(options,new LineChart(options));
     }
 }
 
 class DonutChartComponent extends BaseComponent {
     constructor(options) {
+        if(!options.template){
+            options.template = "#chartComponent";
+        }
         super(options,new DonutChart(options));
     }
 }
 
 class TimeRangeComponent extends BaseComponent {
     constructor(options) {
+        options.template = "#timeRangeComponent";
         super(options);
-        this.template = $.templates("#timeRangeComponent");
     }
 
     draw(onClick,callback){
@@ -551,6 +575,9 @@ class BoxChartComponent extends BaseComponent {
 
 class BoxComponent extends BaseComponent {
     constructor(options) {
+        if(!options.action){
+            options.action = options.title;
+        }
         super(options,null);
     }
 
@@ -562,11 +589,12 @@ class BoxComponent extends BaseComponent {
 
 class FilterComponent extends BaseComponent {
     constructor(options) {
+        this.template = "#filtersComponent";
         super(options);
-        this.template = $.templates("#filtersComponent");
     }
 
     draw(onClick,callback){
+
         var options = this.getOptions();
         $("#" + options.targetId).html(this.template.render(options));
         options.filters.forEach(function(filter){
@@ -598,6 +626,9 @@ class FilterComponent extends BaseComponent {
         if(callback){
             callback(options);
         }
+        new TimeRangeComponent({
+			targetId:"timeSelector"
+		}).draw();
     }
 
     updateQuery(query){
@@ -635,8 +666,19 @@ var updateQueryWithFilters = function(query){
 
 class PieChartComponent extends BaseComponent {
     constructor(options) {
+        options.template = "#chartComponent";
         super(options,new PieChart(options));
     }
+
+    generateRandomData(){
+        return [
+            ["Customer A",1000],
+            ["Customer B",2000],
+            ["Customer C",3000],
+            ["Customer D",4000]
+        ]
+    }
+
 }
 
 class PlotlySankeyChart extends BaseChart {
