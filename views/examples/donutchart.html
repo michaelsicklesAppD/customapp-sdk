@@ -12,55 +12,56 @@
 		<%- include ./menu %>
         <div id="page-wrapper">   
 			<!-- Main Page -->
-		<div id="pieChartSection">
+		<div id="chartSection">
 			<div class="row">
-				<div id="pieChartInfo" class="col-md-6">
-					<p>Pie Chart :</p>
+				<div id="chartInfo" class="col-md-6">
+					<p>Donut Chart :</p>
 					<ul>
-						<li>When working with the PieChart object you have to provide the data using the data property.</li>
-						<li>A wrapper for a C3.js Pie Chart (see <a href="https://c3js.org/samples/chart_pie.html">c3.js pie chart</a> ) </li>
-						<li>You would use the Pie Chart when you want to have control over the data and the chart itself.</li>
+						<li>When working with the Donut Chart object you have to provide the data using the data property.</li>
+						<li>A wrapper for a C3.js Donut Chart (see <a href="https://c3js.org/samples/chart_donut.html">c3.js donut chart</a> ) </li>
+						<li>You would use the Donut Chart when you want to have control over the data and the chart itself.</li>
 					</ul>
 					<pre><code class="language-javascript">
-	var pieData = [
-		["Apple",1000],
-		["Amazon",2000],
-		["Cisco",3000],
-		["AppDynamics",4000],
+	var data = [
+		["Customer Apple",1000],
+		["Customer Amazon",2000],
+		["Customer Cisco",3000],
+		["Customer Facebook",4000],
 	]
 	
-	new PieChart({
-		targetId:"pieChart",
-		data:pieData
+	new DonutChart({
+		targetId:"chart",
+		data:data,
+		title:"Customers"
 	}).draw(function(selection){
 		alert(selection);
 	})
 					</code></pre>
 
 				</div>	
-				<div id="pieChart" class="col-md-6"></div>				
+				<div id="chart" class="col-md-6"></div>				
 			</div>
 			<div class="row"><hr/></div>
 			<div class="row">
 				<div class="col-md-6">
-					<p>Pie Chart Component</p>
+					<p>Donut Chart Component</p>
 					<ul>
 						<li>Adds an outer panel and you can provide a title. The title property can be dynamic and include some variable and or html</li>
 						<li>All chart components allow you to pass in an ADQL query instead of the data property. If you pass in both, the query would be executed first.</li>
 						<li>if you remove the data and query properties then the component will generate random or test data.</li>
 					</ul>
 					<pre><code class="language-javascript">			
-new PieChartComponent({
-	targetId:"pieChartComponent",
-	title:"Pie Chart Component"
-	//query:"select customername,count(*) from transactions where application = 'test"
-}).draw(function(selection){
-	alert(selection);
-})						
+	new DonutChartComponent({
+		targetId:"chartComponent",
+		title:"Donut Chart Component"
+		//query:"select customername,count(*) from transactions where application = 'test"
+	}).draw(function(selection){
+		alert(selection);
+	})						
 </code></pre>
 
 				</div>	
-				<div id="pieChartComponent" class="col-md-6"></div>				
+				<div id="chartComponent" class="col-md-6"></div>				
 			</div>
 			<div class="row"><hr/></div>
 			<div class="row">
@@ -71,9 +72,9 @@ new PieChartComponent({
 							<li>This will work for both Chart and ChartComponents.</li>
 						</ul>
 						<pre><code class="language-javascript">			
-	new PieChartComponent({
-		targetId:"pieChartComponentCustomized",
-		title:"Pie Chart Component Customized",
+	new DonutChartComponent({
+		targetId:"chartComponentCustomized",
+		title:"All Red",
 		chartOptions:{
 			size:{width:"200",height:"200"},
 			color:{pattern: ['#FF0000']},
@@ -85,7 +86,7 @@ new PieChartComponent({
 	</code></pre>
 	
 					</div>	
-					<div id="pieChartComponentCustomized" class="col-md-6"></div>				
+					<div id="chartComponentCustomized" class="col-md-6"></div>				
 				</div>
 		</div>
 		</div>
@@ -93,34 +94,35 @@ new PieChartComponent({
     </div>
 </body>
 <script type="text/javascript">
-	
+	debugApp = true;
 
-	var pieChartSection = function(){
-		var pieData = [
+	var chartSection = function(){
+		var data = [
 			["Apple",1000],
 			["Amazon",2000],
 			["Cisco",3000],
-			["AppDynamics",4000],
+			["Facebook",4000],
 		]
-
-		new PieChart({
-			targetId:"pieChart",
-			data:pieData
+		
+		new DonutChart({
+			targetId:"chart",
+			data:data,
+			title:"Customers"
 		}).draw(function(selection){
 			alert(selection);
 		})
 
-		new PieChartComponent({
-			targetId:"pieChartComponent",
-			title:"Pie Chart Component"
+		new DonutChartComponent({
+			targetId:"chartComponent",
+			title:"Donut Chart Component"
 			//query:"select customername,count(*) from transactions where application = 'test"
 		}).draw(function(selection){
 			alert(selection);
 		})
 
-		new PieChartComponent({
-			targetId:"pieChartComponentCustomized",
-			title:"Pie Chart Component Customized",
+		new DonutChartComponent({
+			targetId:"chartComponentCustomized",
+			title:"All Red",
 			chartOptions:{
 				size:{width:"200",height:"200"},
 				color:{pattern: ['#FF0000']},
@@ -133,7 +135,7 @@ new PieChartComponent({
 
 	//Your BiQ App Components ...
 	var buildDashboard = function(){
-		pieChartSection();				
+		chartSection();				
 	}
 	buildDashboard();
 

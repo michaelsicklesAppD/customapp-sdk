@@ -7,7 +7,7 @@
 		},
 		{ 
 			"path":"/examples",
-			"views":["piechart.html","examples.html","sankey.html","drilldown.html","boxexample.html","components.html"]
+			"views":["base.html","sankeys.html","layout.html","table.html","boxcomponent.html","gettingstarted.html","timechart.html","piechart.html","examples.html","sankey.html","drilldown.html","tabexample.html","components.html","intro.html","donutchart.html"]
 		}
 	]
 }

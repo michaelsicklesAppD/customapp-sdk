@@ -7,7 +7,7 @@
             //query : "",
             targetId:"",
             title:"Service Counts",
-            //panelHeadingCSS:"panel-red",
+            //panelClass:"panel-red",
             columns: [{ title: "Service" },{ title: "Counts" }]
         }).draw(function(record){
             
@@ -71,7 +71,7 @@
             //query: "",    
             targetId:"errorTrend",
             title:"Error Details: ",
-            panelHeadingCSS:"panel-red"
+            panelClass:"panel-red"
         }).draw(function(id,date){
             
         });

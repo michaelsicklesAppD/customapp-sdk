@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BiQ App - Dashboard</title>
+<meta charset="UTF-8">
+<% include ../partials/include %>
+<% include ../partials/prism %>
+</head>
+<body>
+    <div id="wrapper">
+		<!-- Menu -->
+		<%- include ./menu %>
+        <div id="page-wrapper">   
+			<!-- Main Page -->
+		<div id="chartSection">
+			<div class="row">
+				<div id="chartInfo" class="col-md-6">
+					<p>Box Component :</p>
+					<ul>
+						<li>This component can be used to display values and or trends.</li>
+						<li>panelClass sets the overall color (see <a href="https://getbootstrap.com/docs/4.0/utilities/colors/">BootStrap 4.0 colors</a></li>
+						<li>icons are based on FontAwesome (see <a href="https://fontawesome.com/">https://fontawesome.com</a>)</li>
+					</ul>
+					<pre><code class="language-javascript">
+
+	&lt;div id="box1"&gt;&lt;/div&gt;	
+	...
+	new BoxComponent({
+		title:"Total Revenue",
+		targetId:"box1",
+		action:"Revenue Dashboard",
+		actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
+		icon:"fa fa-shopping-cart fa-5x",
+		value:"2 Million",
+		panelClass:"panel-green"
+	}).draw();
+					</code></pre>
+
+				</div>	
+				<div id="box1" class="col-md-6"></div>				
+			</div>
+			<div class="row"><hr/></div>
+			<div class="row">
+				<div class="col-md-6">
+					<p>Box Chart Component</p>
+					<ul>
+						<li>The box chart component adds a timeseries graph and calculates the values based on the data provided.</li>
+						<li>All chart components allow you to pass in an ADQL query instead of the data property. If you pass in both, the query would be executed first.</li>
+						<li>if you remove the data and query properties then the component will generate random or test data.</li>
+						<li>The query and data should provide timeseries data for the timeseries chart.</li>
+					</ul>
+					<p>The following example we provide the data.</p>
+					<pre><code class="language-javascript">			
+	var chartData =[
+		[1532966193039,5],
+		[1532966013039,10],
+		[1532965833039,20],
+		[1532965593039,7],
+		[1532965293039,30]
+	];
+
+	new BoxChartComponent({
+		title:"Total Revenue",
+		targetId:"box2",
+		action:"Revenue Dashboard",
+		actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
+		icon:"fa fa-shopping-cart fa-2x",
+		data:chartData,
+		//query:,
+		chartOptions:{
+			size:{width:"400"}
+		},
+		panelClass:"panel-green"
+	}).draw();					
+</code></pre>
+
+				</div>	
+				<div id="box2" class="col-md-6"></div>				
+			</div>
+			<div class="row">
+					<div class="col-md-6">
+						<p>The following example since we did not provide a query or data property, the chart generates its own data.</p>
+						<pre><code class="language-javascript">			
+	new BoxChartComponent({
+		title:"Total Revenue",
+		targetId:"box2",
+		action:"Revenue Dashboard",
+		actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
+		icon:"fa fa-shopping-cart fa-2x",
+		//data:,
+		//query:,
+		chartOptions:{
+			size:{width:"400"}
+		},
+		panelClass:"panel-green"
+	}).draw();					
+	</code></pre>
+	
+					</div>	
+					<div id="box3" class="col-md-6"></div>				
+				</div>
+			<div class="row"><hr/></div>
+			<div class="row">
+					<div class="col-md-6">
+						<p>ActionClick</p>
+						<ul>
+							<li>To navigate to another page then use this javascript function</li>
+						</ul>
+						<pre><code class="language-javascript">			
+	actionClick: "window.location.replace('/views/newdash.html')",					
+	</code></pre>
+	
+					</div>	
+					<div id="chartComponentCustomized" class="col-md-6"></div>				
+				</div>
+		</div>
+		</div>
+		
+    </div>
+</body>
+<script type="text/javascript">
+	debugApp = true;
+
+	var chartSection = function(){
+		new BoxComponent({
+			title:"Total Revenue",
+			targetId:"box1",
+			action:"Revenue Dashboard",
+			actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
+			icon:"fa fa-shopping-cart fa-5x",
+			value:"2 Million",
+			panelClass:"panel-green"
+		}).draw();
+
+		var chartData =[
+			[1532966193039,5],
+			[1532966013039,10],
+			[1532965833039,20],
+			[1532965593039,7],
+			[1532965293039,30]
+		];
+
+		new BoxChartComponent({
+			title:"Total Revenue",
+			targetId:"box2",
+			action:"Revenue Dashboard",
+			actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
+			icon:"fa fa-shopping-cart fa-2x",
+			data:chartData,
+			//query:,
+			chartOptions:{
+				size:{width:"400"}
+			},
+			panelClass:"panel-green"
+		}).draw();
+
+		new BoxChartComponent({
+			title:"Total Revenue",
+			targetId:"box3",
+			action:"Revenue Dashboard",
+			actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
+			icon:"fa fa-shopping-cart fa-2x",
+			//data:,
+			//query:,
+			chartOptions:{
+				size:{width:"400"}
+			},
+			panelClass:"panel-green"
+		}).draw();
+	}
+
+	//Your BiQ App Components ...
+	var buildDashboard = function(){
+		chartSection();				
+	}
+	buildDashboard();
+
+
+</script>
+</html>

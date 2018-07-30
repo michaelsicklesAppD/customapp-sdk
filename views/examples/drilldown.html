@@ -21,16 +21,19 @@
         <div id="page-wrapper">   
             <!-- Main Page -->
 			<div class="row">
-				<div id="ErrorTotals" class="panel-red"></div>
-				<div id="ErrorBreakDown"></div>
+				<p>Click on the view details and the then the error breakdown.</p>
+				<div id="ErrorTotals" class="panel-red col-md-6"></div>
+				<div id="ErrorBreakDown" class="col-md-6"></div>
 			</div>
+			<div class="row"><hr/></div>
 			<div class="row">
-				<div id="ErrorTable" class="panel-red"></div>
+				<p>Click on a table record and then a point in the time series graph.</p>
+				<div id="ErrorTable" class="panel-red col-md-6"></div>
+				<div id="ErrorTrend" class="panel-red col-md-6"></div>
 			</div>
-			<div class="row">
-				<div id="ErrorTrend" class="panel-red"></div>
-            </div>
+			<div class="row"><hr/></div>
             <div class="row">
+				<p>Last graph is a sankey chart.</p>
 				<div id="sankeyChart"></div>
 			</div>
         </div>
@@ -43,78 +46,75 @@
 			title:"Error Counts",
 			targetId:"ErrorTotals",
 			action:"View Details",
-			actionClick: "action()",
+			actionClick: "errorAction()", //This function is called when the widget is selected
 			icon:"fa fa-exclamation fa-2x",
-			height:75,
-			width:300
+			options:{size:{height:75,width:300}},
+			panelClass:"panel-red"
 			//query:""
 		}).draw();
-		
+	}
+
+	var errorAction = function(){
 		new DonutChartComponent({
 			//query: "",    
 			targetId:"ErrorBreakDown",
 			title:"Error Breakdown",
 		}).draw(function(id){
-            //hide elements lower down the chain
-            hideElements(["ErrorTrend"]);
-            
+			//hide elements lower down the chain
+			hideElements(["ErrorTrend"]);
+			
 			new TableComponent({
 				//query : "",
 				targetId:"ErrorTable",
 				title:"Table Chart",
-				panelHeadingCSS:"panel-red",
+				panelClass:"panel-red",
 				columns: [{ title: "Name" },{ title: "Counts" }]
 			}).draw(function(record){
-				new LineChartComponent({
+				new TimeChartComponent({
 					//query: "",    
 					targetId:"ErrorTrend",
 					title:"Error Trend Chart",
-					panelHeadingCSS:"panel-red"
+					panelClass:"panel-red"
 				}).draw(function(rec){
-                    
-                    var data={
-                        nodes : ["RuntimeException",
-                        "Login Service",
-                        "DB Service",
-                        "Customer A",
-                        "Customer B"],
-                        source : [1,1,2,2,3],
-                        target : [2,3,4,5,5],
-                        values : [15,5,10,5,2]
-                    }
+					
+					var data={
+						nodes : ["RuntimeException",
+						"Login Service",
+						"DB Service",
+						"Customer A",
+						"Customer B"],
+						source : [1,1,2,2,3],
+						target : [2,3,4,5,5],
+						values : [15,5,10,5,2]
+					}
 
-                    sankeyChart = new PlotlySankeyChart({div:"sankeyChart",title:"Flow"});
-                    sankeyChart.renderChart(data,function(selection){
-                        alert(JSON.stringify(selection));
-                    });
+					sankeyChart = new PlotlySankeyChart({div:"sankeyChart",title:"Flow"});
+					sankeyChart.renderChart(data,function(selection){
+						alert(JSON.stringify(selection));
+					});
 				});
 			});
 		});
-		
-		new FilterComponent({
-			targetId:"side-menu",
-			filters:[{
-				label:"Error",
-				id:"idError",
-				adqlField :"<field name required>",
-				query:""
-			},{
-				label:"Customer",
-				id:"idCustomer",
-				adqlField :"<field name required>",
-				query:""
-			}]
-		}).draw(function(filters){
-            //hide elements lower down the chain
-            hideElements(["ErrorTable","ErrorTrend"]);
-			buildDashboard();
-		});
-		
-		new TimeRangeComponent({
-			targetId:"timeSelector"
-		}).draw();
-		
 	}
+	new FilterComponent({
+		targetId:"side-menu",
+		filters:[{
+			label:"Error",
+			id:"idError",
+			adqlField :"<field name required>",
+			query:""
+		},{
+			label:"Customer",
+			id:"idCustomer",
+			adqlField :"<field name required>",
+			query:""
+		}]
+	}).draw(function(filters){
+		//hide elements lower down the chain
+		hideElements(["ErrorTable","ErrorTrend"]);
+		buildDashboard();
+	});
+
 	buildDashboard();
 </script>
 </html>

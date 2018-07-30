@@ -1,13 +1,31 @@
+var _noPanelComponentTemplate = "#_noPanelComponent";
+var _chartComponentTemplate = "#_chartComponent";
+var _tableComponentTemplate = "#_tableComponent";
+var _tableTemplate = "#_table";
+var _timeRangeComponentTemplate = "#_timeRangeComponent";
+var _boxComponentTemplate = "#_boxComponent";
+var _filterComponentTemplate = "#_filtersComponent";
+
+
 var generateRandomTimeData = function(){
     //For last 60 mins generate random counts
     var date = new Date();
     var results = [];
     var i = 0;
-    for (i = 0; i < 60; i++) { 
+    for (i = 1; i < 61; i++) { 
         results.push([date.getTime(),Math.floor(Math.random() * 1000)]);
         date.setMinutes(date.getMinutes() - i);
     }
     return results;
+}
+
+var generateColumnData = function(){
+    return [
+        ["Customer A",1000],
+        ["Customer B",2000],
+        ["Customer C",3000],
+        ["Customer D",4000]
+    ]
 }
 
 var SI_PREFIXES = ["", "K", "M", "G", "T", "P", "E"];
@@ -31,6 +49,13 @@ function abbreviateNumber(number){
     return scaled.toFixed(1) + prefix;
 }
   
+function debug(comp,message){
+    try {
+        console.log(comp.getDivId()+" : "+message);        
+    } catch (error) {
+        console.log(message);    
+    }
+}
 
 
 class BaseChart {
@@ -38,9 +63,11 @@ class BaseChart {
         this.updateDivs(options);
         this.options = options;
         if(options.template){
+            debug(this,"chart template : "+options.template);
             this.template = $.templates(options.template);
         }else{
-            this.template = $.templates("#noPanelComponent");
+           debug(this,"chart template : "+_noPanelComponentTemplate);
+            this.template = $.templates(_noPanelComponentTemplate);
         }
     }
 
@@ -57,6 +84,7 @@ class BaseChart {
 
     renderOuterComponent(template){
         if(!$("#"+this.getDivId()).length && this.options.parentDiv){
+            debug(this,"Rendering template to div : "+this.options.parentDiv);
             $("#" + this.options.parentDiv).html(template.render(this.options));
         }
         this.show();
@@ -85,9 +113,13 @@ class BaseChart {
     }
 
     updateChartOptions(options,chartOptions){
-        if(options && chartOptions){
-            for(var key in chartOptions){
-                options[key] = chartOptions[key];
+        var compOptions;
+        if(!chartOptions){
+            compOptions = this.getOptions().options;
+        }
+        if(options && compOptions){
+            for(var key in compOptions){
+                options[key] = compOptions[key];
             }
         }
     }
@@ -103,7 +135,7 @@ class BaseChart {
 }
 
 
-class LineChart extends BaseChart {
+class TimeChart extends BaseChart {
     constructor(options) {
         super(options);
     }
@@ -189,6 +221,9 @@ class LineChart extends BaseChart {
                 key = "columns";
                 chartData = data;
             }
+        }else if(!key && options.data){
+            key = "columns";
+            chartData = this.prepColumnData(data);
         }else if(key && options.data){
             if(key == "raw_columns"){
                 key = "columns";
@@ -240,7 +275,7 @@ class LineChart extends BaseChart {
     } 
 }
 
-class SparkLineChart extends LineChart{
+class SparkLineChart extends TimeChart{
     constructor(options) {
         super(options);
     }
@@ -271,7 +306,7 @@ class SparkLineChart extends LineChart{
             }
         };
         chartOptions.data[dataKey] = data;
-        super.updateChartOptions(chartOptions,super.getOptions().chartOptions);
+        super.updateChartOptions(chartOptions);
         this.chart = c3.generate(chartOptions);
     } 
 }
@@ -282,6 +317,7 @@ class DonutChart extends BaseChart {
     }
 
     renderChart(data,clickFunction) {
+        
         super.renderOuterComponent(this.template);
 
         var chartOptions = {
@@ -291,19 +327,19 @@ class DonutChart extends BaseChart {
                 type : 'donut',
                 onclick: function (d, i) { 
                     if(clickFunction){
-                        clickFunction(d.name); 
+                        debug(this,JSON.stringify(d));
+                        clickFunction(d); 
                     }
                 }
             },
-            legend: {
-                show: false
-            },
+            legend:{show:true},
             donut: {
                 title: this.options.title
             }
         };
 
-        super.updateChartOptions(chartOptions,super.getOptions().chartOptions);
+        super.updateChartOptions(chartOptions);
+        debug(this,JSON.stringify(chartOptions));
         this.chart = c3.generate(chartOptions);
     }
 }
@@ -323,20 +359,25 @@ class PieChart extends BaseChart {
                 type : 'pie',
                 onclick: function (d, i) { 
                     if(clickFunction){
-                        clickFunction(d.name); 
+                        debug(this,JSON.stringify(d));
+                        clickFunction(d); 
                     }
                 }
             },
+            legend:{show:true}
         };
 
-        super.updateChartOptions(chartOptions,super.getOptions().chartOptions);
+        super.updateChartOptions(chartOptions);
         this.chart = c3.generate(chartOptions);
     }
 }
 
 
-class TableChart extends BaseChart {
+class Table extends BaseChart {
     constructor(options) {
+        if(!options.template){
+           options.template = _tableTemplate;
+        }
         super(options);
         this.order = options.order;
         if(!this.order){
@@ -351,7 +392,7 @@ class TableChart extends BaseChart {
         var table = $(id); 
         
         if ( ! $.fn.DataTable.isDataTable(id) ) {
-            var initOptions = super.getOptions().tableInitOptions;
+            var initOptions = super.getOptions().options;
             if(!initOptions){
                 initOptions = {};
             }else{
@@ -398,7 +439,7 @@ class BaseComponent {
            this.postRender = this.options.postRenderFn;
         }
         if(!options.template){
-            options.template = "#chartComponent";
+            options.template = _chartComponentTemplate;
         }
     }
 
@@ -503,38 +544,34 @@ class BaseComponent {
 class TableComponent extends BaseComponent {
     constructor(options) {
         if(!options.template){
-            options.template = "#tableComponent";
+            options.template = _tableComponentTemplate;
         }
-        super(options,new TableChart(options));
+        super(options,new Table(options));
+    }
+
+    generateRandomData(){
+        return generateColumnData();
     }
 }
 
-class LineChartComponent extends BaseComponent {
+class TimeChartComponent extends BaseComponent {
     constructor(options) {
         if(!options.template){
-            options.template = "#chartComponent";
+            options.template = _chartComponentTemplate;
         }
-        super(options,new LineChart(options));
-    }
-}
-
-class DonutChartComponent extends BaseComponent {
-    constructor(options) {
-        if(!options.template){
-            options.template = "#chartComponent";
-        }
-        super(options,new DonutChart(options));
+        super(options,new TimeChart(options));
     }
 }
 
 class TimeRangeComponent extends BaseComponent {
     constructor(options) {
-        options.template = "#timeRangeComponent";
+        options.template = _timeRangeComponentTemplate;
         super(options);
     }
 
     draw(onClick,callback){
         var options = this.getOptions();
+        this.template = $.templates(options.template);
         $("#" + options.targetId).html(this.template.render(options));
         $("#timeRange").on( "change", function() {
             if(onClick){
@@ -569,7 +606,7 @@ class BoxChartComponent extends BaseComponent {
     }
 
     preRender(chart,options,data){
-       $("#" + options.targetId).html($.templates("#boxChartComponent").render(options));
+       $("#" + options.targetId).html($.templates(_boxComponentTemplate).render(options));
     };
 }
 
@@ -583,19 +620,20 @@ class BoxComponent extends BaseComponent {
 
     draw(onClick,callback){
         var options = super.getOptions();
-        $("#" + options.targetId).html($.templates("#boxComponent").render(options));
+        $("#" + options.targetId).html($.templates(_boxComponentTemplate).render(options));
     };
 }
 
 class FilterComponent extends BaseComponent {
     constructor(options) {
-        this.template = "#filtersComponent";
+        options.template = _filterComponentTemplate;
         super(options);
     }
 
     draw(onClick,callback){
 
         var options = this.getOptions();
+        this.template = $.templates(options.template);
         $("#" + options.targetId).html(this.template.render(options));
         options.filters.forEach(function(filter){
             if(filter.query){
@@ -604,7 +642,7 @@ class FilterComponent extends BaseComponent {
             }
         });
 
-        $("#submitFilter").on("click", function() {
+        $("#_submitFilter").on("click", function() {
             var results = [];
             options.filters.forEach(function(filter){
                 var value = $("#"+filter.id).val();
@@ -617,7 +655,7 @@ class FilterComponent extends BaseComponent {
                 onClick(_biqFilters);
             }
         });
-        $("#resetFilter").on("click", function() {
+        $("#_resetFilter").on("click", function() {
             options.filters.forEach(function(filter){
                 $("#"+filter.id).val('');
             })
@@ -627,7 +665,7 @@ class FilterComponent extends BaseComponent {
             callback(options);
         }
         new TimeRangeComponent({
-			targetId:"timeSelector"
+			targetId:"_timeSelector"
 		}).draw();
     }
 
@@ -666,30 +704,58 @@ var updateQueryWithFilters = function(query){
 
 class PieChartComponent extends BaseComponent {
     constructor(options) {
-        options.template = "#chartComponent";
+        options.template =_chartComponentTemplate;
         super(options,new PieChart(options));
     }
 
     generateRandomData(){
-        return [
-            ["Customer A",1000],
-            ["Customer B",2000],
-            ["Customer C",3000],
-            ["Customer D",4000]
-        ]
+        return generateColumnData();
     }
 
 }
 
+class DonutChartComponent extends BaseComponent {
+    constructor(options) {
+        if(!options.template){
+            options.template = _chartComponentTemplate;
+        }
+        super(options,new DonutChart(options));
+    }
+
+    generateRandomData(){
+        return generateColumnData();
+    }
+}
+
 class PlotlySankeyChart extends BaseChart {
     constructor(options) {
+        options.div = options.targetId;
         super(options);
     }
 
-    renderChart(data,onClick){
+    generateSampleData(){
+        return {
+			nodes : ["RuntimeException",
+			"Login Service",
+			"DB Service",
+			"Customer A",
+			"Customer B"],
+			source : [1,1,2,2,3],
+			target : [2,3,4,5,5],
+			values : [15,5,10,5,2]
+		}
+    }
+
+    renderChart(onClick){
+        var data = this.getOptions().data;
+        if(!data){
+            data = this.generateSampleData();
+        }
         var options = {
             type: "sankey",
             orientation: "h",
+            width:800,
+            height:600,
             node: {
               pad: 15,
               thickness: 30,
@@ -714,7 +780,7 @@ class PlotlySankeyChart extends BaseChart {
               size: 10
             }
           }
-          
+          super.updateChartOptions(options);
           Plotly.react(super.getDivId(), [options], layout);
 
           var elem = document.getElementById(super.getDivId());
@@ -728,10 +794,30 @@ class PlotlySankeyChart extends BaseChart {
 
 class ButterflySankeyChart extends BaseChart {
     constructor(options) {
+        options.div = options.targetId;
         super(options);
     }
 
-    renderChart(data,onClick){
+    generateSampleData(){
+        return {
+            nodes : [{"id":1,"name":"RuntimeException"},
+            {"id":2,"name":"Login Service"},
+            {"id":3,"name":"DB Service"},
+            {"id":4,"name":"Customer A"},
+            {"id":5,"name":"Customer B"}],
+            links : [{"source":1,"target":2,"value":15},
+            {"source":1,"target":3,"value":5},
+            {"source":2,"target":4,"value":10},
+            {"source":2,"target":5,"value":5}
+            ]
+        }
+    }
+
+    renderChart(onClick){
+        var data = this.getOptions().data;
+        if(!data){
+            data = this.generateSampleData();
+        }
         var function_color = d3.scale.category20();
         var sankeyOptions = {
             // Bind to the DOM and set height.
@@ -782,7 +868,7 @@ class ButterflySankeyChart extends BaseChart {
                 duration: 2000
             }
         };
-        super.updateChartOptions(sankeyOptions,super.getOptions().chartOptions);
+        super.updateChartOptions(sankeyOptions);
         var cfg = new c3.Butterfly(sankeyOptions);
         cfg.render();
         cfg.on("selectNode",function(context,value){

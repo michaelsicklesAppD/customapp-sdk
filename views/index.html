@@ -13,17 +13,15 @@
                 <a class="navbar-brand" href="/"><img width="180px" src="/img/AppDynamicsLogo.svg"/></a>
             </div>
             <span class="navbar-left" style="color: aliceblue">Version : <%= version %></span>
-            
-            <!-- Left Menu -->
         </nav>    
         <div id="page-wrapper">   
             <!-- Main Page -->
 			<div class="row">
-                <div id="examples" class="col-lg-3 col-md-3"></div>
-                
+                <div id="newdash" class="col-lg-3 col-md-3"></div>
             </div>
+            <div class="row"><hr/></div>
             <div class="row">
-                
+                <div id="documentation" class="col-lg-3 col-md-3"></div>
             </div>
         </div>
     </div>
@@ -32,16 +30,23 @@
     
     var buildMenus = function(){
         new BoxComponent({
-            title:"Examples Page",
-            targetId:"examples",
-            action:"Examples",
-            actionClick: "window.location.replace('/views/examples/examples.html')",
+            title:"New Dashboard",
+            targetId:"newdash",
+            action:"BiQ App",
+            actionClick: "window.location.replace('/views/newdash.html')",
             icon:"fa fa-cogs fa-2x",
             panelClass:"panel-green"
         }).draw();
 
+        new BoxComponent({
+            title:"BiQ App Documentation",
+            targetId:"documentation",
+            action:"BiQ App Framework",
+            actionClick: "window.location.replace('/views/examples/intro.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"panel-yellow"
+        }).draw();
     }
-
     buildMenus();
 </script>        
 </html>

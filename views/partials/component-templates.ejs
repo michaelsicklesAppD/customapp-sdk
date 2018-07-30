@@ -1,5 +1,5 @@
-<script id="chartComponent" type="text/x-jsrender">
-    <div class="panel panel-default {{:panelHeadingCSS}}">
+<script id="_chartComponent" type="text/x-jsrender">
+    <div class="panel panel-default {{:panelClass}}">
         <div id="{{:div}}Head" class="panel-heading">{{:title}}</div>
         <div class="panel-body">
             <div id="{{:div}}"></div>
@@ -7,12 +7,12 @@
     </div>		
 </script>
 
-<script id="noPanelComponent" type="text/x-jsrender">
+<script id="_noPanelComponent" type="text/x-jsrender">
     <div id="{{:div}}"></div>
 </script>
 
-<script id="tableComponent" type="text/x-jsrender">
-    <div class="panel panel-default {{:panelHeadingCSS}}">
+<script id="_tableComponent" type="text/x-jsrender">
+    <div class="panel panel-default {{:panelClass}}">
         <div id="{{:div}}Head" class="panel-heading">{{:title}}</div>
         <div class="panel-body">
             <table id="{{:div}}" style="width:100%">
@@ -28,7 +28,19 @@
     </div>		
 </script>
 
-<script id="timeRangeComponent" type="text/x-jsrender">
+<script id="_table" type="text/x-jsrender">
+    <table id="{{:div}}" style="width:100%">
+        <thead>
+            <tr>
+            {{for columns}}
+                <th>{{:title}}</th>
+            {{/for}}
+            </tr>
+        </thead>
+    </table>	
+</script>
+
+<script id="_timeRangeComponent" type="text/x-jsrender">
     <select id="timeRange" class="form-control">
         <option value="15">Last 15 Minutes</option>
         <option value="30">Last 30 Minutes</option>
@@ -48,31 +60,7 @@
       </select>
 </script>
 
-<script id="boxChartComponent" type="text/x-jsrender">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-xs-3">
-                <i class="{{:icon}}"></i>
-                <div id="{{:targetId}}-chart"></div>
-            </div>
-            <div class="col-xs-9 text-right">
-                <div class="huge">{{:value}}</div>
-                <div>{{:title}}</div>
-            </div>
-        </div>
-    </div>
-    {{if actionClick}}
-        <a href="#">
-            <div class="panel-footer">
-                <span class="pull-left" onClick="{{:actionClick}}">{{:action}}</span>
-                <span class="pull-right" onClick="{{:actionClick}}"><i class="fa fa-arrow-circle-right"></i></span>
-                <div class="clearfix"></div>
-            </div>
-        </a>  
-    {{/if}}
-</script>
-
-<script id="boxComponent" type="text/x-jsrender">
+<script id="_boxComponent" type="text/x-jsrender">
     <div id="{{:targetId}}-box" class="panel {{:panelClass}}" onClick="{{:actionClick}}" style="cursor: pointer;">
         <div class="panel-heading">
             <div class="row">
@@ -98,11 +86,11 @@
     </div>
 </script>
 
-<script id="filtersComponent" type="text/x-jsrender">
+<script id="_filtersComponent" type="text/x-jsrender">
     <li class="sidebar-search">
         <div class="form-group">
             <label>Time Range:</label>
-            <span id="timeSelector"></span>
+            <span id="_timeSelector"></span>
         </div>
         {{for filters}}
             <div class="form-group">
@@ -111,12 +99,12 @@
             </div>
         {{/for}}
         <div class="btn-group">
-            <button type="submit" class="btn btn-primary" id="resetFilter">Reset</button> &nbsp;<button type="submit" class="btn btn-primary" id="submitFilter">Query</button>
+            <button type="submit" class="btn btn-primary" id="_resetFilter">Reset</button> &nbsp;<button type="submit" class="btn btn-primary" id="_submitFilter">Query</button>
         </div>
     </li>
 </script>
 
-<script id="modalComponent" type="text/x-jsrender">
+<script id="_modalComponent" type="text/x-jsrender">
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">

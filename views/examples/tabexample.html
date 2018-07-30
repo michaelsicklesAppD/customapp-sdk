@@ -23,13 +23,13 @@
             <!-- Main Page -->
 			<div class="row">
 				<div class="col-lg-4 col-md-4">
-					<div id="comp1" class="panel panel-red"></div>
+					<div id="comp1"></div>
 				</div>
 				<div class="col-lg-4 col-md-4">
-					<div id="comp2" class="panel panel-green"></div>
+					<div id="comp2"></div>
 				</div>
 				<div class="col-lg-4 col-md-4">
-					<div id="comp3" class="panel panel-yellow"></div>
+					<div id="comp3"></div>
 				</div>
 			</div>
 			<div class="row"> 
@@ -52,14 +52,14 @@
 			//query : "",
 			targetId:"errorTable",
 			title:"Error Counts",
-			panelHeadingCSS:"panel-red",
+			panelClass:"panel-red",
 			columns: [{ title: "Error" },{ title: "Counts" }]
 		}).draw(function(record){
-			new LineChartComponent({
+			new TimeChartComponent({
 				//query: "",    
 				targetId:"errorTrend",
 				title:"Error Details: "+record[0]+" - "+record[1],
-				panelHeadingCSS:"panel-red"
+				panelClass:"panel-red"
 			}).draw(function(id,date){
 				
 			});		
@@ -72,14 +72,14 @@
 			//query : "",
 			targetId:"serviceTable",
 			title:"Service Counts",
-			panelHeadingCSS:"panel-green",
+			panelClass:"panel-green",
 			columns: [{ title: "Service" },{ title: "Counts" }]
 		}).draw(function(record){
-			new LineChartComponent({
+			new TimeChartComponent({
 				//query: "",    
 				targetId:"serviceTrend",
 				title:"Service Details: "+record[0]+" - "+record[1],
-				panelHeadingCSS:"panel-green"
+				panelClass:"panel-green"
 			}).draw(function(id,date){
 				
 			});		
@@ -92,14 +92,14 @@
 			//query : "",
 			targetId:"customerTable",
 			title:"Customer Error Counts",
-			panelHeadingCSS:"panel-yellow",
+			panelClass:"panel-yellow",
 			columns: [{ title: "Service" },{ title: "Counts" }]
 		}).draw(function(record){
-			new LineChartComponent({
+			new TimeChartComponent({
 				//query: "",    
-				targetId:"Trend",
+				targetId:"customerTrend",
 				title:"Customer Error Details: "+record[0]+" - "+record[1],
-				panelHeadingCSS:"panel-yellow"
+				panelClass:"panel-yellow"
 			}).draw(function(id,date){
 				
 			});		
@@ -113,8 +113,8 @@
 			action:"View Details",
 			actionClick: "errorDetails()",
 			icon:"fa fa-exclamation fa-2x",
-			height:75,
-			width:200
+			panelClass:"panel-primary",
+			chartOptions:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 		
@@ -124,8 +124,8 @@
 			action:"View Details",
 			actionClick: "serviceDetails()",
 			icon:"fa fa-cogs fa-2x",
-			height:75,
-			width:200
+			panelClass:"panel-success",
+			chartOptions:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 		
@@ -135,8 +135,8 @@
 			action:"View Details",
 			actionClick: "customerDetails()",
 			icon:"fa fa-tasks fa-2x",
-			height:75,
-			width:200
+			panelClass:"panel-warning",
+			chartOptions:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 	}
@@ -168,9 +168,6 @@
 	var buildDashboard = function () {
 		headers();
 		filters();
-		new TimeRangeComponent({
-			targetId:"timeSelector"
-		}).draw();
 	}
 	
 	buildDashboard();

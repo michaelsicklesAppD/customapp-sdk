@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>BiQ App - Dashboard</title>
+<meta charset="UTF-8">
+<% include ../partials/include %>
+<% include ../partials/prism %>
+</head>
+<body>
+    <div id="wrapper">
+		<!-- Menu -->
+		<%- include ./menu %>
+        <div id="page-wrapper">   
+			<!-- Main Page -->
+		<div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>Layout Your Components</p>
+					<p>Best to start with newdash.html and build your dashboard.</p>
+					<pre><code class="language-javascript">
+&lt;body&gt;
+	&lt;div id="wrapper"&gt;
+		&lt;nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;"&gt;
+			&lt;div class="navbar-header"&gt;
+				&lt;a class="navbar-brand" href="/"&gt;&lt;img width="180px" src="/img/AppDynamicsLogo.svg"/&gt;&lt;/a&gt;&lt;div id="spinnerDiv" style="margin:10px"&gt;&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;!-- Left Menu --&gt;
+			&lt;div class="navbar-default sidebar" role="navigation"&gt;
+				&lt;div class="sidebar-nav navbar-collapse"&gt;
+					&lt;ul class="nav" id="side-menu"&gt;&lt;/ul&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/nav&gt;    
+		&lt;div id="page-wrapper"&gt;   
+			&lt;!-- Main Page --&gt;
+			&lt;div class="row"&gt;
+				&lt;div id="comp1" class="col-md-3"&gt;&lt;/div&gt;				
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/body&gt;
+					</code></pre>
+
+				</div>	
+				<p>Within the page-wrapper div, you will begin to add your components. Components and ChartComponents bind to div elements using the targetId property.</p>
+				<p>We use bootstrap grid layout to align components on the page see <a href="https://getbootstrap.com/docs/4.0/layout/grid/">https://getbootstrap.com/docs/4.0/layout/grid</a></p>
+				<p>When working with Time Ranges, you need the spinnerDiv element for the progress animation.</p>
+				<p>Everything else is fully customizable</p>
+				<p>We have also use the open source Admin2 bootstrap theme see : <a href="https://startbootstrap.com/template-overviews/sb-admin-2/">https://startbootstrap.com/template-overviews/sb-admin-2/</a> </p>
+			</div>
+		</div>
+    </div>
+</body>
+<script type="text/javascript">
+	
+
+	var chartSection = function(){
+		var data = [
+			["Apple",1000],
+			["Amazon",2000],
+			["Cisco",3000],
+			["AppDynamics",4000],
+		]
+
+		new Table({
+			targetId:"table",
+			title:"Errors By Customers",
+			data:data,
+			columns: [{ title: "Customer" },{ title: "Counts" }]
+		}).draw(function(row){
+			alert(JSON.stringify(row));
+		});
+
+		new TableComponent({
+			targetId:"table2",
+			title:"Errors By Customers",
+			data:data,
+			columns: [{ title: "Customer" },{ title: "Counts" }]
+		}).draw(function(row){
+			alert(JSON.stringify(row));
+		});
+
+		
+		new TableComponent({
+			targetId:"table3",
+			title:"Errors By Customers",
+			columns: [{ title: "Customer" },{ title: "Counts" }],
+			options : {
+				"searching": false,
+				"paging": false,
+				"ordering": false
+			}
+		}).draw(function(row){
+			alert(JSON.stringify(row));
+		});
+
+		new TableComponent({
+			targetId:"table4",
+			title:"Errors By Customers",
+			data:data,
+			columns: [{ title: "Customer" },{ title: "Counts" }],
+			options : {
+				"searching": false,
+				"paging": false,
+				"ordering": false
+			}
+		}).draw(function(row){
+			alert(JSON.stringify(row));
+		});
+
+	}
+
+	//Your BiQ App Components ...
+	var buildDashboard = function(){
+		chartSection();				
+	}
+	buildDashboard();
+
+
+</script>
+</html>
