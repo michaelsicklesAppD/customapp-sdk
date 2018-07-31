@@ -8,22 +8,23 @@
 </head>
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/"><img width="180px" src="/img/AppDynamicsLogo.svg"/></a>
-            </div>
-            <span class="navbar-left" style="color: aliceblue">Version : <%= version %></span>
-        </nav>    
+        <!-- Menu -->
+		<%- include ./menu %>    
         <div id="page-wrapper">   
             <!-- Main Page -->
 			<div class="row">
+                <div class="col-md-1">
+                    <p>Basic Default App</p>
+                </div>
                 <div id="newdash" class="col-lg-3 col-md-3"></div>
+                <div class="col-md-1">
+                    <p>Box Component Example</p>
+                </div>
                 <div id="boxexample" class="col-lg-3 col-md-3"></div>
+                <div class="col-md-1">
+                    <p>Dashboard that drills down</p>
+                </div>
                 <div id="drilldown" class="col-lg-3 col-md-3"></div>
-                <div id="components" class="col-lg-3 col-md-3"></div>
-            </div>
-            <div class="row">
-                
             </div>
         </div>
     </div>
@@ -32,19 +33,19 @@
     
     var buildMenus = function(){
         new BoxComponent({
-            title:"New Empty Dashboard",
+            title:"Starter Dashboard",
             targetId:"newdash",
-            action:"Empty Dashboard",
-            actionClick: "window.location.replace('/views/newdash.html')",
+            action:"Starter Dashboard",
+            actionClick: "window.location.replace('/views/examples/example-starter.html')",
             icon:"fa fa-cogs fa-2x",
             panelClass:"panel-green"
         }).draw();
 
         new BoxComponent({
-            title:"Box Example Dashboard",
+            title:"Tab Dashboard",
             targetId:"boxexample",
-            action:"Box Example Dashboard",
-            actionClick: "window.location.replace('/views/boxexample.html')",
+            action:"Tab Dashboard",
+            actionClick: "window.location.replace('/views/examples/example-tab.html')",
             icon:"fa fa-cogs fa-2x",
             panelClass:"panel-green"
         }).draw();
@@ -53,19 +54,10 @@
             title:"Drill Down Example Dashboard",
             targetId:"drilldown",
             action:"Drill Down Example Dashboard",
-            actionClick: "window.location.replace('/views/drilldown.html')",
+            actionClick: "window.location.replace('/views/examples/example-drilldown.html')",
             icon:"fa fa-cogs fa-2x",
             panelClass:"panel-green"
         }).draw();
-
-         new BoxComponent({
-            title:"PieChart Example",
-            targetId:"components",
-            actionClick: "window.location.replace('/views/examples/piechart.html')",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"panel-green"
-        }).draw();
-
     }
 
     buildMenus();

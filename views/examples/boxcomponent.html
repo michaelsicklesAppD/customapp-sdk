@@ -67,8 +67,8 @@
 		icon:"fa fa-shopping-cart fa-2x",
 		data:chartData,
 		//query:,
-		chartOptions:{
-			size:{width:"400"}
+		options:{
+			size:{width:"400",height:"200"}
 		},
 		panelClass:"panel-green"
 	}).draw();					
@@ -77,23 +77,24 @@
 				</div>	
 				<div id="box2" class="col-md-6"></div>				
 			</div>
+			<div class="row"><hr/></div>
 			<div class="row">
 					<div class="col-md-6">
 						<p>The following example since we did not provide a query or data property, the chart generates its own data.</p>
 						<pre><code class="language-javascript">			
 	new BoxChartComponent({
 		title:"Total Revenue",
-		targetId:"box2",
+		targetId:"box3",
 		action:"Revenue Dashboard",
 		actionClick: "window.location.replace('/views/examples/boxcomponent.html')",
 		icon:"fa fa-shopping-cart fa-2x",
 		//data:,
 		//query:,
-		chartOptions:{
-			size:{width:"400"}
+		options:{
+			size:{width:"400",height:"200"}
 		},
 		panelClass:"panel-green"
-	}).draw();					
+	}).draw();			
 	</code></pre>
 	
 					</div>	
@@ -148,8 +149,8 @@
 			icon:"fa fa-shopping-cart fa-2x",
 			data:chartData,
 			//query:,
-			chartOptions:{
-				size:{width:"400"}
+			options:{
+				size:{width:"400",height:"200"}
 			},
 			panelClass:"panel-green"
 		}).draw();
@@ -162,8 +163,8 @@
 			icon:"fa fa-shopping-cart fa-2x",
 			//data:,
 			//query:,
-			chartOptions:{
-				size:{width:"400"}
+			options:{
+				size:{width:"400",height:"200"}
 			},
 			panelClass:"panel-green"
 		}).draw();

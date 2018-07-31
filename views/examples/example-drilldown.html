@@ -88,7 +88,7 @@
 						values : [15,5,10,5,2]
 					}
 
-					sankeyChart = new PlotlySankeyChart({div:"sankeyChart",title:"Flow"});
+					sankeyChart = new PlotlySankeyChart({targetId:"sankeyChart",title:"Flow"});
 					sankeyChart.renderChart(data,function(selection){
 						alert(JSON.stringify(selection));
 					});
