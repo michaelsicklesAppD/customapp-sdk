@@ -50,7 +50,7 @@
 	}
 
 	sankeyChart = new ButterflySankeyChart({
-		div:"butterfly",
+		targetId:"butterfly",
 		data: data,
 		options:{height:"400px",margin:["10","10","10","10"]}
 	});
@@ -66,7 +66,7 @@
 			<div class="row"><hr/></div>
 			<div class="row">
 					<div class="col-md-6">
-						<p>Plotly Snakey Diagram</p>
+						<p>Plotly Sankey Diagram</p>
 						<ul>
 							<li>This component is based on <a href="https://plot.ly/javascript/sankey-diagram/">https://plot.ly/javascript/sankey-diagram/</a> </li>
 							<li>No need to include anything else, plotly is already included.</li>
@@ -90,7 +90,7 @@
 	}
 
 	sankeyChart = new PlotlySankeyChart({
-		div:"chart2",
+		targetId:"chart2",
 		title:"Flow",
 		data:plotlyData,
 	});
