@@ -28,6 +28,10 @@ var generateColumnData = function(){
     ]
 }
 
+var animateDiv = function(div,animate){
+    $("#"+div).addClass("animated "+animate);
+}
+
 var SI_PREFIXES = ["", "K", "M", "G", "T", "P", "E"];
 
 function abbreviateNumber(number){
@@ -129,7 +133,10 @@ class BaseChart {
     }
 
     draw(onClick,callback){
-        this.renderChart(this.options.data,onClick);  
+        this.renderChart(this.options.data,onClick); 
+        if(callback){
+            callback(this.options);
+        }
     }
     
 }
@@ -535,6 +542,9 @@ class BaseComponent {
         if(postRender){
             postRender(chart,options,data);
         }
+        if(options.animate){
+            animateDiv(options.targetId,options.animate);
+        }
         if(callback){
             callback(options,data);
         }
@@ -757,38 +767,38 @@ class PlotlySankeyChart extends BaseChart {
             width:800,
             height:600,
             node: {
-              pad: 15,
-              thickness: 30,
-              line: {
+                pad: 15,
+                thickness: 30,
+                line: {
                 color: "black",
                 width: 0.5
-              },
-             label: data.nodes,
-             color: ["blue", "blue", "blue", "blue", "blue", "blue"]
+                },
+                label: data.nodes,
+                color: ["blue", "blue", "blue", "blue", "blue", "blue"]
             },
-          
+            
             link: {
-              source: data.source,
-              target: data.target,
-              value:  data.values
+                source: data.source,
+                target: data.target,
+                value:  data.values
             }
-          }
+        }
           
-          var layout = {
+        var layout = {
             title: super.getOptions().title,
             font: {
-              size: 10
+                size: 10
             }
-          }
-          super.updateChartOptions(options);
-          Plotly.react(super.getDivId(), [options], layout);
+        }
+        super.updateChartOptions(options);
+        Plotly.react(super.getDivId(), [options], layout);
 
-          var elem = document.getElementById(super.getDivId());
-          elem.on('plotly_click',function(data){
+        var elem = document.getElementById(super.getDivId());
+        elem.on('plotly_click',function(data){
             var source = data.points[0].source.label;
             var target = data.points[0].target.label;
             onClick({source:source,target:target});
-          });
+        });
     }
 }
 

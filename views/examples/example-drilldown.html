@@ -27,15 +27,17 @@
 			</div>
 			<div class="row"><hr/></div>
 			<div class="row">
+				<p>Last graph is a sankey chart.</p>
+				<div id="sankeyChart"></div>
+			</div>
+			<div class="row"><hr/></div>
+			<div class="row">
 				<p>Click on a table record and then a point in the time series graph.</p>
 				<div id="ErrorTable" class="panel-red col-md-6"></div>
 				<div id="ErrorTrend" class="panel-red col-md-6"></div>
 			</div>
 			<div class="row"><hr/></div>
-            <div class="row">
-				<p>Last graph is a sankey chart.</p>
-				<div id="sankeyChart"></div>
-			</div>
+            
         </div>
     </div>
 </body>
@@ -48,8 +50,12 @@
 			action:"View Details",
 			actionClick: "errorAction()", //This function is called when the widget is selected
 			icon:"fa fa-exclamation fa-2x",
-			options:{size:{height:75,width:300}},
-			panelClass:"panel-red"
+			options:{
+				size:{height:75,width:300},
+			},
+			animate:"bounceInLeft",
+			panelClass:"panel-red",
+			
 			//query:""
 		}).draw();
 	}
@@ -59,6 +65,7 @@
 			//query: "",    
 			targetId:"ErrorBreakDown",
 			title:"Error Breakdown",
+			animate:"bounceInRight"
 		}).draw(function(id){
 			//hide elements lower down the chain
 			hideElements(["ErrorTrend"]);
@@ -68,13 +75,15 @@
 				targetId:"ErrorTable",
 				title:"Table Chart",
 				panelClass:"panel-red",
-				columns: [{ title: "Name" },{ title: "Counts" }]
+				columns: [{ title: "Name" },{ title: "Counts" }],
+				animate:"zoomIn"
 			}).draw(function(record){
 				new TimeChartComponent({
 					//query: "",    
 					targetId:"ErrorTrend",
 					title:"Error Trend Chart",
-					panelClass:"panel-red"
+					panelClass:"panel-red",
+					animate:"zoomInDown"
 				}).draw(function(rec){
 					
 					var data={
@@ -88,7 +97,11 @@
 						values : [15,5,10,5,2]
 					}
 
-					sankeyChart = new PlotlySankeyChart({targetId:"sankeyChart",title:"Flow"});
+					sankeyChart = new PlotlySankeyChart({
+						targetId:"sankeyChart",
+						title:"Flow",
+						animate:"zoomIn"
+					});
 					sankeyChart.renderChart(data,function(selection){
 						alert(JSON.stringify(selection));
 					});
