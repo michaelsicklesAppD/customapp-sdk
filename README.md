@@ -1,15 +1,7 @@
-<img src="https://github.com/Appdynamics/FastAppConfig/blob/master/public/img/features.png"/>
-
-# Table of Contents
-
-* [Installation](#installation)
-* [Features](#features)
-
-# Installation
 
 ## Required Frameworks
 
-1. NodeJS version v0.10.34 or v4.x
+1. NodeJS
 1. Bower
 
 References:
@@ -19,15 +11,13 @@ References:
 
 We are working on removing the bower dependency.
 
-## Install on Your OS
 ## Installing
 
 1. Clone from repository: `git clone https://github.com/Appdynamics/biqapp-sdk.git`
 1. Change into the directory: `cd biqapp-sdk`
 1. Download the dependencies: `bower install`
 1. Download npm dependencies: `npm install`
-1. Configure the app.
-   Create a config.json file in the root directory with the following :
+1. Create a config.json file in the root directory with the following :
 
 ```
 {
@@ -64,5 +54,5 @@ If you are running your controller with a different port e.g. 8090 then you need
    http://localhost:3000
 
 # Documentation
-You can navigate to /views/examples/intro.html
+You can navigate to http://localhost:3000/views/examples/intro.html
 
