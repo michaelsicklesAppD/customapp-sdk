@@ -13,7 +13,7 @@ We are working on removing the bower dependency.
 
 ## Installing
 
-1. Clone from repository: `git clone https://github.com/Appdynamics/biqapp-sdk.git`
+1. Download the latest release https://github.com/Appdynamics/biqapp-sdk/releases
 1. Change into the directory: `cd biqapp-sdk`
 1. Download the dependencies: `bower install`
 1. Download npm dependencies: `npm install`
