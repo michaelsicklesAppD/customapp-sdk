@@ -4,27 +4,29 @@
 <title>BiQ App - Dashboards</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<%- include ../partials/include %>
+<% include ../partials/theme-admin %>
+<% include head %>
+
 </head>
 <body>
-    <div id="wrapper">
+    <div class="page-wrapper">
         <!-- Menu -->
 		<%- include ./menu %>    
-        <div id="page-wrapper">   
+        <div class="page-container">   
             <!-- Main Page -->
-			<div class="row">
-                <div class="col-md-1">
-                    <p>Basic Default App</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="newdash" class="col-lg-3 col-md-3"></div>
+                    <div id="boxexample" class="col-lg-3 col-md-3"></div>
+                    <div id="drilldown" class="col-lg-3 col-md-3"></div>
                 </div>
-                <div id="newdash" class="col-lg-3 col-md-3"></div>
-                <div class="col-md-1">
-                    <p>Box Component Example</p>
+                <div class="row">
+                    <div id="light" class="col-lg-3 col-md-3"></div>
+                    <div id="dark" class="col-lg-3 col-md-3"></div>
                 </div>
-                <div id="boxexample" class="col-lg-3 col-md-3"></div>
-                <div class="col-md-1">
-                    <p>Dashboard that drills down</p>
+                <div class="row">
+                    <div id="appd" class="col-lg-3 col-md-3"></div>
                 </div>
-                <div id="drilldown" class="col-lg-3 col-md-3"></div>
             </div>
         </div>
     </div>
@@ -33,30 +35,57 @@
     
     var buildMenus = function(){
         new BoxComponent({
+            value:"Basic",
             title:"Starter Dashboard",
             targetId:"newdash",
-            action:"Starter Dashboard",
             actionClick: "window.location.replace('/views/examples/example-starter.html')",
             icon:"fa fa-cogs fa-2x",
-            panelClass:"panel-green"
+            panelClass:"overview-item--c1"
         }).draw();
 
         new BoxComponent({
+            value:"Tabs",
             title:"Tab Dashboard",
             targetId:"boxexample",
-            action:"Tab Dashboard",
             actionClick: "window.location.replace('/views/examples/example-tab.html')",
             icon:"fa fa-cogs fa-2x",
-            panelClass:"panel-green"
+            panelClass:"overview-item--c1"
         }).draw();
 
         new BoxComponent({
-            title:"Drill Down Example Dashboard",
+            value:"Drill Downs",
+            title:"Drill Down Dashboard",
             targetId:"drilldown",
-            action:"Drill Down Example Dashboard",
             actionClick: "window.location.replace('/views/examples/example-drilldown.html')",
             icon:"fa fa-cogs fa-2x",
-            panelClass:"panel-green"
+            panelClass:"overview-item--c1"
+        }).draw();
+
+         new BoxComponent({
+            value:"Light",
+            title:"Light Theme Dashboard",
+            targetId:"light",
+            actionClick: "window.location.replace('/views/examples/lightdash.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"overview-item--c2"
+        }).draw();
+
+        new BoxComponent({
+            value:"Dark",
+            title:"Dark Theme Dashboard",
+            targetId:"dark",
+            actionClick: "window.location.replace('/views/examples/darkdash.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"overview-item--c2"
+        }).draw();
+
+        new BoxComponent({
+            value:"MyAppD",
+            title:"AppD Theme Dashboard",
+            targetId:"appd",
+            actionClick: "window.location.replace('/views/appd.html')",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"overview-item--c0"
         }).draw();
     }
 

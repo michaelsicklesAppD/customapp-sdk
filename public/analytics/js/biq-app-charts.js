@@ -14,7 +14,7 @@ var generateRandomTimeData = function(){
     var i = 0;
     for (i = 1; i < 61; i++) { 
         results.push([date.getTime(),Math.floor(Math.random() * 1000)]);
-        date.setMinutes(date.getMinutes() - i);
+        date.setMinutes(date.getMinutes() - 1);
     }
     return results;
 }
@@ -64,6 +64,7 @@ function debug(comp,message){
 
 class BaseChart {
     constructor(options){
+        this.animate = true;
         this.updateDivs(options);
         this.options = options;
         if(options.template){
@@ -75,8 +76,45 @@ class BaseChart {
         }
     }
 
+    setAnimation(flag){
+        this.animate = flag;
+    }
+
+    isAnimation(){
+        return this.animate;
+    }
+
+    animate(){
+        if(this.isAnimation()){
+            var animateOption = this.getOptions().animate;
+            if(animateOption){
+                debug("animating "+this.getDivId()+" : "+animateOption);
+                animateDiv(this.getDivId(),animateOption);
+            }
+        }
+    }
+
     getOptions(){
         return this.options;
+    }
+
+    getChartOptions(){
+        if(this.options.options){
+            return this.options.options;
+        }
+        if(this.options.chartOptions){
+            return this.options.chartOptions;
+        }
+    }
+
+    getTypeOverride(){
+        
+        var chartOptions = this.getChartOptions();
+        if(chartOptions && chartOptions.type){
+            return chartOptions.type;
+        }else{
+            return null;
+        }
     }
 
     updateDivs(options){
@@ -116,14 +154,11 @@ class BaseChart {
         $(this.getDiv()).show();
     }
 
-    updateChartOptions(options,chartOptions){
-        var compOptions;
-        if(!chartOptions){
-            compOptions = this.getOptions().options;
-        }
-        if(options && compOptions){
-            for(var key in compOptions){
-                options[key] = compOptions[key];
+    updateChartOptions(chartOptions){
+        var overrideOptions = this.getChartOptions();
+        if(overrideOptions){
+            for(var key in overrideOptions){
+                chartOptions[key] = overrideOptions[key];
             }
         }
     }
@@ -250,14 +285,20 @@ class TimeChart extends BaseChart {
         }
 
         this.renderGraph(key,chartData,clickFunction);
+        super.animate();
     } 
 
     renderGraph(dataKey,data,clickFunction) {
+        var type="line";
+        if(this.getTypeOverride()){
+            type = this.getTypeOverride();
+        }
+        
         var chartOptions = {
             bindto: super.getDiv(),
             data: {
                 x: 'dates',
-                type: 'line',
+                type: type,
                 onclick: function (e) {
                     var date = new Date(e.x.getTime());
                     if(clickFunction){
@@ -277,7 +318,7 @@ class TimeChart extends BaseChart {
             }
         }
         chartOptions.data[dataKey] = data;
-        super.updateChartOptions(chartOptions,super.getOptions().chartOptions);
+        super.updateChartOptions(chartOptions);
         this.chart = c3.generate(chartOptions);
     } 
 }
@@ -289,11 +330,15 @@ class SparkLineChart extends TimeChart{
 
     renderGraph(dataKey,data,clickFunction) {
         var options = super.getOptions();
+        var type = 'area-spline';
+        if(this.getTypeOverride()){
+            type = this.getTypeOverride();
+        }
         var chartOptions = {
             bindto: super.getDiv(),
             data: {
                 x: 'dates',
-                type: 'area-spline',
+                type: type,
                 onclick: function (e) {
                     var date = new Date(e.x.getTime());
                     if(clickFunction){
@@ -307,7 +352,6 @@ class SparkLineChart extends TimeChart{
                 x: {show:false},
                 y: {show:false}
             }, 
-            size: {height:options.height, width:options.width},     
             point: {
                 show: false
             }
@@ -324,9 +368,7 @@ class DonutChart extends BaseChart {
     }
 
     renderChart(data,clickFunction) {
-        
         super.renderOuterComponent(this.template);
-
         var chartOptions = {
             bindto: super.getDiv(),
             data: {
@@ -348,6 +390,7 @@ class DonutChart extends BaseChart {
         super.updateChartOptions(chartOptions);
         debug(this,JSON.stringify(chartOptions));
         this.chart = c3.generate(chartOptions);
+        super.animate();
     }
 }
 
@@ -376,6 +419,36 @@ class PieChart extends BaseChart {
 
         super.updateChartOptions(chartOptions);
         this.chart = c3.generate(chartOptions);
+        super.animate();
+    }
+}
+
+class GaugeChart extends BaseChart {
+    constructor(options) {
+        super(options);
+    }
+
+    renderChart(data,clickFunction) {
+        super.renderOuterComponent(this.template);
+
+        var chartOptions = {
+            bindto: super.getDiv(),
+            data: {
+                columns: data,
+                type : 'gauge',
+                onclick: function (d, i) { 
+                    if(clickFunction){
+                        debug(this,JSON.stringify(d));
+                        clickFunction(d); 
+                    }
+                }
+            },
+            legend:{show:true}
+        };
+
+        super.updateChartOptions(chartOptions);
+        this.chart = c3.generate(chartOptions);
+        super.animate();
     }
 }
 
@@ -424,6 +497,12 @@ class Table extends BaseChart {
             table.DataTable().rows.add(data);
             table.DataTable().draw();
         }
+
+        if(super.getOptions().class){
+            $(id).addClass(super.getOptions().class);
+        }
+
+        super.animate();
     }
 }
 
@@ -447,6 +526,9 @@ class BaseComponent {
         }
         if(!options.template){
             options.template = _chartComponentTemplate;
+        }
+        if(this.chart){
+            this.chart.setAnimation(false);
         }
     }
 
@@ -773,8 +855,7 @@ class PlotlySankeyChart extends BaseChart {
                 color: "black",
                 width: 0.5
                 },
-                label: data.nodes,
-                color: ["blue", "blue", "blue", "blue", "blue", "blue"]
+                label: data.nodes
             },
             
             link: {

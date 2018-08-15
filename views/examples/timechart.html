@@ -3,16 +3,17 @@
 <head>
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
-<% include ../partials/include %>
 <% include ../partials/prism %>
+<% include ../partials/theme-admin %>
+<% include head %>
 </head>
 <body>
-    <div id="wrapper">
+    <div class="wrapper">
 		<!-- Menu -->
 		<%- include ./menu %>
-        <div id="page-wrapper">   
+        <div class="page-container">   
 			<!-- Main Page -->
-		<div id="chartSection">
+			<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-6">
 					<p>Time Chart :</p>
@@ -75,14 +76,22 @@
 		new TimeChartComponent({
 			targetId:"timeChartComponentCustomized",
 			title:"My Time Series Data : Customized",
-			chartOptions:{
-				size:{width:"200",height:"200"},
+			options:{
+				size:{width:"400",height:"200"},
 				color:{pattern: ['#FF0000']},
-				legend: {show: false}
+				legend: {show: false},
+				tooltip:{show:false},
+				axis: {
+					x: {show:false},
+					y: {show:true}
+				}, 
+				point: {
+					show: false
+				}
 			}
 		}).draw(function(selection){
 			alert(JSON.stringify(selection));
-		})					
+		})			
 	</code></pre>
 	
 					</div>	
@@ -148,10 +157,18 @@
 		new TimeChartComponent({
 			targetId:"timeChartComponentCustomized",
 			title:"My Time Series Data : Customized",
-			chartOptions:{
-				size:{width:"200",height:"200"},
+			options:{
+				size:{width:"400",height:"200"},
 				color:{pattern: ['#FF0000']},
-				legend: {show: false}
+				legend: {show: false},
+            	tooltip:{show:false},
+				axis: {
+					x: {show:false},
+					y: {show:true}
+				}, 
+				point: {
+					show: false
+				}
 			}
 		}).draw(function(selection){
 			alert(JSON.stringify(selection));

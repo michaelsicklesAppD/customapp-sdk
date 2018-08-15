@@ -3,42 +3,45 @@
 <head>
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<% include ../partials/include %>
+<% include ../partials/theme-admin %>
+<% include head %>
 </head>
 <body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/"><img width="180px" src="/img/AppDynamicsLogo.svg"/></a><div id="spinnerDiv" style="margin:10px"></div>
-            </div>
-            <!-- Left Menu -->
-			<div class="navbar-default sidebar" role="navigation">
-				<div class="sidebar-nav navbar-collapse">
+	<div class="wrapper">
+		<aside class="menu-sidebar">
+			<div class="logo" style:"background:black">
+				<a href="#">
+					<img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" />
+				</a>
+			</div>
+			<div class="menu-sidebar__content js-scrollbar1">
+				<nav class="navbar-sidebar">
 					<ul class="nav" id="side-menu"></ul>
-				</div>
+				</nav>
 			</div>
-        </nav>    
-        <div id="page-wrapper">   
-            <!-- Main Page -->
-			<div class="row">
-				<div class="col-lg-4 col-md-4">
-					<div id="comp1"></div>
+		</aside>    
+		<div class="page-container"> 
+			<div class="container-fluid">    
+				<!-- Main Page -->
+				<div class="row">
+					<div id="comp1" class="col"></div>
+					<div id="comp2" class="col"></div>
+					<div id="comp3" class="col"></div>
 				</div>
-				<div class="col-lg-4 col-md-4">
-					<div id="comp2"></div>
+				<div class="row"> 
+					<div class="col-md-12">
+						<div id="errorTable"></div>
+						<div id="serviceTable"></div>
+						<div id="customerTable"></div>
+					</div>
 				</div>
-				<div class="col-lg-4 col-md-4">
-					<div id="comp3"></div>
+				<div class="row" style="padding-top:25px">
+					<div class="col-md-12">
+						<div id="errorTrend"></div>
+						<div id="serviceTrend"></div>
+						<div id="customerTrend"></div>
+					</div>
 				</div>
-			</div>
-			<div class="row"> 
-				<div id="errorTable"> </div>
-				<div id="errorTrend"> </div>
-				<div id="serviceTable"> </div>
-				<div id="serviceTrend"> </div>
-				<div id="customerTable"> </div>
-				<div id="customerTrend"> </div>
 			</div>
         </div>
     </div>
@@ -52,8 +55,7 @@
 			//query : "",
 			targetId:"errorTable",
 			title:"Error Counts",
-			panelClass:"panel-red",
-			columns: [{ title: "Error" },{ title: "Counts" }]
+			columns: [{ title: "Error" },{ title: "Counts" }],
 		}).draw(function(record){
 			new TimeChartComponent({
 				//query: "",    
@@ -72,7 +74,6 @@
 			//query : "",
 			targetId:"serviceTable",
 			title:"Service Counts",
-			panelClass:"panel-green",
 			columns: [{ title: "Service" },{ title: "Counts" }]
 		}).draw(function(record){
 			new TimeChartComponent({
@@ -92,7 +93,6 @@
 			//query : "",
 			targetId:"customerTable",
 			title:"Customer Error Counts",
-			panelClass:"panel-yellow",
 			columns: [{ title: "Service" },{ title: "Counts" }]
 		}).draw(function(record){
 			new TimeChartComponent({
@@ -113,7 +113,7 @@
 			action:"View Details",
 			actionClick: "errorDetails()",
 			icon:"fa fa-exclamation fa-2x",
-			panelClass:"panel-primary",
+			panelClass:"overview-item--c2",
 			options:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
@@ -124,7 +124,7 @@
 			action:"View Details",
 			actionClick: "serviceDetails()",
 			icon:"fa fa-cogs fa-2x",
-			panelClass:"panel-success",
+			panelClass:"overview-item--c3",
 			options:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
@@ -135,7 +135,7 @@
 			action:"View Details",
 			actionClick: "customerDetails()",
 			icon:"fa fa-tasks fa-2x",
-			panelClass:"panel-warning",
+			panelClass:"overview-item--c4",
 			options:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();

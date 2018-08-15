@@ -3,50 +3,53 @@
 <head>
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
-<% include ../partials/include %>
 <% include ../partials/prism %>
+<% include ../partials/theme-admin %>
+<% include head %>
 </head>
 <body>
-    <div id="wrapper">
+    <div class="wrapper">
 		<!-- Menu -->
 		<%- include ./menu %>
-        <div id="page-wrapper">   
+        <div class="page-container">   
 			<!-- Main Page -->
-		<div>
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
 					<p>Layout Your Components</p>
 					<p>Best to start with newdash.html and build your dashboard.</p>
 					<pre><code class="language-javascript">
-&lt;body&gt;
-	&lt;div id="wrapper"&gt;
-		&lt;nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0px;"&gt;
-			&lt;div class="navbar-header"&gt;
-				&lt;a class="navbar-brand" href="/"&gt;&lt;img width="180px" src="/img/AppDynamicsLogo.svg"/&gt;&lt;/a&gt;&lt;div id="spinnerDiv" style="margin:10px"&gt;&lt;/div&gt;
-			&lt;/div&gt;
-			&lt;!-- Left Menu --&gt;
-			&lt;div class="navbar-default sidebar" role="navigation"&gt;
-				&lt;div class="sidebar-nav navbar-collapse"&gt;
-					&lt;ul class="nav" id="side-menu"&gt;&lt;/ul&gt;
+	&lt;body&gt;
+		&lt;div class="wrapper"&gt;
+			&lt;aside class="menu-sidebar"&gt;
+				&lt;div class="logo" style:"background:black"&gt;
+					&lt;a href="#"&gt;
+						&lt;img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" /&gt;
+					&lt;/a&gt;
+				&lt;/div&gt;
+				&lt;div class="menu-sidebar__content js-scrollbar1"&gt;
+					&lt;nav class="navbar-sidebar"&gt;
+						&lt;ul class="nav" id="side-menu"&gt;&lt;/ul&gt;
+					&lt;/nav&gt;
+				&lt;/div&gt;
+			&lt;/aside&gt;    
+			&lt;div class="page-container"&gt; 
+				&lt;div class="container-fluid"&gt;    
+					&lt;div class="row"&gt;
+						&lt;div id="comp1" class="col-md-3"&gt;&lt;/div&gt;
+					&lt;/div&gt;
 				&lt;/div&gt;
 			&lt;/div&gt;
-		&lt;/nav&gt;    
-		&lt;div id="page-wrapper"&gt;   
-			&lt;!-- Main Page --&gt;
-			&lt;div class="row"&gt;
-				&lt;div id="comp1" class="col-md-3"&gt;&lt;/div&gt;				
-			&lt;/div&gt;
 		&lt;/div&gt;
-	&lt;/div&gt;
-&lt;/body&gt;
+	&lt;/body&gt;
 					</code></pre>
 
 				</div>	
-				<p>Within the page-wrapper div, you will begin to add your components. Components and ChartComponents bind to div elements using the targetId property.</p>
+				<p>Within the page-container div, you will begin to add your components. Components and ChartComponents bind to div elements using the targetId property.</p>
 				<p>We use bootstrap grid layout to align components on the page see <a href="https://getbootstrap.com/docs/4.0/layout/grid/">https://getbootstrap.com/docs/4.0/layout/grid</a></p>
 				<p>When working with Time Ranges, you need the spinnerDiv element for the progress animation.</p>
 				<p>Everything else is fully customizable</p>
-				<p>We have also made use of the open source Admin2 Bootstrap Theme see : <a href="https://startbootstrap.com/template-overviews/sb-admin-2/">https://startbootstrap.com/template-overviews/sb-admin-2/</a> </p>
+				<p>We have also made use of the open source Admin Bootstrap Theme see : <a href="https://github.com/ColorlibHQ/CoolAdmin">https://github.com/ColorlibHQ/CoolAdmin</a> </p>
 				<p>You can use font awesome icons see <a href="https://www.w3schools.com/icons/fontawesome_icons_intro.asp">https://www.w3schools.com/icons/fontawesome_icons_intro.asp</a></p>
 			</div>
 		</div>

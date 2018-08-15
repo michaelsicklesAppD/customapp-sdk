@@ -19,3 +19,8 @@ spinnerDiv {
   min-height: 100%;
 }
 
+.overview-item--c0 {
+  background-image: -moz-linear-gradient(90deg, #050c30 0%, #575354 100%);
+  background-image: -webkit-linear-gradient(90deg, #050c30 0%, #575354 100%);
+  background-image: -ms-linear-gradient(90deg, #050c30 0%, #575354 100%);
+}

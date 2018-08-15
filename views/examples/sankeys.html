@@ -3,15 +3,17 @@
 <head>
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
-<% include ../partials/include %>
 <% include ../partials/prism %>
+<% include ../partials/theme-admin %>
+<% include head %>
 <% include ../partials/sankey %>
 </head>
 <body>
-    <div id="wrapper">
+	<div class="wrapper">
 		<!-- Menu -->
 		<%- include ./menu %>
-        <div id="page-wrapper">   
+		<div class="page-container">  
+			<div class="container-fluid"> 
 			<!-- Main Page -->
 			<div class="row">
 				<p>Sankey Charts</p>		
@@ -61,7 +63,7 @@
 					</div>
 			</div>	
 			<div class="row">
-				<div id="butterfly" class="col-md-12"></div>	
+				<div id="butterfly" class="col-md-10"></div>	
 			</div>	
 			<div class="row"><hr/></div>
 			<div class="row">
@@ -108,6 +110,7 @@
 					</div>
 			</div>
 		</div>
+		</div>
     </div>
 </body>
 <script type="text/javascript">
@@ -130,7 +133,7 @@
         sankeyChart = new ButterflySankeyChart({
 			targetId:"butterfly",
 			data: data,
-			options:{height:"400px",margin:["10","10","10","10"]}
+			options:{height:"400px", width:"400px"}
 		});
         sankeyChart.renderChart(function(selection){
             alert(selection);
