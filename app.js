@@ -22,6 +22,9 @@ app.use(function(req,res,next){
     req.analyticsManager = analyticsManager;
     res.locals.controller = configManager.getControllerUrl();
     res.locals.version = configManager.getVersion();
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
     next();
 });
 
@@ -43,10 +46,8 @@ app.use(express.static(__dirname + '/public/images'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use('/analytics',analyticsRoute);
 
-
-
 app.get('/', function(req, res){ 
-  res.render('index.html'); 
+    res.redirect('/views/index.html');
 }); 
 
 app.get('/views/index.html', function(req, res){ 
