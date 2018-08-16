@@ -129,7 +129,6 @@ class BaseChart {
             debug(this,"Rendering template to div : "+this.options.parentDiv);
             $("#" + this.options.parentDiv).html(template.render(this.options));
         }
-        this.show();
     }
 
     setTitle(options){
@@ -285,6 +284,7 @@ class TimeChart extends BaseChart {
         }
 
         this.renderGraph(key,chartData,clickFunction);
+        super.show();
         super.animate();
     } 
 
@@ -319,6 +319,7 @@ class TimeChart extends BaseChart {
         }
         chartOptions.data[dataKey] = data;
         super.updateChartOptions(chartOptions);
+        debug(this,JSON.stringify(chartOptions));
         this.chart = c3.generate(chartOptions);
     } 
 }
@@ -390,6 +391,7 @@ class DonutChart extends BaseChart {
         super.updateChartOptions(chartOptions);
         debug(this,JSON.stringify(chartOptions));
         this.chart = c3.generate(chartOptions);
+        super.show();
         super.animate();
     }
 }
@@ -419,6 +421,7 @@ class PieChart extends BaseChart {
 
         super.updateChartOptions(chartOptions);
         this.chart = c3.generate(chartOptions);
+        super.show();
         super.animate();
     }
 }
@@ -448,6 +451,7 @@ class GaugeChart extends BaseChart {
 
         super.updateChartOptions(chartOptions);
         this.chart = c3.generate(chartOptions);
+        super.show();
         super.animate();
     }
 }
@@ -501,7 +505,7 @@ class Table extends BaseChart {
         if(super.getOptions().class){
             $(id).addClass(super.getOptions().class);
         }
-
+        super.show();
         super.animate();
     }
 }
