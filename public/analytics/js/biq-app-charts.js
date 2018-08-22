@@ -717,6 +717,9 @@ class BoxComponent extends BaseComponent {
     draw(onClick,callback){
         var options = super.getOptions();
         $("#" + options.targetId).html($.templates(_boxComponentTemplate).render(options));
+        if(options.animate){
+            animateDiv(options.targetId,options.animate);
+        }
     };
 }
 
