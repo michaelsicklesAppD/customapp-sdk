@@ -76,9 +76,13 @@
 					<span>{{:title}}</span>
                 </div>
             </div>
-            <div class="overview-chart">
-                <div id="{{:targetId}}-chart"></div>
-            </div>
+            {{if hasChart}}
+                <div class="overview-chart">
+                    <div id="{{:targetId}}-chart"></div>
+                </div>
+            {{else}}
+                <div class="overview-chart" style="height:30px;"></div>
+            {{/if}}
         </div>
     </div>	
 </script>

@@ -568,7 +568,7 @@ var hasValue = function(value){
     return value && value.length > 0;
 }
 
-var round = function(value){
+var ba_Round = function(value){
     return Math.round(value * 10) / 10;
 }
 

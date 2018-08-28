@@ -3,8 +3,8 @@
 <head>
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
-<% include ../partials/prism %>
-<% include ../partials/theme-admin %>
+<% include ../includes/prism %>
+<% include ../partials/theme %>
 <% include head %>
 </head>
 <body>
@@ -22,7 +22,7 @@
 	&lt;body&gt;
 		&lt;div class="wrapper"&gt;
 			&lt;aside class="menu-sidebar"&gt;
-				&lt;div class="logo" style:"background:black"&gt;
+				&lt;div class="logo"&gt;
 					&lt;a href="#"&gt;
 						&lt;img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" /&gt;
 					&lt;/a&gt;
@@ -43,14 +43,15 @@
 		&lt;/div&gt;
 	&lt;/body&gt;
 					</code></pre>
+					<ul style="margin:20px">
+							<li>Within the page-container div, you will begin to add your components.</li>
+							<li>Components and ChartComponents bind to div elements using the targetId property.</li>
+							<li>Bootstrap grid layout is used to align components (see : <a href="https://getbootstrap.com/docs/4.0/layout/grid/">https://getbootstrap.com/docs/4.0/layout/grid</a>)</li>
+							<li>The admin theme is based on this open source project (see :<a href="https://github.com/ColorlibHQ/CoolAdmin">https://github.com/ColorlibHQ/CoolAdmin</a>)</li>
+							<li>Font Awesome icons are also used (see : <a href="https://www.w3schools.com/icons/fontawesome_icons_intro.asp">https://www.w3schools.com/icons/fontawesome_icons_intro.asp</a>)</li>
+					</ul>
 
 				</div>	
-				<p>Within the page-container div, you will begin to add your components. Components and ChartComponents bind to div elements using the targetId property.</p>
-				<p>We use bootstrap grid layout to align components on the page see <a href="https://getbootstrap.com/docs/4.0/layout/grid/">https://getbootstrap.com/docs/4.0/layout/grid</a></p>
-				<p>When working with Time Ranges, you need the spinnerDiv element for the progress animation.</p>
-				<p>Everything else is fully customizable</p>
-				<p>We have also made use of the open source Admin Bootstrap Theme see : <a href="https://github.com/ColorlibHQ/CoolAdmin">https://github.com/ColorlibHQ/CoolAdmin</a> </p>
-				<p>You can use font awesome icons see <a href="https://www.w3schools.com/icons/fontawesome_icons_intro.asp">https://www.w3schools.com/icons/fontawesome_icons_intro.asp</a></p>
 			</div>
 		</div>
     </div>

@@ -4,7 +4,7 @@
 <title>BiQ App - Dashboards</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<% include ../partials/theme-admin %>
+<% include ../partials/theme %>
 <% include head %>
 
 </head>
@@ -16,16 +16,17 @@
             <!-- Main Page -->
             <div class="container-fluid">
                 <div class="row">
-                    <div id="newdash" class="col-lg-3 col-md-3"></div>
-                    <div id="boxexample" class="col-lg-3 col-md-3"></div>
-                    <div id="drilldown" class="col-lg-3 col-md-3"></div>
+                    <div id="newdash" class="col-md-4"></div>
+                    <div id="boxexample" class="col-md-4"></div>
+                    <div id="drilldown" class="col-md-4"></div>
                 </div>
                 <div class="row">
-                    <div id="light" class="col-lg-3 col-md-3"></div>
-                    <div id="dark" class="col-lg-3 col-md-3"></div>
+                    <div id="light" class="col-md-4"></div>
+                    <div id="dark" class="col-md-4"></div>
                 </div>
                 <div class="row">
-                    <div id="appd" class="col-lg-3 col-md-3"></div>
+                    <div id="appd" class="col-md-4"></div>
+                    <div id="geo" class="col-md-4"></div>
                 </div>
             </div>
         </div>
@@ -40,7 +41,7 @@
             targetId:"newdash",
             actionClick: "window.location.href='/views/examples/example-starter.html'",
             icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c1"
+            panelClass:"overview-item--c2"
         }).draw();
 
         new BoxComponent({
@@ -67,7 +68,7 @@
             targetId:"light",
             actionClick: "window.location.href='/views/examples/lightdash.html'",
             icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c5"
+            panelClass:"overview-item--c0"
         }).draw();
 
         new BoxComponent({
@@ -84,6 +85,15 @@
             title:"AppD Theme Dashboard",
             targetId:"appd",
             actionClick: "window.location.href='/views/appd.html'",
+            icon:"fa fa-cogs fa-2x",
+            panelClass:"overview-item--c0"
+        }).draw();
+
+        new BoxComponent({
+            value:"Geo Map",
+            title:"Geo Map Dashboard",
+            targetId:"geo",
+            actionClick: "window.location.href='/views/examples/example-geomap.html'",
             icon:"fa fa-cogs fa-2x",
             panelClass:"overview-item--c0"
         }).draw();

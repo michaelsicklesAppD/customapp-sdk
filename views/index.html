@@ -3,7 +3,7 @@
 <head>
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
-<% include ./partials/theme-admin %>
+<% include ./partials/theme %>
 <style>
 
 body {
@@ -39,47 +39,49 @@ body,html{
     height:300px;
 }
 
-.overview-chart {
-    height:40px;
-}
-
 #main-area{
     margin-top: 50px;
+}
+
+i:hover {
+    color: red;
+}
+
+.fa-book:hover {
+    color: red;
 }
 
 </style>
 </head>
 <body>
-            <div class="container-fluid">    
-                <!-- Main Page -->
-                <div class="row">
-                    <div class="greeting-container">
-                        <img id="logo" width="600px;" src="/img/AppDynamicsLogo.svg"/> 
-                        <div class="greeting" id="greeting" style="font-family: Poppins, sans-serif;"> - BiQ App Framework - <%= version %></div>
-                    </div>
-                </div>
-                <div class="row">
-
-                </div>
-                <div class="row">
-                    <div id="main-area" class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div id="docs" class="col-md-4"></div>  
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div id="start" class="col-md-4"></div> 
-                        </div>
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div id="advanced" class="col-md-4"></div>  
-                        </div>
-                    </div>
-                </div>             
+    <div class="container-fluid">    
+        <!-- Main Page -->
+        <div class="row">
+            <div class="greeting-container">
+                <img id="logo" width="600px;" src="/img/AppDynamicsLogo.svg"/> 
+                <div class="greeting" id="greeting" style="font-family: Poppins, sans-serif;"> - BiQ App Framework - <%= version %></div>
             </div>
-       
-    
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="row">
+            <div id="main-area" class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div id="docs" class="col-md-4"></div>  
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div id="start" class="col-md-4"></div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div id="advanced" class="col-md-4"></div>  
+                </div>
+            </div>
+        </div>             
+    </div>    
 </body>
 <script type="text/javascript">
 	//Your BiQ App Components ...
@@ -90,7 +92,6 @@ body,html{
         targetId:"start",
         actionClick: "window.location.href='/views/newdash.html'",
         icon:"fa fa-anchor",
-        //panelClass:"overview-item--c2",
         animate:"zoomIn"
     }).draw();
 
@@ -100,7 +101,6 @@ body,html{
         targetId:"advanced",
         actionClick: "window.location.href='/views/appd.html'",
         icon:"fa fa-rocket",
-        //panelClass:"overview-item--c0",
         animate:"zoomIn"
     }).draw();
     
@@ -110,7 +110,6 @@ body,html{
         targetId:"docs",
         actionClick: "window.location.href='/views/examples/intro.html'",
         icon:"fa fa-book",
-        //panelClass:"overview-item--c4",
         animate:"zoomIn"
     }).draw();
 

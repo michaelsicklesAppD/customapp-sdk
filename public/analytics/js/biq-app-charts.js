@@ -54,10 +54,12 @@ function abbreviateNumber(number){
 }
   
 function debug(comp,message){
-    try {
-        console.log(comp.getDivId()+" : "+message);        
-    } catch (error) {
-        console.log(message);    
+    if(debugApp){
+        try {
+            console.log(comp.getDivId()+" : "+message);        
+        } catch (error) {
+            console.log(message);    
+        }
     }
 }
 
@@ -683,6 +685,7 @@ class TimeRangeComponent extends BaseComponent {
 class BoxChartComponent extends BaseComponent {
     constructor(options) {
         options.div = options.targetId+"-chart";
+        options.hasChart = true;
         super(options,new SparkLineChart(options));
     }
 
@@ -711,6 +714,7 @@ class BoxComponent extends BaseComponent {
         if(!options.action){
             options.action = options.title;
         }
+        options.hasChart = false;
         super(options,null);
     }
 
