@@ -187,6 +187,13 @@ body{
 			animate:"zoomIn"
 		}).draw();	
 	}
+
+	new TimeRangeComponent({
+		targetId:"time"
+	}).draw(function(timeSelected){
+		buildDashboard();
+	});
+
 	buildDashboard();
 </script>
 </html>
