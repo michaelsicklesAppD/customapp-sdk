@@ -37,11 +37,11 @@
 	var geoMap;
 
 	var hideComps = function(){
-		hideElements(["experience"]);
+		hideElements(["experience","trend","sankey"]);
 	}
 
 	var buildMap = function(){
-		hideElements(["experience"]);
+		hideComps();
 
 		var data = [
 			[1,96,41.8781,-87.6298],
@@ -53,9 +53,6 @@
 			data:data
 		});
 		geoMap.draw();	
-
-		
-		
 	}
 
 	function setup(){
@@ -77,11 +74,14 @@
 	}
 
 	function mouseClicked() {
+		
 		var selectedModels = geoMap.getDataModelsClicked(mouseX,mouseY);
+		var mX = mouseX;
+		var mY = mouseY;
+		console.log("mX ="+mX+" mY ="+mY);
 		if(selectedModels && selectedModels.length > 0){
-			var mX = mouseX;
-			var mY = mouseY;
-			console.log("mX ="+mX+" mY ="+mY);
+			hideComps();
+			
 			var experienceChart = new DonutChartComponent({
 				data:[["Normal",65],["Slow",20],["Error",15]],
 				targetId:"experience",
@@ -92,6 +92,7 @@
 				}
 			});
 			experienceChart.draw(function(selection){
+				hideElements(["sankey"]);
 				var trendChart = new TimeChartComponent({
 					targetId:"trend",
 					title:"Experience Trend",

@@ -245,12 +245,12 @@ var animCount = 0;
 var spinner;
 
 var biqSpinnerOpts = {
-    length: 5 // The length of each line
-    , radius : 5
-    , width : 2
-    , color: '#ffffff' // #rgb or #rrggbb or array of colors
-    , top: '15px' // Top position relative to parent
-    , left: '20%' // Left position relative to parent
+length: 5 // The length of each line
+, radius : 5
+, width : 2
+, color: '#ffffff' // #rgb or #rrggbb or array of colors
+, top: '15px' // Top position relative to parent
+, left: '20%' // Left position relative to parent
 }
 
 function startAnim(query){
@@ -568,7 +568,7 @@ var hasValue = function(value){
     return value && value.length > 0;
 }
 
-var ba_Round = function(value){
+var roundValue = function(value){
     return Math.round(value * 10) / 10;
 }
 
@@ -587,4 +587,5 @@ var copyTextToClipBoard = function(text){
 	$(oText).remove();
 	return bResult;
 }
+
 

@@ -11,4 +11,6 @@ log
 bower_components
 .package-lock.json
 .vscode
+public/_design
+views/_design
 
