@@ -785,6 +785,14 @@ var hideElements = function (elems){
     }
 }
 
+var showElements = function (elems){
+    if(elems){
+        elems.forEach(function(elem){
+            $("#"+elem).show();
+        });
+    }
+}
+
 var _biqComponents = [];
 var addComponent = function(comp){
     _biqComponents.push(comp);
