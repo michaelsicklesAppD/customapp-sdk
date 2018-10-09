@@ -30,3 +30,9 @@ spinnerDiv {
   background-image: -webkit-linear-gradient(90deg, #ecedf5 0%, #5f5d5e 100%);
   background-image: -ms-linear-gradient(90deg, #ecedf5 0%, #5f5d5e 100%);
 }
+
+.overview-item--dark {
+  background-image: -moz-linear-gradient(90deg, #050c30 0%, #1a1b20 100%);
+  background-image: -webkit-linear-gradient(90deg, #050c30 0%,#1a1b20 100%);
+  background-image: -ms-linear-gradient(90deg, #050c30 0%, #1a1b20 100%);
+}
