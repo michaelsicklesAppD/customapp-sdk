@@ -244,13 +244,13 @@ function getTimeBucketAsMinutes(){
 var animCount = 0;
 var spinner;
 
-var opts = {
-length: 5 // The length of each line
-, radius : 5
-, width : 2
-, color: '#ffffff' // #rgb or #rrggbb or array of colors
-, top: '15px' // Top position relative to parent
-, left: '20%' // Left position relative to parent
+var biqSpinnerOpts = {
+    length: 5 // The length of each line
+    , radius : 5
+    , width : 2
+    , color: '#ffffff' // #rgb or #rrggbb or array of colors
+    , top: '15px' // Top position relative to parent
+    , left: '20%' // Left position relative to parent
 }
 
 function startAnim(query){
@@ -261,7 +261,7 @@ function startAnim(query){
             return;
         }
         if(!spinner){
-            spinner = new Spinner(opts).spin(target);        
+            spinner = new Spinner(biqSpinnerOpts).spin(target);        
         }else{
             spinner.spin(target);
         }
