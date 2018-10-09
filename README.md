@@ -2,12 +2,10 @@
 ## Required Frameworks
 
 1. NodeJS
-1. Bower
 
 References:
 
 * https://nodejs.org/en/download/
-* http://bower.io/
 
 We are working on removing the bower dependency.
 
@@ -15,7 +13,6 @@ We are working on removing the bower dependency.
 
 1. Download the latest release https://github.com/Appdynamics/biqapp-sdk/releases
 1. Change into the directory: `cd biqapp-sdk`
-1. Download the dependencies: `bower install`
 1. Download npm dependencies: `npm install`
 1. Create a config.json file in the root directory with the following :
 
