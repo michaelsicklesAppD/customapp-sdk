@@ -477,16 +477,37 @@ function autoComplete(selector,query,callback){
     });
 }
 
+function buildQueryForAutoCompleteOnFilter(query,adqlField,value){
+    var tempQuery = query;
+    var hasWhere = query.toLowerCase().indexOf("where") > 0;
+    var hasOrderBy = query.toLowerCase().indexOf("order by") > 0;
+    var orderBy = "";
+    if(hasOrderBy){
+        var pos = query.toLowerCase().indexOf("order by");
+        tempQuery = query.substring(0,pos);
+        orderBy = query.substring(pos,query.length);
+    }
+    if(value && value.length > 1){
+        if(hasWhere){
+            tempQuery = tempQuery+ " and "+adqlField+" = '*"+value+"*'";
+        }else{
+            tempQuery = tempQuery+ " WHERE "+adqlField+" = '*"+value+"*'";
+        }
+    }
+    if(!hasOrderBy){
+        tempQuery = tempQuery + " order by "+adqlField+" asc";
+    }else{
+        tempQuery = tempQuery+" "+orderBy;
+    }
+    return tempQuery;
+}
+
 function autoCompleteOnFilter(selector,query,adqlField,callback){
     $( selector ).autocomplete({
         sortResults:true,
         source: function( request, response ) {
             var value = $(selector).val();
-            var tempQuery = query;
-            if(value.length > 1){
-                tempQuery = query+ " and "+adqlField+" = '*"+value+"*'";
-            }
-            tempQuery = tempQuery + " order by "+adqlField+" asc";
+            var tempQuery = buildQueryForAutoCompleteOnFilter(query,adqlField,value);
             lookup(tempQuery,response);
         },
         minLength: 1,
@@ -588,4 +609,11 @@ var copyTextToClipBoard = function(text){
 	return bResult;
 }
 
+try{
+    if(exports){
+        exports.buildQueryForAutoCompleteOnFilter  = buildQueryForAutoCompleteOnFilter;
+    }
+  }catch(error){
+   // console.log(error);
+  }
 
