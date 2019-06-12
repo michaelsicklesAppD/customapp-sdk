@@ -5,13 +5,18 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "./node_modules/.bin/mocha --recursive --timeout 30000 --reporter spec",
-    "test_debug": "./node_modules/.bin/mocha --debug-brk --recursive --timeout 30000 --reporter spec"
+    "test_debug": "./node_modules/.bin/mocha --debug-brk --recursive --timeout 30000 --reporter spec",
+    "develop": "webpack --mode development --watch",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "async": "^2.5.0",
+    "billboard.js": "^1.8.1",
     "body-parser": "~1.8.1",
+    "c3": "^0.7.1",
     "chai": "^3.0.0",
     "cookie-parser": "^1.4.3",
+    "d3": "^5.9.2",
     "ejs": "^2.5.5",
     "express": "^4.16.3",
     "growl": "~> 1.10.0",
@@ -19,6 +24,7 @@
     "http-debug": "^0.1.2",
     "http-proxy-agent": "^1.0.0",
     "https-proxy-agent": "^1.0.0",
+    "jquery": "^3.4.1",
     "log4js": "^0.6.22",
     "mocha": "^2.2.5",
     "moment": "~> 2.19.3",
@@ -32,6 +38,11 @@
     "send": "^0.16.2",
     "serve-favicon": "^2.5.0",
     "should": "^7.0.2",
-    "wait.for": "^0.6.6"
+    "wait.for": "^0.6.6",
+    "webpack": "^4.33.0"
+  },
+  "devDependencies": {
+    "expose-loader": "^0.7.5",
+    "webpack-cli": "^3.3.4"
   }
 }
