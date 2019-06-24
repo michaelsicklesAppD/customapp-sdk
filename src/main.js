@@ -12,6 +12,11 @@ import datatables from 'datatables'
 var jsrender = require('jsrender')(); 
 import {Spinner} from 'spin.js';
 import 'font-awesome/css/font-awesome.min.css'
+import 'leaflet/dist/leaflet.js';
+import 'leaflet/dist/leaflet.css';
+import 'prismjs';
+import 'prismjs/themes/prism.css'
+
 
 // window.jQuery = $;
 // window.$ = $;

@@ -12,7 +12,12 @@ module.exports = {
             }, {
                 loader: 'expose-loader',
                 options: '$'
-            }]
+            },
+            {
+                loader: 'expose-loader',
+                options: 'd3'
+            }
+        ]
         }, {
             test: require.resolve('c3'),
             use: [{
