@@ -11,7 +11,8 @@ import 'animsition/dist/css/animsition.min.css';
 import datatables from 'datatables';
 var jsrender = require('jsrender')(); 
 import {Spinner} from 'spin.js';
-import 'font-awesome/css/font-awesome.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
+// import 'font-awesome/css/font-awesome.min.css';
 // import 'leaflet';
 // import 'leaflet/dist/leaflet.css';
 

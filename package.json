@@ -10,6 +10,7 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "animsition": "^4.0.2",
     "async": "^2.5.0",
     "billboard.js": "^1.8.1",
