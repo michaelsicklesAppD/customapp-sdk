@@ -2,6 +2,11 @@ const path = require('path')
 const webpack = require('webpack'); //to access built-in plugins
 module.exports = {
     entry: ['./src/main.js'],
+    plugins: [
+        new webpack.ProvidePlugin({
+            d3: 'd3'
+        })
+     ],
     module: {
         rules: [{
 
@@ -24,13 +29,20 @@ module.exports = {
                 options: 'd3'
             }
         }
-        
         ,
         {
             test: require.resolve('c3'),
             use: [{
                 loader: 'expose-loader',
                 options: 'c3'
+            }]
+        },
+        
+        {
+            test: require.resolve('plotly'),
+            use: [{
+                loader: 'expose-loader',
+                options: 'Plotly'
             }]
         },
         {
