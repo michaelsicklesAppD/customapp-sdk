@@ -38,7 +38,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.get('/public/webpack/*', function (req,res)
+{
+    res.sendFile (__dirname+req.url);
+});
+app.use(express.static(__dirname + '/public/webpack'));
 app.get('/public/images/*', function (req,res)
 {
     res.sendFile (__dirname+req.url);
