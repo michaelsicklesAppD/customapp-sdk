@@ -12,13 +12,17 @@ import datatables from 'datatables';
 var jsrender = require('jsrender')(); 
 import {Spinner} from 'spin.js';
 import 'font-awesome/css/font-awesome.min.css';
-import 'leaflet';
-import 'leaflet/dist/leaflet.css';
+// import 'leaflet';
+// import 'leaflet/dist/leaflet.css';
+
+//Syntax Highlighting
 import 'prismjs';
 import 'prismjs/themes/prism.css';
-import 'p5';
+
+//GEO Map
+import p5 from 'p5';
 import 'p5/lib/addons/p5.dom';
-import 'mappa-mundi/dist/mappa.js'
+
 
 // window.jQuery = $;
 // window.$ = $;

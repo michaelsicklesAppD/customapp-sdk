@@ -33,7 +33,6 @@
     "jsrender": "^1.0.3",
     "leaflet": "^1.5.1",
     "log4js": "^0.6.38",
-    "mappa-mundi": "0.0.5",
     "mocha": "^2.2.5",
     "moment": "~> 2.19.3",
     "morgan": "^1.9.1",

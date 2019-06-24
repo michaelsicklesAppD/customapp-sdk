@@ -4,7 +4,7 @@ module.exports = {
     entry: ['./src/main.js'],
     module: {
         rules: [{
-            
+
             test: require.resolve('jquery'),
             use: [{
                 loader: 'expose-loader',
@@ -12,17 +12,21 @@ module.exports = {
             }, {
                 loader: 'expose-loader',
                 options: '$'
-            },
+            }
+
+            ]
+        },
+        {
+            test: require.resolve('d3'),
+            use:
             {
                 loader: 'expose-loader',
                 options: 'd3'
-            },
-            {
-                loader: 'expose-loader',
-                options: 'Mappa'
             }
-        ]
-        }, {
+        }
+        
+        ,
+        {
             test: require.resolve('c3'),
             use: [{
                 loader: 'expose-loader',
@@ -35,7 +39,7 @@ module.exports = {
         },
         { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
         { test: /\.(ttf|eot|svg|otf|woff2|woff)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader?name=/fonts/[name].[ext]' }
-]
+        ]
     },
     output: {
         filename: 'bundle.js',
