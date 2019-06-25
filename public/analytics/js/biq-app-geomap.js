@@ -63,7 +63,11 @@ class StoreModel {
             stroke(255, 255, 0);
         }
         strokeWeight(5);
-        ellipse(this.pos.x, this.pos.y, iconSize*2, iconSize*2); 
+        ellipse(this.pos.x, this.pos.y, iconSize*1.5, iconSize*1.5); 
+
+        strokeWeight(5);
+        stroke(0, 255, 0); 
+        ellipse(this.pos.x, this.pos.y, iconSize*2.5, iconSize*2.5); 
         strokeWeight(0);
     }
 
