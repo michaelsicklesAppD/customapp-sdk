@@ -1,3 +1,4 @@
+
 var _noPanelComponentTemplate = "#_noPanelComponent";
 var _chartComponentTemplate = "#_chartComponent";
 var _tableComponentTemplate = "#_tableComponent";
@@ -1063,7 +1064,7 @@ class SankeyChart extends BaseChart {
     var diagram = d3.sankeyDiagram()
 
 
-    d3.select(sankeyId)
+    bb.select(sankeyId)
       .datum(layout(data))
       .call(diagram);
 
