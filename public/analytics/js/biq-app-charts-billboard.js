@@ -1059,129 +1059,9 @@ class SankeyChart extends BaseChart {
     if (!data) {
       data = this.generateSampleData();
     }
+    var function_color = d3.scaleOrdinal(d3.schemeCategory10);
 
-
-    var diagram = d3.sankeyDiagram()
-
-
-    bb.select(sankeyId)
-      .datum(layout(data))
-      .call(diagram);
-
-  //  // var function_color = d3.scale.category20();
-  //   var sankeyOptions = {
-  //     // Bind to the DOM and set height.
-  //     anchor: sankeyId,
-  //     // Link to control flow graph `functions` and `links` **data**
-  //     data: data.nodes,
-  //     links: data.links,
-  //     // Define unique **key** accessor for functions
-  //     key: function(func) {
-  //       return func.id;
-  //     },
-  //     // **Align** CFG to start on the `left`
-  //     align: "left",
-  //     // **Style** nodes based on the function name and create tooltips.
-  //     // **Animate** transitions for all of the nodes and links.
-  //     node_options: {
-  //       title: function(func) {
-  //         return func.name;
-  //       },
-  //       animate: true,
-  //       duration: 2000
-  //     },
-  //     rect_options: {
-  //       styles: {
-  //         fill: function(func) {
-  //           return function_color(func.name);
-  //         },
-  //         stroke: "black"
-  //       },
-  //       animate: true,
-  //       duration: 2000
-  //     },
-  //     link_options: {
-  //       // A poor-performing method of constructing a tooltip with function names.
-  //       // A look-up hash could be used.  The sankey object could be extended with this
-  //       // functionality if requested for relatively little additional space cost.
-  //       title: function(link) {
-  //         return (
-  //           cfg.data.filter(function(f) {
-  //             return f.id == link.source;
-  //           })[0].name +
-  //           " → " +
-  //           cfg.data.filter(function(f) {
-  //             return f.id == link.target;
-  //           })[0].name
-  //         );
-  //       },
-  //       animate: true,
-  //       duration: 2000
-  //     },
-  //     path_options: {
-  //       animate: true,
-  //       duration: 2000
-  //     },
-  //     // Add text **labels** for each node
-  //     node_label_options: {
-  //       text: function(func) {
-  //         return func.name;
-  //       },
-  //       styles: {
-  //         "font-weight": "bold",
-  //         "font-size": "x-small"
-  //       },
-  //       orientation: "horizontal",
-  //       animate: true,
-  //       duration: 2000
-  //     }
-  //   };
-  //   super.updateChartOptions(sankeyOptions);
-  //   var cfg = new d3.Butterfly(sankeyOptions);
-  //   cfg.render();
-
-    $(sankeyId+" g .node").click(function(e) {
-      onClick(e.currentTarget.__data__);
-    });
-    
-  }
-
-  resize() {
-    this.sankey.resize();
-  }
-
-}
-class ButterflySankeyChart extends BaseChart {
-  constructor(options) {
-    options.div = options.targetId;
-    super(options);
-  }
-
-  generateSampleData() {
-    return {
-      nodes: [
-        { id: 1, name: "RuntimeException" },
-        { id: 2, name: "Login Service" },
-        { id: 3, name: "DB Service" },
-        { id: 4, name: "Customer A" },
-        { id: 5, name: "Customer B" }
-      ],
-      links: [
-        { source: 1, target: 2, value: 15 },
-        { source: 1, target: 3, value: 5 },
-        { source: 2, target: 4, value: 10 },
-        { source: 2, target: 5, value: 5 }
-      ]
-    };
-  }
-
-  renderChart(onClick) {
-    var sankeyId = "#" + super.getDivId();
-    var data = this.getOptions().data;
-    if (!data) {
-      data = this.generateSampleData();
-    }
-    var function_color = d3.scale.category20();
+    //How do we pass these options in d3 sankey?
     var sankeyOptions = {
       // Bind to the DOM and set height.
       anchor: sankeyId,
@@ -1250,8 +1130,22 @@ class ButterflySankeyChart extends BaseChart {
       }
     };
     super.updateChartOptions(sankeyOptions);
-    var cfg = new d3.Butterfly(sankeyOptions);
-    cfg.render();
+
+    var layout = d3.sankey(sankeyOptions).extent([[100, 10], [840, 580]]);
+
+
+    var diagram = d3.sankeyDiagram();
+    
+    
+    var el = d3.select(sankeyId).append("svg")
+      .attr('id', 'sankey')
+      .style('width', this.getOptions().options.width || '1000px')
+      .style('height', this.getOptions().options.height || '1000px')
+      .datum(layout(data))
+      .call(diagram);
+
+    // var cfg = new d3.Butterfly(sankeyOptions);
+    // cfg.render();
 
     $(sankeyId+" g .node").click(function(e) {
       onClick(e.currentTarget.__data__);
@@ -1262,7 +1156,120 @@ class ButterflySankeyChart extends BaseChart {
   resize() {
     this.sankey.resize();
   }
+
 }
+// class ButterflySankeyChart extends BaseChart {
+//   constructor(options) {
+//     options.div = options.targetId;
+//     super(options);
+//   }
+
+//   generateSampleData() {
+//     return {
+//       nodes: [
+//         { id: 1, name: "RuntimeException" },
+//         { id: 2, name: "Login Service" },
+//         { id: 3, name: "DB Service" },
+//         { id: 4, name: "Customer A" },
+//         { id: 5, name: "Customer B" }
+//       ],
+//       links: [
+//         { source: 1, target: 2, value: 15 },
+//         { source: 1, target: 3, value: 5 },
+//         { source: 2, target: 4, value: 10 },
+//         { source: 2, target: 5, value: 5 }
+//       ]
+//     };
+//   }
+
+//   renderChart(onClick) {
+//     var sankeyId = "#" + super.getDivId();
+//     var data = this.getOptions().data;
+//     if (!data) {
+//       data = this.generateSampleData();
+//     }
+//     var function_color = d3.scaleOrdinal(d3.schemeCategory20);//d3.scale.category20();
+//     var sankeyOptions = {
+//       // Bind to the DOM and set height.
+//       anchor: sankeyId,
+//       // Link to control flow graph `functions` and `links` **data**
+//       data: data.nodes,
+//       links: data.links,
+//       // Define unique **key** accessor for functions
+//       key: function(func) {
+//         return func.id;
+//       },
+//       // **Align** CFG to start on the `left`
+//       align: "left",
+//       // **Style** nodes based on the function name and create tooltips.
+//       // **Animate** transitions for all of the nodes and links.
+//       node_options: {
+//         title: function(func) {
+//           return func.name;
+//         },
+//         animate: true,
+//         duration: 2000
+//       },
+//       rect_options: {
+//         styles: {
+//           fill: function(func) {
+//             return function_color(func.name);
+//           },
+//           stroke: "black"
+//         },
+//         animate: true,
+//         duration: 2000
+//       },
+//       link_options: {
+//         // A poor-performing method of constructing a tooltip with function names.
+//         // A look-up hash could be used.  The sankey object could be extended with this
+//         // functionality if requested for relatively little additional space cost.
+//         title: function(link) {
+//           return (
+//             cfg.data.filter(function(f) {
+//               return f.id == link.source;
+//             })[0].name +
+//             " → " +
+//             cfg.data.filter(function(f) {
+//               return f.id == link.target;
+//             })[0].name
+//           );
+//         },
+//         animate: true,
+//         duration: 2000
+//       },
+//       path_options: {
+//         animate: true,
+//         duration: 2000
+//       },
+//       // Add text **labels** for each node
+//       node_label_options: {
+//         text: function(func) {
+//           return func.name;
+//         },
+//         styles: {
+//           "font-weight": "bold",
+//           "font-size": "x-small"
+//         },
+//         orientation: "horizontal",
+//         animate: true,
+//         duration: 2000
+//       }
+//     };
+//     super.updateChartOptions(sankeyOptions);
+//     var cfg = new bb.Butterfly(sankeyOptions);
+//     cfg.render();
+
+//     $(sankeyId+" g .node").click(function(e) {
+//       onClick(e.currentTarget.__data__);
+//     });
+    
+//   }
+
+//   resize() {
+//     this.sankey.resize();
+//   }
+// }
 
 
 class TimeLineChart extends BaseChart {
