@@ -1,8 +1,13 @@
 import $ from 'jquery';
 import billoard from "billboard.js";
-import * as d3 from 'd3'
+var d3 = require('d3/d3');
 import c3 from "c3";
 import 'c3/c3.min.css'
+//Sankey
+import 'chartcollection/js/c3.js'
+// var b = require('chartcollection/js/c3-graph');
+//import Butterfly from 'chartcollection/js/c3-graph.js'
+
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'datatables/media/css/jquery.dataTables.css';

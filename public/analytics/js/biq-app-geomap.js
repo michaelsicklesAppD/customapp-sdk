@@ -14,7 +14,6 @@ const iconSize =32;
 var GREENSTORE_ICON,YELLOWSTORE_ICON,REDSTORE_ICON;
 
 var DEFAULT_STORE_ICONS;
-
 class StoreModel {
     constructor(data){
         this.id = data[0];

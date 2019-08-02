@@ -5,6 +5,9 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             d3: 'd3'
+        }),
+        new webpack.ProvidePlugin({
+            c3: 'c3'
         })
      ],
     module: {
