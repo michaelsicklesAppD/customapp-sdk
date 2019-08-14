@@ -46,24 +46,28 @@ class StoreModel {
         var health = this.getHealth();
         return this.storeIcons[health];    
     }
+    
 
     draw(geoMapComponent){
         //now convert long and lat into x,y
-        this.pos = geoMapComponent.getPosition(this.geoInfo.latitude,this.geoInfo.longitude);
-        image(this.getImageIcon(),this.pos.x,this.pos.y,iconSize,iconSize);  
+        //this.pos = geoMapComponent.getPosition(this.geoInfo.latitude,this.geoInfo.longitude);
+
+        var circleMarker = L.circle([this.geoInfo.latitude, this.geoInfo.longitude], {title:this.id,color:this.getHealth(),weight:5,radius:5000}).addTo(geoMapComponent.storeFeatureGroup);
         
-        fill(255,255,255,0); 
-        ellipseMode(CENTER); 
-        if(this.getHealth() == _MODEL_RED){
-            stroke(255, 0, 0);
-        }else if (this.getHealth() == _MODEL_GREEN){
-            stroke(0, 255, 0); 
-        }else{
-            stroke(255, 255, 0);
-        }
-        strokeWeight(5);
-        ellipse(this.pos.x, this.pos.y, iconSize*2, iconSize*2); 
-        strokeWeight(0);
+        // image(this.getImageIcon(),this.pos.x,this.pos.y,iconSize,iconSize);  
+        
+        // fill(255,255,255,0); 
+        // ellipseMode(CENTER); 
+        // if(this.getHealth() == _MODEL_RED){
+        //     stroke(255, 0, 0);
+        // }else if (this.getHealth() == _MODEL_GREEN){
+        //     stroke(0, 255, 0); 
+        // }else{
+        //     stroke(255, 255, 0);
+        // }
+        // strokeWeight(5);
+        // ellipse(this.pos.x, this.pos.y, iconSize*2, iconSize*2); 
+        // strokeWeight(0);
     }
 
     clicked(mouseX,mouseY){
@@ -77,10 +81,12 @@ class GeoMapComponent extends BaseChart {
     constructor(options) {
         options.div = options.targetId;
         super(options);
-        this.mappa = new Mappa('Leaflet');
+        //this.mappa = new Mappa('Leaflet');
+
         this.canvas = createCanvas(windowWidth-25,windowHeight-175).parent(options.div); 
         this.map = null;
         this.dataModels = [];
+        this.storeFeatureGroup = null;
         
         GREENSTORE_ICON = loadImage('/img/geomap/store-green.png');
         YELLOWSTORE_ICON = loadImage('/img/geomap/store-yellow.png');
@@ -99,7 +105,7 @@ class GeoMapComponent extends BaseChart {
     }
 
     renderChart(onClick){
-        imageMode(CENTER);
+        
         var data = this.getOptions().data;
         // if(!data){
         //     data = this.generateSampleData();
@@ -118,22 +124,26 @@ class GeoMapComponent extends BaseChart {
         }
 
         super.updateChartOptions(options);
-        this.map = this.mappa.tileMap(options); 
-        this.map.overlay(this.canvas);
+        this.map = L.map(super.getOptions().div, {preferCanvas:true});
+        L.tileLayer(options.style,{minZoom: 1, maxZoom: 18, attribution: options.attribution}).addTo(this.map);
+        this.map.setView([options.lat, options.lng], options.zoom);
+        this.storeFeatureGroup = L.featureGroup().addTo(this.map);
+        this.map.featureGroup = this.storeFeatureGroup;
         var comp = this;
-        this.map.onChange(function(){
-            comp.drawModels();
-        });
+        // this.map.onChange(function(){
+        //     comp.drawModels();
+        // });
         this.drawModels();
     }
 
     getPosition(lat,long){
-        return this.map.latLngToPixel(lat, long);
+        return this.map.getPosition();
     }
 
 
     drawModels(){
         clear();
+        this.storeFeatureGroup.clearLayers();
         var comp = this;
         var models = this.dataModels;
         models.forEach(function(model){

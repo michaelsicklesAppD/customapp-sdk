@@ -4,10 +4,9 @@ module.exports = {
     entry: ['./src/main.js'],
     plugins: [
         new webpack.ProvidePlugin({
-            d3: 'd3'
-        }),
-        new webpack.ProvidePlugin({
-            c3: 'c3'
+            d3: 'd3',
+            c3: 'c3',
+            chartcollection: 'chartcollection'
         })
      ],
     module: {
@@ -30,6 +29,14 @@ module.exports = {
             {
                 loader: 'expose-loader',
                 options: 'd3'
+            }
+        },
+        {
+            test: require.resolve('chartcollection'),
+            use:
+            {
+                loader: 'expose-loader',
+                options: 'chartcollection'
             }
         }
         ,

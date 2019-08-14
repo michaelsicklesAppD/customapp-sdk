@@ -1,0 +1,39 @@
+{
+    "version":"1.0",
+    "libraries": [
+      "jquery/dist/jquery.min.js",
+      "billboard.js/dist/billboard.min.js",
+      "billboard.js/dist/billboard.min.css",
+      "d3/d3.min.js",
+      "chartcollection/js/c3.js",
+      "chartcollection/js/c3-graph.js",
+      "chartcollection/css/c3.css",
+      "c3/c3.min.js",
+      "c3/c3.min.css",
+      "bootstrap/dist/js/bootstrap.min.js",
+      "bootstrap/dist/css/bootstrap.min.css",
+      "datatables/media/css/jquery.dataTables.min.css",
+      "datatables/media/js/jquery.dataTables.min.js",
+      "animsition/dist/js/animsition.min.js",
+      "animsition/dist/css/animsition.min.css",
+      "leaflet/dist/leaflet.js",
+      "jsrender/jsrender.min.js",
+      "prismjs/prism.js",
+      "prismjs/themes/prism.css",
+      "spin.js/spin.js",
+      "spin.js/spin.css",
+      "@fortawesome/fontawesome-free/css/all.min.css",
+      "font-awesome/css/font-awesome.min.css",
+      "font-awesome/fonts/fontawesome-webfont.woff2",
+      "font-awesome/fonts/fontawesome-webfont.woff",
+      "font-awesome/fonts/fontawesome-webfont.ttf"
+    
+
+
+
+
+
+
+
+    ]
+}
