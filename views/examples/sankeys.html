@@ -65,50 +65,9 @@
 			<div class="row">
 				<div id="butterfly" class="col-md-10"></div>	
 			</div>	
-			<div class="row"><hr/></div>
-			<div class="row">
-					<div class="col-md-6">
-						<p>Plotly Sankey Diagram</p>
-						<ul>
-							<li>This component is based on <a href="https://plot.ly/javascript/sankey-diagram/">https://plot.ly/javascript/sankey-diagram/</a> </li>
-							<li>No need to include anything else, plotly is already included.</li>
-							<li>You need to set the width and height on the style of the element</li>
-						</ul>
-						<pre><code class="language-javascript">			
+		
 
-	&lt;div id="chart2" style="width:600px;height:250px;"/&gt;
 
-	....
-
-	var plotlyData={
-		nodes : ["RuntimeException",
-		"Login Service",
-		"DB Service",
-		"Customer A",
-		"Customer B"],
-		source : [1,1,2,2,3],
-		target : [2,3,4,5,5],
-		values : [15,5,10,5,2]
-	}
-
-	sankeyChart = new PlotlySankeyChart({
-		targetId:"chart2",
-		title:"Flow",
-		data:plotlyData,
-	});
-	sankeyChart.renderChart(function(selection){
-		alert(JSON.stringify(selection));
-	});
-	
-	</code></pre>
-	
-					</div>				
-			</div>
-			<div class="row">
-					<div class="col-md-12">
-						<div id="chart2" style="width:600px;height:250px;"/>
-					</div>
-			</div>
 		</div>
 		</div>
     </div>
@@ -151,14 +110,7 @@
 			values : [15,5,10,5,2]
 		}
 
-		sankeyChart = new PlotlySankeyChart({
-			targetId:"chart2",
-			title:"Flow",
-			data:plotlyData,
-		});
-		sankeyChart.renderChart(function(selection){
-			alert(JSON.stringify(selection));
-		});
+		
 
 	}
 
