@@ -17,6 +17,7 @@
       "animsition/dist/js/animsition.min.js",
       "animsition/dist/css/animsition.min.css",
       "leaflet/dist/leaflet.js",
+      "leaflet/dist/leaflet.css",
       "jsrender/jsrender.min.js",
       "prismjs/prism.js",
       "prismjs/themes/prism.css",
@@ -26,14 +27,17 @@
       "font-awesome/css/font-awesome.min.css",
       "font-awesome/fonts/fontawesome-webfont.woff2",
       "font-awesome/fonts/fontawesome-webfont.woff",
-      "font-awesome/fonts/fontawesome-webfont.ttf"
-    
-
-
-
-
-
-
+      "font-awesome/fonts/fontawesome-webfont.ttf",
+      "@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2",
+      "@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff",
+      "@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf",
+      "bootstrap/dist/js/bootstrap.min.js.map",
+      "jsrender/jsrender.min.js.map",
+      "bootstrap/dist/css/bootstrap.min.css.map",
+      "bootstrap/dist/js/bootstrap.min.js.map",
+      "jsrender/jsrender.min.js.map",
+      "p5/lib/p5.min.js",
+      "p5/lib/addons/p5.dom.min.js"
 
     ]
 }
