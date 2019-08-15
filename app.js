@@ -12,12 +12,15 @@ var configManager = require('./src/ConfigManager.js');
 var analyticsManager = require('./src/AnalyticsManager.js');
 var analyticsRoute = require('./routes/analytics-route.js');
 
+
+
+
 var log = log4js.getLogger("app");
 var app = express();
 
-console.log("App running on port :"+configManager.getLocalPort());
+console.log("App running on port :" + configManager.getLocalPort());
 
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
     req.restManager = restManager;
     req.analyticsManager = analyticsManager;
     res.locals.controller = configManager.getControllerUrl();
@@ -31,59 +34,81 @@ app.use(function(req,res,next){
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
-app.engine('html',require('ejs').renderFile);
+app.engine('html', require('ejs').renderFile);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
+app.get('/public/webpack/*', function (req, res) {
+    res.sendFile(__dirname + req.url);
+});
+app.use(express.static(__dirname + '/public/webpack'));
 
-app.get('/public/images/*', function (req,res)
-{
-    res.sendFile (__dirname+req.url);
+
+app.use(express.static(__dirname + '/src'));
+app.get('/public/images/*', function (req, res) {
+    res.sendFile(__dirname + req.url);
 });
 app.use(express.static(__dirname + '/public/images'));
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/analytics',analyticsRoute);
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
+app.use('/analytics', analyticsRoute);
 
-app.get('/', function(req, res){ 
+app.get('/', function (req, res) {
     res.redirect('/views/index.html');
-}); 
+});
 
-app.get('/views/index.html', function(req, res){ 
-    res.render('index.html'); 
-}); 
+app.get('/views/index.html', function (req, res) {
+    res.render('index.html');
+});
 
-if (configManager.getDashboards()){
-    configManager.getDashboards().forEach(function(dashboard){
-        dashboard.views.forEach(function(view){
+if (configManager.getLibraries()) {
+    configManager.getLibraries().forEach(function (library) {
+        var url = "/node_modules/" + library;
+        console.log("Adding Library Path : " + url);
+        app.get(url, function (req, res) {
+            res.sendFile(__dirname + url);
+        });
+        //Serves all the request which includes /images in the url from Images folder
+        //app.use('/library', express.static('node_modules/' + library));
+
+        // app.get( path, function(req, res){ 
+        //     //console.log(".."+req.path);
+        //     res.render(".."+url); 
+        // }); 
+    });
+}
+if (configManager.getDashboards()) {
+    configManager.getDashboards().forEach(function (dashboard) {
+        dashboard.views.forEach(function (view) {
             var viewUrl = "";
-            if(dashboard.path.length>1){
-                viewUrl = dashboard.path+"/"+view;
-            }else{
-                viewUrl = "/"+view;
+            if (dashboard.path.length > 1) {
+                viewUrl = dashboard.path + "/" + view;
+            } else {
+                viewUrl = "/" + view;
             }
-            var path = "/views"+viewUrl;
-            console.log("registring : "+path);
-            app.get( path, function(req, res){ 
+            var path = "/views" + viewUrl;
+            console.log("registring : " + path);
+            app.get(path, function (req, res) {
                 //console.log(".."+req.path);
-                res.render(".."+req.path); 
-            }); 
+                res.render(".." + req.path);
+            });
         });
     });
 }
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error(req.originalUrl,'Not Found');
+app.use(function (req, res, next) {
+    var err = new Error(req.originalUrl, 'Not Found');
     err.status = 404;
     next(err);
 });
 
 
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-    	log.error("Something went wrong:", err);
+    app.use(function (err, req, res, next) {
+        log.error("Something went wrong:", err);
         res.status(err.status || 500);
         res.render('error.html', {
             message: err.message,
@@ -92,8 +117,8 @@ if (app.get('env') === 'development') {
     });
 }
 
-app.use(function(err, req, res, next) {
-	log.error("Something went wrong:", err);
+app.use(function (err, req, res, next) {
+    log.error("Something went wrong:", err);
     res.status(err.status || 500);
     res.render('error.html', {
         message: err.message,
@@ -102,8 +127,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-process.on('exit', function() {
-	console.log("shutting down");
+process.on('exit', function () {
+    console.log("shutting down");
 });
 
 module.exports = app;
