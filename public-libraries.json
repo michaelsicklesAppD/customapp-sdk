@@ -37,7 +37,8 @@
       "bootstrap/dist/js/bootstrap.min.js.map",
       "jsrender/jsrender.min.js.map",
       "p5/lib/p5.min.js",
-      "p5/lib/addons/p5.dom.min.js"
+      "p5/lib/addons/p5.dom.min.js",
+      "d3-sankey/dist/d3-sankey.min.js"
 
     ]
 }
