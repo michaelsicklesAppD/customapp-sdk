@@ -96,6 +96,7 @@ if (configManager.getDashboards()) {
             });
         });
     });
+    console.log("\n\nAccess website at \"http://localhost:3000/views/index.html\"");
 }
 
 // catch 404 and forward to error handler
