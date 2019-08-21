@@ -11,7 +11,7 @@ var restManager = require('./src/RestManager.js');
 var configManager = require('./src/ConfigManager.js');
 var analyticsManager = require('./src/AnalyticsManager.js');
 var analyticsRoute = require('./routes/analytics-route.js');
-
+const fs = require('fs')
 
 
 
@@ -19,6 +19,30 @@ var log = log4js.getLogger("app");
 var app = express();
 
 console.log("App running on port :" + configManager.getLocalPort());
+
+
+const configpath = './config.json'
+const configjson = {
+    "localport":3000,
+    "controller":"",
+    "https":true,
+    "globalKey":"",
+    "accessKey":"",
+    "analyticsUrl":"https://analytics.api.appdynamics.com",
+    "restdebug":false,
+    "proxy_old": "http://<user>:<password>@<host>:<port>"
+};
+try {
+  if (!fs.existsSync(configpath)) {
+    config = configjson;
+    fs.writeFile(configpath, JSON.stringify(configjson), function (err) {
+        if (err) throw err;
+        console.log('Config file "config.json" was missing.  Created with default values.');
+      }); 
+  }
+} catch(err) {
+  console.error(err);
+}
 
 app.use(function (req, res, next) {
     req.restManager = restManager;
@@ -64,9 +88,9 @@ app.get('/views/index.html', function (req, res) {
 });
 
 if (configManager.getLibraries()) {
+    console.log("Adding libraries...");
     configManager.getLibraries().forEach(function (library) {
         var url = "/node_modules/" + library;
-        console.log("Adding Library Path : " + url);
         app.get(url, function (req, res) {
             res.sendFile(__dirname + url);
         });
