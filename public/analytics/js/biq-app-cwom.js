@@ -83,22 +83,28 @@ class CWOMPanelComponent extends BaseComponent {
         var tmpl = $.templates({
             markup: _cwomPanelComponent,
             converters: {
-                hasActions: function(type, actions) {
+                hasActions: function(type, actions, critOnly) {
                     if(type && actions) {
                         var subactions = actions.filter(action => action.target.className === type);
-                        return subactions.length > 0;
+                        
+                        if(critOnly) {
+                            return subactions.filter(action => action.risk.severity === 'CRITICAL').length > 0
+                        } else {
+                            return subactions.length > 0;
+                        }
+                        
                     } else  {
                         return false;
                     }
                     
                 },
-                getIconClass: function(type, actions) {
+                getIconClass: function(type, actions, critOnly) {
                     var subactions = actions.filter(action => action.target.className === type);
                     if(subactions.filter(action => action.risk.severity === 'CRITICAL').length > 0) {
                         return 'sevIconCritical';
-                    } else if(subactions.filter(action => action.risk.severity === 'MAJOR').length > 0) {
+                    } else if(subactions.filter(action => action.risk.severity === 'MAJOR').length > 0 && !critOnly) {
                         return 'sevIconMajor';
-                    } else if(subactions.filter(action => action.risk.severity === 'MINOR').length > 0) {
+                    } else if(subactions.filter(action => action.risk.severity === 'MINOR').length > 0 && !critOnly) {
                         return 'sevIconMinor';
                     } else {
                         return 'sevIconNone';
@@ -106,9 +112,14 @@ class CWOMPanelComponent extends BaseComponent {
                 
 
                 },
-                countSeverity: function(actions, type, severity) {
+                countSeverity: function(actions, type, severity, critOnly) {
                     var subactions = actions.filter(action => action.target.className === type);
-                    var count = subactions.filter(action => action.risk.severity === severity).length;
+                    if(critOnly && severity !== "CRITICAL") {
+                        return 0;
+                    } else {
+                        var count = subactions.filter(action => action.risk.severity === severity).length;
+                    }
+                    
 
                     return count;
                 },
