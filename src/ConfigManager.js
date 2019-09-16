@@ -134,3 +134,7 @@ exports.getDashboards = function(){
 exports.getLibraries = function(){
 	return libraries.libraries;
 }
+
+exports.getCWOMConfig = function(){
+	return config.cwom_config;
+}

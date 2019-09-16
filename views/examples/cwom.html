@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BiQ App - Dashboard</title>
+	<meta charset="UTF-8">
+	<% include ../partials/theme %>
+	<% include ../examples/head %>
+</head>
+
+<body>
+	<div class="wrapper">
+		<aside class="menu-sidebar">
+			<div class="logo">
+				<a href="#">
+					<img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" />
+				</a>
+			</div>
+			<div class="menu-sidebar__content js-scrollbar1">
+				<nav class="navbar-sidebar">
+					<ul class="nav" id="side-menu"></ul>
+				</nav>
+			</div>
+		</aside>
+		<div class="page-container">
+			<div class="container-fluid">
+				<!-- Main Page -->
+
+				<div id="CWOMTest" class="row"></div>
+
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	function getCounts(type, actions) {
+		var subactions = actions.filter(action => action.target.className === type)
+		var data = {
+			type : type,
+			critical : subactions.filter(action => action.risk.severity === 'CRITICAL').length,
+			major : subactions.filter(action => action.risk.severity === 'MAJOR').length,
+			minor : subactions.filter(action => action.risk.severity === 'MINOR').length,
+		}
+		return data;
+	}
+
+	var buildDashboard = function () {
+
+		makeGetCall("/cwom/actions", function (results) {
+			var actions = [];
+			if (results && results.actions) {
+				actions = results.actions;
+			}
+			var counts = {};
+			if(results && results.counts) {
+				counts = results.counts;
+			}
+			console.log(actions);
+			
+			var data = {
+				targetId: "CWOMTest",
+				title: "CWOM Test",
+				icons: counts,
+				actions: actions
+			};
+			new CWOMPanelComponent(data).draw(function () {
+				//buildDashboard();
+			});;
+
+
+		});
+
+		// new CWOMIconComponent({
+		// 	title: "CWOM Test",
+		// 	targetId: "CWOMTest",
+		// 	critical: 0,
+		// 	major: 0,
+		// 	minor: 0,
+		// 	type: "AppServer"
+		// }).draw(function () {
+		// 	//buildDashboard();
+		// });
+	}
+	buildDashboard();
+</script>
+
+</html>
