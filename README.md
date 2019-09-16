@@ -50,6 +50,22 @@ If you are running your controller with a different port e.g. 8090 then you need
 7. Open browser to:
    http://localhost:3000
 
+
+# CWOM Configuration
+
+add the following object to the config.json file
+
+```
+"cwom_config": {
+		"turboserver": "https://<my.turbo.server.com>",
+		"username": "<username>",
+		"password": "<password>",
+		"uuid": "<uuid>",
+		"vmUUids":[ <string array of vmUUIDs> ]
+	}
+```
+
+
 # Documentation
 You can navigate to http://localhost:3000/views/examples/intro.html
 
