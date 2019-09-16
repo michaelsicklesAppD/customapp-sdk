@@ -2,9 +2,6 @@ var _cwomIconComponent = "#_cwomIconComponent";
 var _cwomPanelComponent = "#_cwomIconPanel";
 
 
-
-var _cwomPanelComponentTemplate = '_cwomPanelComponent';
-
 class CWOMIconComponent extends BaseComponent {
     constructor(options) {
         if (!options.action) {
@@ -40,21 +37,37 @@ class CWOMPanelComponent extends BaseComponent {
             options.action = options.title;
         }
         options.hasChart = false;
+        //options.selectedFilter = 'none';
         super(options, null);
     }
     draw(onClick, callback) {
         var options = super.getOptions();
-        $("#" + options.targetId).html(
-            $.templates({
+        //$("#" + options.targetId).html(
+        var container = "#" + options.targetId;
+        $.views.helpers({
+            actionFilter: function (action, index, actions) {
+                var view = this;
+                var type = view.ctxPrm("selectedFilter") || "";
+                var critOnly = view.ctxPrm("critOnly");
+                var correct_class = action.target.className === type;
+                var matches_filter = correct_class;
+                if(critOnly) {
+                    matches_filter = correct_class && action.risk.severity === "CRITICAL";
+                }
+                return  matches_filter;
+        }});
+        $.views.helpers.actionFilter.depends = ["~selectedFilter", "~critOnly"];
+        
+        var tmpl = $.templates({
                 markup: _cwomPanelComponent,
                 converters: {
-                    actionCount: function (actioncounts) {
+                    actionCount: function (actioncounts, critOnly) {
                         var count = 0;
                         for (var i = 0; i < actioncounts.length; i++) {
                             var ac = actioncounts[i];
                             count += ac.critical || 0;
-                            count += ac.major || 0;
-                            count += ac.minor || 0;
+                            count += critOnly ? 0 : ac.major || 0;
+                            count += critOnly ? 0 : ac.minor || 0;
                         }
                         return count;
                     },
@@ -100,54 +113,18 @@ class CWOMPanelComponent extends BaseComponent {
                     }
 
                 }
-            }).render(options, {
-                actionFilter: function (action, index, actions) {
-                    return action.target.className === this.props.type;
-                }
-            })
-        );
-        if (options.animate) {
-            animateDiv(options.targetId, options.animate);
-        }
-    }
-}
+            });
+          //  .render(options, )
+        tmpl.link(container, options, {
+            selectedFilter: 'none',
+            critOnly: false,
+            updateFilter: function(newfilter, ev, eventArgs) {
+                var view = eventArgs.view;
+                view.ctxPrm("selectedFilter", newfilter);
+            }
+            
+        } );
 
-class CWOMActionComponent extends BaseComponent {
-
-    constructor(options) {
-        if (!options.action) {
-            options.action = options.title;
-        }
-        options.hasChart = false;
-        super(options, null);
-    }
-
-    draw(onClick, callback) {
-        var options = super.getOptions();
-        $("#" + options.targetId).html(
-            $.templates(_cwomPanelComponentTemplate).render(options)
-        );
-        if (options.animate) {
-            animateDiv(options.targetId, options.animate);
-        }
-    }
-}
-
-class CWOMActionDetailComponent extends BaseComponent {
-
-    constructor(options) {
-        if (!options.action) {
-            options.action = options.title;
-        }
-        options.hasChart = false;
-        super(options, null);
-    }
-
-    draw(onClick, callback) {
-        var options = super.getOptions();
-        $("#" + options.targetId).html(
-            $.templates(_cwomPanelComponentTemplate).render(options)
-        );
         if (options.animate) {
             animateDiv(options.targetId, options.animate);
         }

@@ -62,15 +62,15 @@
 </script>
 <script id="_cwomIconComponent" type="text/x-jsrender">
     <div class='col-2' style='display:inline-block; text-align: center;'>
-        <a href='#' onClick='javascript:showAppServerActions();'> <!-- TODO make it onclick -->
+        <a class="cwomIcon" data-link="{on ~updateFilter type}">
             {{include tmpl="#_SVGIcon"/}}
         </a>
         <br/>
         <div style='margin:5px; text-align:center; display:contents;'>
             {{if (critical > 0) || (major > 0) || (minor > 0)}}
                 <span class='badge badge-danger db-dash' title='Critical Actions'>{{:critical}}</span>
-                <span class='badge badge-warning db-dash' title='Major Actions'>{{:major}}</span>
-                <span class='badge badge-minor db-dash' title='Minor Actions'>{{:minor}}</span>
+                <span class='badge badge-warning db-dash' title='Major Actions'>{^{if ~critOnly }}0{{else}}{{:major}}{{/if}}</span>
+                <span class='badge badge-minor db-dash' title='Minor Actions'>{^{if ~critOnly }}0{{else}}{{:minor}}{{/if}}</span>
             {{else}}
                 <span class='badge badge-light db-dash' title='No Actions'>0</span>&nbsp;
             {{/if}}
@@ -96,11 +96,10 @@
 <script id="_cwomIconPanel" type="text/x-jsrender">
     <div class='col-12' style='display:contents;'>
         <div class='col-9' style='display:inline-block;'>
-             <p class='h3'>{{actionCount:icons}} Pending Actions - CWOM</p>
+             <p class='h3'>{^{actionCount:icons ~critOnly}} Pending Actions - CWOM</p>
         </div>
         <div class='col-2' style='display:inline-block;padding: 0px;'>
-            <div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='critCheckbox' 
-               onClick='javascript:ToggleCritOnly();' (critOnly ? "checked" : "")>
+            <div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' data-link="~critOnly" id='critCheckbox' />
                <label class='custom-control-label' for='critCheckbox'>Show Critical Only</label>
             </div>
         </div>
@@ -114,112 +113,16 @@
         <div class='col-1' style='display:inline-block;'>&nbsp;</div>
     </div>
 
-        {{for actions filter=~actionFilter type="ApplicationServer"}}
+        {^{for actions filter=~actionFilter }}
             {{include  tmpl="#_actionHeaderRecommendation"/}}
         {{/for}}
 
-        {{for actions filter=~actionFilter type="VirtualMachine"}}
-            {{include  tmpl="#_actionHeaderRecommendation"/}}
-        {{/for}}
 
-        {{for actions filter=~actionFilter type="VirtualMachine"}}
-            {{include  tmpl="#_itemDetail"/}}
-         {{/for}}
-      
-
-</div>
 
 </script>
-<script id="_cwomPanelComponent" type="text/x-jsrender">
+<script id="_actionHeaderRecommendation" type="text/x-jsrender">
 
-  <div class='col-12' style='display:contents;'>
-   <div class='col-9' style='display:inline-block;'>
-    <p class='h3'>{{:vmActionH.length + asActionH.length}} Pending Actions - CWOM</p>
-   </div>
-   <div class='col-2' style='display:inline-block;padding: 0px;'>
-     <div class='custom-control custom-checkbox'><input type='checkbox' class='custom-control-input' id='critCheckbox' ";
-      
-      onClick='javascript:ToggleCritOnly();' {{if critOnly}}checked{{/if}}>
-      <label class='custom-control-label' for='critCheckbox'>Show Critical Only</label>
-     </div>
-   </div>
-  </div>
-  <div class='col-12' style='height:20px'>&nbsp;</div>
-  <div class='col-12' style='display:contents;'>
-    <div class='col-1' style='display:inline-block;'>&nbsp;</div>
-    <div class='col-2' style='display:inline-block; text-align: center;'>
-      <a href='#' onClick='javascript:showAppServerActions();'>
-     <br/>
-      </a>
-      <div style='margin:5px; text-align:center; display:contents;'>
-        <span class='badge badge-danger db-dash' title='Critical Actions'>{{:asCritical}}</span>
-        <span class='badge badge-warning db-dash' title='Major Actions'>{{:asMajor}}</span>
-        <span class='badge badge-minor db-dash' title='Minor Actions'>{{:asMinor}}</span>
-      </div>
-      <div><small>Application<br/>Server</small></div>
-    </div>
-    <div class='col-2' style='display:inline-block; text-align: center;'>
-      <a href='#' onClick='javascript:showVMActions();'>
-   <br/>
-      </a>
-      <div style='margin:5px; text-align:center; display:contents;'>
-        <span class='badge badge-danger db-dash' title='Critical Actions'>{{:vmCritical}}</span>&nbsp;
-        <span class='badge badge-warning db-dash' title='Major Actions'>{{:vmMajor}}</span>&nbsp;
-        <span class='badge badge-minor db-dash' title='Minor Actions'>{{:vmMinor}}</span>&nbsp;
-      </div>
-      <div><small>Virtual<br/>Machine</small></div>
-    </div>
-    <div class='col-2' style='display:inline-block; text-align: center;'>
-    <br/>
-      <div style='margin:5px; text-align:center; display:contents;'>
-        <span class='badge badge-light db-dash' title='No Actions'>0</span>&nbsp;
-      </div>
-      <div><small>Server<br/>&nbsp;</small></div>
-    </div>
-    <div class='col-2' style='display:inline-block; text-align: center;'>
-    <br/>
-      <div style='margin:5px; text-align:center; display:contents;'>
-        <span class='badge badge-light db-dash' title='No Actions'>0</span>&nbsp;
-      </div>
-      <div><small>Database<br/>&nbsp;</small></div>
-    </div>
-    <div class='col-2' style='display:inline-block; text-align: center;'>
-   <br/>
-      <div style='margin:5px; text-align:center; display:contents;'>
-        <span class='badge badge-light db-dash' title='No Actions'>0</span>&nbsp;
-      </div>
-      <div><small>Storage<br/>&nbsp;</small></div>
-    </div>
-    <div class='col-1' style='display:inline-block;'>&nbsp;</div>
-  </div>
-  <div class='row' style='margin: 20px 0px 0px -20px;'>
-      <div class='col-12' style='display:block;padding-right:0px;'>
-          <div class='list-group' id='list-tab-as' role='tablist' style='display:contents;'>
-              {{for asActionH }}
-                  {{:}}
-              {{/for}}
-          </div>
-          <div class='list-group' id='list-tab-vm' role='tablist' style='display:contents;'>
-              {{for vmActionH }}
-                  {{:}}
-              {{/for}}
-          </div>
-      </div>
-      <div class='col-12' style='display:block;padding-right:0px;'>
-          <div class='tab-content' id='nav-tabContent'>
-              {{for vmActionD }}
-                  {{:}}
-              {{/for}}
-              {{for asActionD }}
-                  {{:}}
-              {{/for}}
-          </div> 
-      </div>
-  </div>
-</script>
-<script  id="_actionHeaderRecommendation" type="text/x-jsrender" >
 
-    
      <div class='card {{if risk.severity === "CRITICAL" }}border-danger{{else }}border-secondary{{/if}} mb-3'>
        <div class='card-header-{{:risk.severity}}'>{{:risk.severity}}</div>
        <div class='card-header'><img src='/img/{{if target.className === "ApplicationServer" }}as{{else target.className === "VirtualMachine" }}vm{{/if}}.png' class='actionicon'/><span {{if risk.severity === "CRITICAL" }}style='color:#FF0000;'{{/if}}>{{if target.className === "ApplicationServer" }}Application Server{{else target.className === "VirtualMachine" }}Virtual Machine{{/if}} Action</span></div>
@@ -265,133 +168,133 @@
     var costColorAfter = (thisAction.getRateBefore() > thisAction.getRateAfter() ? "teal-text" : "pink-text"); -->
 
 
-    
-    <div class='card tab-pane ' id='list-{{:uuid}}' role='tabpanel' aria-labelledby='list-{{:uuid}}-list' style='max-width:95%;padding: 5px 0px 25px 5px;'>
-      <div class='col-12' style='display:flex;margin:20px 0px 10px 0px;'><h5>
-    {{:details}}</h5>
+
+<div class='card tab-pane ' id='list-{{:uuid}}' role='tabpanel' aria-labelledby='list-{{:uuid}}-list'
+  style='max-width:95%;padding: 5px 0px 25px 5px;'>
+  <div class='col-12' style='display:flex;margin:20px 0px 10px 0px;'>
+    <h5>
+      {{:details}}</h5>
+  </div>
+
+  <div class='col-12' style='display:flex;padding-left:0px;margin-bottom:10px;'>
+    <div class='col-12' style='display:inline-block;'>
+      <span class='vmt-subtitle'> {{:risk.description}}</span>
+    </div>
+  </div>
+  <div class='col-12' style='display:inline-block;'>
+    <small>{{:risk.subCategory}}</small>
+  </div>
+
+
+  <div class='col-12' style='display:flex;padding-left:0px;margin-top:20px;'>
+    <div class='col-4' style='display:inline-block;'>
+      <div class='col-12'>
+        <span class='classtitle'> {{:target.className}} </span>
       </div>
-    
-      <div class='col-12' style='display:flex;padding-left:0px;margin-bottom:10px;'>
-        <div class='col-12' style='display:inline-block;'>
-          <span class='vmt-subtitle'> {{:risk.description}}</span>
-        </div>
+      <div class='col-12'>
+        <a href='https://appdcwom05.demo.turbonomic.com' target='_new'>
+          <span class='classname'> {{:target.displayName}} </span>
+        </a>
       </div>
-        <div class='col-12' style='display:inline-block;'>
-         <small>{{:risk.subCategory}}</small>
-        </div>
-    
-
-      <div class='col-12' style='display:flex;padding-left:0px;margin-top:20px;'>
-        <div class='col-4' style='display:inline-block;'>                            
-          <div class='col-12'>
-            <span class='classtitle'> {{:target.className}} </span>
-          </div>
-          <div class='col-12'>
-            <a href='https://appdcwom05.demo.turbonomic.com' target='_new'> 
-              <span class='classname'>  {{:target.displayName}}  </span>
-            </a>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Host: </span> <span class='actiondata'> {{:target.aspects.virtualMachineAspect.os}} </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> IP Address: </span> <span class='actiondata'> {{:target.aspects.virtualMachineAspect.ip}} </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Business Account: </span> <span class='actiondata'> {{:target.aspects.cloudAspect.businessAccount.uuid}} </span>
-          </div>
-          <div class='col-12' style='margin-top:20px;'>
-            <span class='categorytitle'> Action Details </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Created: </span> <span class='actiondata'> {{:createTime.substring(0,10)}} </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Type: </span> <span class='actiondata'> {{:actionType.replace("_"," ")}} </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> State: </span> <span class='actiondata'> {{:actionState.replace("_"," ")}} </span>
-          </div>
-        </div>
-
-        <div class='col-4' style='display:inline-block;'>                            
-          <div class='col-12'>
-            <span class='classtitle'> Change Details </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Main Factor: </span> <span class='actiondata'> {{:risk.reasonCommodity}} </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Goal: </span> <span class='actiondata'> {{:risk.subCategory}} </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> Environment: </span> <span class='actiondata'> {{:target.environmentType}} </span>
-          </div>
-          <div class='col-12' style='margin-top:20px;'>
-            <span class='categorytitle'> Resource Details </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> {{:risk.reasonCommodity}} From: </span> <span class='actiondata'> (thisAction.getCurrentValue() > 1000 ? thisAction.getCurrentValue() / 1024 MB" : thisAction.getCurrentValue()) </span>
-          </div>
-          <div class='col-12'>
-            <span class='categorytext'> {{:risk.reasonCommodity}} To: </span> <span class='actiondata'> (thisAction.getNewValue() > 1000 ? thisAction.getNewValue() / 1024MB" : thisAction.getNewValue()) </span>
-          </div>
-        </div>
-
-        <div class='col-4' style='display:inline-block;'>                           
-          <div class='col-12'>
-            <span class='classtitle'> ACTIONS </span>
-          </div>
-          <div class='col-12' style='margin-top:10px;'>
-            <a href='https://appdcwom05.demo.turbonomic.com' target='_new'>
-              <button type='button' class='btn btn-outline-primary waves-effect' style='min-width: 250px;'>Drill Down</button>
-            </a>
-          </div>
-          <div class='col-12'>
-              <button type='button' class='btn btn-outline-default waves-effect' data-toggle='modal' data-target='#modal-{{:uuid}}' 
-    style='min-width: 250px;'>Execute Action</button>
-          </div>
-<!-- //          <div class='col-12'>
-//            <a href='http://cisco.demo.appdynamics.com/controller/#/location=APP_DASHBOARD&timeRange=last_1_hour.BEFORE_NOW.-1.-1.60&application=501&dashboardMode=force' target='_new'>
-//              <button type='button' class='btn btn-outline-secondary waves-effect' style='min-width: 250px;'>View Performance Data</button>
-//            </a>
-//          </div>
-//          <div class='col-12'>
-//            <a href='http://cisco.demo.appdynamics.com/controller/#/location=APP_DASHBOARD&timeRange=last_1_hour.BEFORE_NOW.-1.-1.60&application=501&dashboardMode=force' target='_new'>
-//              <button type='button' class='btn btn-outline-secondary waves-effect' style='min-width: 250px;'>View Business Indicators</button>
-//            </a>
-//          </div> -->
-        </div>
-
+      <div class='col-12'>
+        <span class='categorytext'> Host: </span> <span class='actiondata'> {{:target.aspects.virtualMachineAspect.os}}
+        </span>
       </div>
-    </div> 
-
-    <!-- Modal --> 
-    <div class='modal fade' id='modal-{{:uuid}}' tabindex='-1' role='dialog' aria-labelledby='modalTitle' aria-hidden='true' style='margin-left: 450px;'>
-      <div class='modal-dialog modal-dialog-centered' role='document'>
-        <div class='modal-content'>
-          <div class='modal-header'>
-            <h5 class='modal-title' id='modalTitle'>Execute Action - Confirmation</h5>
-            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-          </div>
-          <div class='modal-body'>
-            Are you sure you want to execute this Action:
-            <p><small><b>{{:details}}</b></small></p>
-          </div>
-          <div class='modal-footer'>
-            <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
-            <button type='button' class='btn btn-primary' onClick=\"javascript:executeAction('{{:uuid}}');\">Confirm</button>
-          </div>
-        </div>
+      <div class='col-12'>
+        <span class='categorytext'> IP Address: </span> <span class='actiondata'>
+          {{:target.aspects.virtualMachineAspect.ip}} </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> Business Account: </span> <span class='actiondata'>
+          {{:target.aspects.cloudAspect.businessAccount.uuid}} </span>
+      </div>
+      <div class='col-12' style='margin-top:20px;'>
+        <span class='categorytitle'> Action Details </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> Created: </span> <span class='actiondata'> {{:createTime.substring(0,10)}} </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> Type: </span> <span class='actiondata'> {{:actionType.replace("_"," ")}} </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> State: </span> <span class='actiondata'> {{:actionState.replace("_"," ")}} </span>
       </div>
     </div>
+
+    <div class='col-4' style='display:inline-block;'>
+      <div class='col-12'>
+        <span class='classtitle'> Change Details </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> Main Factor: </span> <span class='actiondata'> {{:risk.reasonCommodity}} </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> Goal: </span> <span class='actiondata'> {{:risk.subCategory}} </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> Environment: </span> <span class='actiondata'> {{:target.environmentType}} </span>
+      </div>
+      <div class='col-12' style='margin-top:20px;'>
+        <span class='categorytitle'> Resource Details </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> {{:risk.reasonCommodity}} From: </span> <span class='actiondata'>
+          (thisAction.getCurrentValue() > 1000 ? thisAction.getCurrentValue() / 1024 MB" : thisAction.getCurrentValue())
+        </span>
+      </div>
+      <div class='col-12'>
+        <span class='categorytext'> {{:risk.reasonCommodity}} To: </span> <span class='actiondata'>
+          (thisAction.getNewValue() > 1000 ? thisAction.getNewValue() / 1024MB" : thisAction.getNewValue()) </span>
+      </div>
+    </div>
+
+    <div class='col-4' style='display:inline-block;'>
+      <div class='col-12'>
+        <span class='classtitle'> ACTIONS </span>
+      </div>
+      <div class='col-12' style='margin-top:10px;'>
+        <a href='https://appdcwom05.demo.turbonomic.com' target='_new'>
+          <button type='button' class='btn btn-outline-primary waves-effect' style='min-width: 250px;'>Drill
+            Down</button>
+        </a>
+      </div>
+      <div class='col-12'>
+        <button type='button' class='btn btn-outline-default waves-effect' data-toggle='modal'
+          data-target='#modal-{{:uuid}}' style='min-width: 250px;'>Execute Action</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class='modal fade' id='modal-{{:uuid}}' tabindex='-1' role='dialog' aria-labelledby='modalTitle' aria-hidden='true'
+  style='margin-left: 450px;'>
+  <div class='modal-dialog modal-dialog-centered' role='document'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='modalTitle'>Execute Action - Confirmation</h5>
+        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+          <span aria-hidden='true'>&times;</span>
+        </button>
+      </div>
+      <div class='modal-body'>
+        Are you sure you want to execute this Action:
+        <p><small><b>{{:details}}</b></small></p>
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
+        <button type='button' class='btn btn-primary'
+          onClick=\"javascript:executeAction('{{:uuid}}');\">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </script>
 
 
 
 
-
-<div class='row' style='margin: 20px 0px 0px -20px;'>

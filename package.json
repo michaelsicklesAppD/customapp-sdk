@@ -32,7 +32,7 @@
     "https-proxy-agent": "^2.2.2",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
-    "jsrender": "^1.0.4",
+    "jsviews": "^1.0.4",
     "leaflet": "^1.5.1",
     "log4js": "^0.6.38",
     "mocha": "^6.2.0",
