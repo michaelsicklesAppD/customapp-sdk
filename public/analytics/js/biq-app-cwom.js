@@ -37,11 +37,13 @@ class CWOMPanelComponent extends BaseComponent {
             options.action = options.title;
         }
         options.hasChart = false;
+        options.icons = [{type: "ApplicationServer"},{type: "VirtualMachine"},{type: "Host"},{type: "Storage"},{type: "Database"}];
         //options.selectedFilter = 'none';
         super(options, null);
     }
     draw(onClick, callback) {
         var options = super.getOptions();
+
         //$("#" + options.targetId).html(
         var container = "#" + options.targetId;
         $.views.helpers({
@@ -51,79 +53,136 @@ class CWOMPanelComponent extends BaseComponent {
                 var critOnly = view.ctxPrm("critOnly");
                 var correct_class = action.target.className === type;
                 var matches_filter = correct_class;
-                if(critOnly) {
+                if (critOnly) {
                     matches_filter = correct_class && action.risk.severity === "CRITICAL";
                 }
-                return  matches_filter;
-        }});
-        $.views.helpers.actionFilter.depends = ["~selectedFilter", "~critOnly"];
-        
-        var tmpl = $.templates({
-                markup: _cwomPanelComponent,
-                converters: {
-                    actionCount: function (actioncounts, critOnly) {
-                        var count = 0;
-                        for (var i = 0; i < actioncounts.length; i++) {
-                            var ac = actioncounts[i];
-                            count += ac.critical || 0;
-                            count += critOnly ? 0 : ac.major || 0;
-                            count += critOnly ? 0 : ac.minor || 0;
-                        }
-                        return count;
-                    },
-                    getval: function (reasonCommodity, newValue, displayValue) {
-                        var formatBytes = function (a, b) {
-                            if (0 == a)
-                                return "0 Bytes";
-                            a = a * 1024;
-                            var c = 1024,
-                                d = b || 2,
-                                e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
-                                f = Math.floor(Math.log(a) / Math.log(c));
-                            
-                            return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f];
-                        }
-                        var ret = displayValue;
-                        if(reasonCommodity.toUpperCase() === "VMEM" || reasonCommodity.toUpperCase() === "HEAP") {
-                            if(newValue > 1024) {
-                                ret = formatBytes(displayValue,1);
-                            }
-
-                        }
-                        return ret;
-                    },
-                    actionDescription: function (newValue, currentValue, risk) {
-                        return (newValue  > currentValue ? "Scale Up" : "Scale Down") + " " + risk.reasonCommodity;
-                    },
-                    host:function(displayName) { 
-                        return displayName.substring(displayName.indexOf(",")+1, displayName.indexOf("]"));
-
-                    },
-                    ip:function(displayName) {
-                        return displayName.substring(displayName.indexOf("[")+1, displayName.indexOf(",")) 
-                    },  
-                    targetDisplay: function (target, type) {
-                        var ret = '';
-                        if(type === "ApplicationServer") {
-                            ret = target.displayName.substring(target.displayName.indexOf(",") + 1, target.displayName.indexOf("]"));
-                        } else {
-                            ret = target.displayName;
-                        }
-                        return ret;
-                    }
-
+                return matches_filter;
+            },
+            actionDetailFilter: function (action, index, actions) {
+                var view = this;
+                var detailID = view.ctxPrm("detailID") || "";
+                var critOnly = view.ctxPrm("critOnly");
+                var correct_action = action.uuid === detailID;
+                var matches_filter = correct_action;
+                if (critOnly) {
+                    matches_filter = correct_action && action.risk.severity === "CRITICAL";
                 }
-            });
-          //  .render(options, )
+                return matches_filter;
+            },
+            executeAction : function(uuid, ev, eventArgs) {
+                console.log(uuid);
+                var index = options.actions.map(function(e) { return e.uuid; }).indexOf(uuid);
+                console.log(index);
+                $.observable(options.actions).remove(index);
+                return false;
+            }
+        });
+        $.views.helpers.actionFilter.depends = ["~selectedFilter", "~critOnly"];
+        $.views.helpers.actionDetailFilter.depends = ["~detailID", "~critOnly"];
+
+        var tmpl = $.templates({
+            markup: _cwomPanelComponent,
+            converters: {
+                hasActions: function(type, actions) {
+                    if(type && actions) {
+                        var subactions = actions.filter(action => action.target.className === type);
+                        return subactions.length > 0;
+                    } else  {
+                        return false;
+                    }
+                    
+                },
+                getIconClass: function(type, actions) {
+                    var subactions = actions.filter(action => action.target.className === type);
+                    if(subactions.filter(action => action.risk.severity === 'CRITICAL').length > 0) {
+                        return 'sevIconCritical';
+                    } else if(subactions.filter(action => action.risk.severity === 'MAJOR').length > 0) {
+                        return 'sevIconMajor';
+                    } else if(subactions.filter(action => action.risk.severity === 'MINOR').length > 0) {
+                        return 'sevIconMinor';
+                    } else {
+                        return 'sevIconNone';
+                    }
+                
+
+                },
+                countSeverity: function(actions, type, severity) {
+                    var subactions = actions.filter(action => action.target.className === type);
+                    var count = subactions.filter(action => action.risk.severity === severity).length;
+
+                    return count;
+                },
+                actionCount: function (actions, critOnly) {
+                    var count = 0;
+                    if(critOnly) {
+                        return actions.filter(action => action.risk.severity === 'CRITICAL').length;
+                    } else {
+                        return actions.length;
+                    }
+                },
+                getval: function (reasonCommodity, newValue, displayValue) {
+                    var formatBytes = function (a, b) {
+                        if (0 == a)
+                            return "0 Bytes";
+                        a = a * 1024;
+                        var c = 1024,
+                            d = b || 2,
+                            e = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+                            f = Math.floor(Math.log(a) / Math.log(c));
+
+                        return parseFloat((a / Math.pow(c, f)).toFixed(d)) + " " + e[f];
+                    }
+                    var ret = displayValue;
+                    if (reasonCommodity.toUpperCase() === "VMEM" || reasonCommodity.toUpperCase() === "HEAP") {
+                        if (newValue > 1024) {
+                            ret = formatBytes(displayValue, 1);
+                        }
+
+                    }
+                    return ret;
+                },
+                actionDescription: function (newValue, currentValue, risk) {
+                    return (newValue > currentValue ? "Scale Up" : "Scale Down") + " " + risk.reasonCommodity;
+                },
+                host: function (displayName) {
+                    return displayName.substring(displayName.indexOf(",") + 1, displayName.indexOf("]"));
+
+                },
+                ip: function (displayName) {
+                    return displayName.substring(displayName.indexOf("[") + 1, displayName.indexOf(","))
+                },
+                targetDisplay: function (target, type) {
+                    var ret = '';
+                    if (type === "ApplicationServer") {
+                        ret = target.displayName.substring(target.displayName.indexOf(",") + 1, target.displayName.indexOf("]"));
+                    } else {
+                        ret = target.displayName;
+                    }
+                    return ret;
+                }
+
+            }
+        });
+        //  .render(options, )
         tmpl.link(container, options, {
             selectedFilter: 'none',
             critOnly: false,
-            updateFilter: function(newfilter, ev, eventArgs) {
+            detailID: '',
+            updateFilter: function (newfilter, ev, eventArgs) {
                 var view = eventArgs.view;
+                view.ctxPrm("detailID", '');
                 view.ctxPrm("selectedFilter", newfilter);
+            },
+            updateFilterDetails: function (detailID, ev, eventArgs) {
+                var view = eventArgs.view;
+                var currentID = view.ctxPrm("detailID");
+                if(detailID === currentID) {
+                    detailID = '';
+                }
+                view.ctxPrm("detailID", detailID);
             }
-            
-        } );
+
+        });
 
         if (options.animate) {
             animateDiv(options.targetId, options.animate);

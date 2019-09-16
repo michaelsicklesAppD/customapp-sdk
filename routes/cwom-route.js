@@ -19,7 +19,8 @@ router.get('/actions', function(req, res) {
         console.log('The List is:');
         console.log(actions);
         var results  = {
-            actions :actions,
+            cwomserver: cwomsvc.config.turboserver,
+            actions : actions,
             counts: [getCounts("ApplicationServer", actions), getCounts("VirtualMachine", actions), getCounts("Host", actions), getCounts("Storage", actions), getCounts("Database", actions)]
         }
         res.status(200).send(results);

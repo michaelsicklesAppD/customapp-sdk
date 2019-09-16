@@ -55,13 +55,17 @@
 			if(results && results.counts) {
 				counts = results.counts;
 			}
+			var server = '';
+			if(results && results.cwomserver) {
+				server = results.cwomserver;
+			}
 			console.log(actions);
 			
 			var data = {
 				targetId: "CWOMTest",
 				title: "CWOM Test",
-				icons: counts,
-				actions: actions
+				actions: actions,
+				server: server
 			};
 			new CWOMPanelComponent(data).draw(function () {
 				//buildDashboard();
