@@ -69,7 +69,7 @@
         </a>
         <br/>
         <div style='margin:5px; text-align:center; display:contents;'>
-            {^{if type ~root.actions ~critOnly convert="hasActions"}}
+            {^{if ~hasActions(type, ~root.actions, ~critOnly ) }}
                 <span class='badge badge-danger db-dash' title='Critical Actions'>{^{countSeverity: ~root.actions type 'CRITICAL'  ~critOnly}}</span>
                 <span class='badge badge-warning db-dash' title='Major Actions'>{^{if ~critOnly }}0{{else}}{^{countSeverity: ~root.actions type 'MAJOR' ~critOnly}}{{/if}}</span>
                 <span class='badge badge-minor db-dash' title='Minor Actions'>{^{if ~critOnly }}0{{else}}{^{countSeverity: ~root.actions type 'MINOR' ~critOnly}}{{/if}}</span>

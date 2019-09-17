@@ -75,7 +75,23 @@ class CWOMPanelComponent extends BaseComponent {
                 console.log(index);
                 $.observable(options.actions).remove(index);
                 return false;
+            },
+            hasActions: function(type, actions, critOnly) {
+                if(type && actions) {
+                    var subactions = actions.filter(action => action.target.className === type);
+                    
+                    if(critOnly) {
+                        return subactions.filter(action => action.risk.severity === 'CRITICAL').length > 0
+                    } else {
+                        return subactions.length > 0;
+                    }
+                    
+                } else  {
+                    return false;
+                }
+                
             }
+            
         });
         $.views.helpers.actionFilter.depends = ["~selectedFilter", "~critOnly"];
         $.views.helpers.actionDetailFilter.depends = ["~detailID", "~critOnly"];
@@ -83,21 +99,7 @@ class CWOMPanelComponent extends BaseComponent {
         var tmpl = $.templates({
             markup: _cwomPanelComponent,
             converters: {
-                hasActions: function(type, actions, critOnly) {
-                    if(type && actions) {
-                        var subactions = actions.filter(action => action.target.className === type);
-                        
-                        if(critOnly) {
-                            return subactions.filter(action => action.risk.severity === 'CRITICAL').length > 0
-                        } else {
-                            return subactions.length > 0;
-                        }
-                        
-                    } else  {
-                        return false;
-                    }
-                    
-                },
+                
                 getIconClass: function(type, actions, critOnly) {
                     var subactions = actions.filter(action => action.target.className === type);
                     if(subactions.filter(action => action.risk.severity === 'CRITICAL').length > 0) {
