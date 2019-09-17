@@ -50,10 +50,8 @@ module.exports = class CWOMService {
         var svc = this;
 
         return new Promise(function (resolve, reject) {
-            console.log('getting token');
             var turbourl = svc.config.turboserver + '/vmturbo/rest/login?disable_hateoas=true';
             var authorization = 'Basic ' + Buffer.from(`${svc.config.username}:${svc.config.password}`).toString("base64");
-            console.log(`Base64 encoded is ${authorization}`);
             var headers = { 'Authorization': authorization, 'Content-Type': 'multipart/form-data' };
             var params = { 'username': svc.config.username, 'password': svc.config.password};
 
@@ -90,7 +88,7 @@ module.exports = class CWOMService {
 
             svc.getTurboActions(critOnly).then(function (actions) {
 
-                console.log("::::::: got turbo actions! Total VM Actions: " + actions.filter(action => "VirtualMachine" === action.target.className).length + " | Total AS Actions: " + actions.filter(action => "ApplicationServer" === action.target.className).length);
+                //console.log("::::::: got turbo actions! Total VM Actions: " + actions.filter(action => "VirtualMachine" === action.target.className).length + " | Total AS Actions: " + actions.filter(action => "ApplicationServer" === action.target.className).length);
                 //console.log("refreshing actions with critOnly = " + critOnly);
                 var myCrit = (critOnly ? "true" : "false");
 
@@ -121,7 +119,7 @@ module.exports = class CWOMService {
 
         return new Promise(function (resolve, reject) {
 
-            console.log("getting turbo actions!");
+            //console.log("getting turbo actions!");
 
             svc.getTurboToken().then(async function (tokenret) {
 
@@ -157,7 +155,7 @@ module.exports = class CWOMService {
                               for(var w = 0; w < newAction.length; w++)
                               {
                                 var thisAction = newAction[w];
-                                console.log("===> Validating Action: " + thisAction.uuid + " of type: " + thisAction.target.className);
+                                //console.log("===> Validating Action: " + thisAction.uuid + " of type: " + thisAction.target.className);
                                 actions.push(thisAction);
                               }
                         } // end if null
