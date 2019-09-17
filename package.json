@@ -52,6 +52,7 @@
     "serve-favicon": "^2.5.0",
     "should": "^7.0.2",
     "spin.js": "^4.0.0",
+    "uuid": "^3.3.3",
     "wait.for": "^0.6.6"
   }
 }

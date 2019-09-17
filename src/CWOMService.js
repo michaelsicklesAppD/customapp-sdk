@@ -1,11 +1,50 @@
 var rp = require('request-promise').defaults({ jar: true });
 var configManager = require("./ConfigManager.js");
 var Action = require("./CWOM/Action.js");
+const uuidv4 = require('uuid/v4');
 
 module.exports = class CWOMService {
     constructor(config) {
         this.config = configManager.getCWOMConfig();
         this.authToken = "";
+    }
+    getMockAppServerAction(severity) {
+        var serverName = "Mock AppDynamics Application Server[127.0.0.1,tag:Tomcat2]";
+        return new Action({
+            "uuid": uuidv4(),
+            "createTime": "2019-07-05T12:12:41-04:00",
+            "actionType": "RIGHT_SIZE",
+            "actionState": "RECOMMENDED",
+            "actionMode": "RECOMMEND",
+            "details": "Scale down Threads for " + serverName + " from 200.0 Threads to 153.0 Threads",
+            "importance": 0,
+            "target": {
+                "uuid": uuidv4(),
+                "displayName": serverName,
+                "className": "ApplicationServer",
+                "environmentType": "ONPREM"
+            },
+            "currentEntity": {
+                "uuid": uuidv4(),
+                "className": "Threads"
+            },
+            "newEntity": {
+                "uuid": uuidv4(),
+                "className": "Threads"
+            },
+            "currentValue": "200.0",
+            "newValue": "153.0",
+            "resizeToValue": "153.0",
+            "risk": {
+                "uuid": uuidv4(),
+                "subCategory": "Efficiency Improvement",
+                "description": "Underutilized Threads in Application Server '" + serverName + "'",
+                "severity": severity || "MINOR",
+                "reasonCommodity": "Threads",
+                "importance": 0
+            },
+            "actionID": uuidv4()
+        })
     }
     getTurboToken() {
         var svc = this;
@@ -63,6 +102,13 @@ module.exports = class CWOMService {
 
             }).catch(function (rej) { console.log("Promise 4 Failed! " + rej); });
 
+        });
+    }
+    getTurboActionListMockData(critOnly, supplyChain, uniqueID) {
+        var svc = this;
+
+        return new Promise(function (resolve, reject) {
+                resolve([svc.getMockAppServerAction("MAJOR")]);
         });
     }
     getTurboActions(critOnly) {

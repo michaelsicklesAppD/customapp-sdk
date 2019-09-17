@@ -10,22 +10,10 @@
 
 <body>
 	<div class="wrapper">
-		<aside class="menu-sidebar">
-			<div class="logo">
-				<a href="#">
-					<img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" />
-				</a>
-			</div>
-			<div class="menu-sidebar__content js-scrollbar1">
-				<nav class="navbar-sidebar">
-					<ul class="nav" id="side-menu"></ul>
-				</nav>
-			</div>
-		</aside>
 		<div class="page-container">
 			<div class="container-fluid">
 				<!-- Main Page -->
-
+				<img id="loadingindicator" src="/img/loading.gif"/>
 				<div id="CWOMTest" class="row"></div>
 
 			</div>
@@ -50,6 +38,7 @@
 			var actions = [];
 			if (results && results.actions) {
 				actions = results.actions;
+				
 			}
 			var counts = {};
 			if(results && results.counts) {
@@ -59,8 +48,6 @@
 			if(results && results.cwomserver) {
 				server = results.cwomserver;
 			}
-			console.log(actions);
-			
 			var data = {
 				targetId: "CWOMTest",
 				title: "CWOM Test",
@@ -69,6 +56,7 @@
 			};
 			new CWOMPanelComponent(data).draw(function () {
 				//buildDashboard();
+				$('#loadingindicator').hide();
 			});;
 
 

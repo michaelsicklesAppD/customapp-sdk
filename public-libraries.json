@@ -19,6 +19,7 @@
       "leaflet/dist/leaflet.js",
       "leaflet/dist/leaflet.css",
       "jsviews/jsviews.min.js",
+      "/jsviews/jsviews.min.js.map",
       "prismjs/prism.js",
       "prismjs/themes/prism.css",
       "spin.js/spin.js",

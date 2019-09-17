@@ -32,4 +32,22 @@ router.get('/actions', function(req, res) {
 	
 });
 
+router.get('/mockData', function(req, res) {
+    cwomsvc.getTurboActionListMockData(false).then((actions) => {
+        console.log('The List is:');
+        console.log(actions);
+        var results  = {
+            cwomserver: cwomsvc.config.turboserver,
+            actions : actions,
+            
+        }
+        res.status(200).send(results);
+    } , (err) => {
+        res.status(500).send({});
+    });
+    
+
+	
+});
+
 module.exports = router;

@@ -41,7 +41,7 @@ class CWOMPanelComponent extends BaseComponent {
         //options.selectedFilter = 'none';
         super(options, null);
     }
-    draw(onClick, callback) {
+    draw( callback) {
         var options = super.getOptions();
 
         //$("#" + options.targetId).html(
@@ -99,6 +99,48 @@ class CWOMPanelComponent extends BaseComponent {
         var tmpl = $.templates({
             markup: _cwomPanelComponent,
             converters: {
+                getHost: function(target, type) {
+                    if(type === "ApplicationServer") {
+                        return target.displayName.substring(target.displayName.indexOf(",")+1, target.displayName.indexOf("]"));
+                    } else if (type === "VirtualMachine") {
+                        return target.aspects.virtualMachineAspect.os;
+                    }
+
+                },
+                getIp: function(target, type) {
+                    if(type === "ApplicationServer") {
+                        return target.displayName.substring(target.displayName.indexOf("[")+1, target.displayName.indexOf(","));s
+                    } else if (type === "VirtualMachine") {
+                        return target.aspects.virtualMachineAspect.ip;
+                    }
+                }, 
+                getRiskClass: function(risk) {
+                    var cssclass = "brown-text";
+                    if(risk === "Efficiency Improvement") {
+                        cssclass = "teal-text";
+                    } else if (risk === "Performance Assurance") {
+                        cssclass = "pink-text";
+                    }
+                    return cssclass;
+                },
+                getStatsValueText: function(stats) {
+                    if(!stats) { 
+                        return "";
+                    }
+                    if(stats.length === 0) {
+                        return "";
+                    }
+                    var statsValueText = "";
+                    var statsValueType = (stats[0].units === "$/h" ? " / HR" : "");
+                  
+                    if (0 > stats[0].value) {
+                      statsValueText = "<small> EST. INVESTMENT: <span class='brown-text'>$ " + (stats[0].value * -1) + " " + statsValueType + "</span></small>";
+                    }
+                    else {
+                      statsValueText = "<small> EST. SAVINGS: <span class='teal-text'>$ " + stats[0].value + " / HR</span></small>";
+                    }
+                    return statsValueText;
+                },
                 
                 getIconClass: function(type, actions, critOnly) {
                     var subactions = actions.filter(action => action.target.className === type);
@@ -199,6 +241,9 @@ class CWOMPanelComponent extends BaseComponent {
 
         if (options.animate) {
             animateDiv(options.targetId, options.animate);
+        }
+        if (callback) {
+            callback(this.options);
         }
     }
 }
