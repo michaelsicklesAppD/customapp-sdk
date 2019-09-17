@@ -129,14 +129,10 @@
 
 </script>
 <script id="_actionHeaderRecommendation" type="text/x-jsrender">
-
-
      <div class='card {{if risk.severity === "CRITICAL" }}border-danger{{else }}border-secondary{{/if}} mb-3'>
        <div class='card-header-{{:risk.severity}}'>{{:risk.severity}}</div>
        <div class='card-header'><img src='/img/{{if target.className === "ApplicationServer" }}as{{else target.className === "VirtualMachine" }}vm{{/if}}.png' class='actionicon'/><span {{if risk.severity === "CRITICAL" }}style='color:#FF0000;'{{/if}}>{{if target.className === "ApplicationServer" }}Application Server{{else target.className === "VirtualMachine" }}Virtual Machine{{/if}} Action</span></div>
 
-
-  
        <div class='card-body'>
           <a class='list-group-item-action'
           data-link="{on ~updateFilterDetails uuid}"
@@ -164,7 +160,7 @@
 </script>
 
 <script id="_itemDetail" type="text/x-jsrender">
-  
+
 <div class='card tab-pane col-12' id='list-{{:uuid}}' role='tabpanel' aria-labelledby='list-{{:uuid}}-list'
   style='max-width:95%;min-width:60%;padding: 5px 0px 25px 5px;'>
   <div class='col-12' style='display:flex;margin:20px 0px 10px 0px;'>

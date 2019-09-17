@@ -71,13 +71,7 @@ if (configManager.getLibraries()) {
         app.get(url, function (req, res) {
             res.sendFile(__dirname + url);
         });
-        //Serves all the request which includes /images in the url from Images folder
-        //app.use('/library', express.static('node_modules/' + library));
 
-        // app.get( path, function(req, res){ 
-        //     //console.log(".."+req.path);
-        //     res.render(".."+url); 
-        // }); 
     });
 }
 if (configManager.getDashboards()) {
