@@ -2,50 +2,20 @@ var rp = require('request-promise').defaults({ jar: true });
 var configManager = require("./ConfigManager.js");
 var Action = require("./CWOM/Action.js");
 const uuidv4 = require('uuid/v4');
+function getRandomInt(min, max) { 
+    var min = Math.ceil(min);
+    var max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //(inclusive, exclusive)
+}
+var severitys = ["CRITICAL", "MAJOR", "MINOR"];
 
 module.exports = class CWOMService {
     constructor(config) {
         this.config = configManager.getCWOMConfig();
         this.authToken = "";
     }
-    getMockAppServerAction(severity) {
-        var serverName = "Mock AppDynamics Application Server[127.0.0.1,tag:Tomcat2]";
-        return new Action({
-            "uuid": uuidv4(),
-            "createTime": "2019-07-05T12:12:41-04:00",
-            "actionType": "RIGHT_SIZE",
-            "actionState": "RECOMMENDED",
-            "actionMode": "RECOMMEND",
-            "details": "Scale down Threads for " + serverName + " from 200.0 Threads to 153.0 Threads",
-            "importance": 0,
-            "target": {
-                "uuid": uuidv4(),
-                "displayName": serverName,
-                "className": "ApplicationServer",
-                "environmentType": "ONPREM"
-            },
-            "currentEntity": {
-                "uuid": uuidv4(),
-                "className": "Threads"
-            },
-            "newEntity": {
-                "uuid": uuidv4(),
-                "className": "Threads"
-            },
-            "currentValue": "200.0",
-            "newValue": "153.0",
-            "resizeToValue": "153.0",
-            "risk": {
-                "uuid": uuidv4(),
-                "subCategory": "Efficiency Improvement",
-                "description": "Underutilized Threads in Application Server '" + serverName + "'",
-                "severity": severity || "MINOR",
-                "reasonCommodity": "Threads",
-                "importance": 0
-            },
-            "actionID": uuidv4()
-        })
-    }
+    
+ 
     getTurboToken() {
         var svc = this;
 
@@ -102,13 +72,7 @@ module.exports = class CWOMService {
 
         });
     }
-    getTurboActionListMockData(critOnly, supplyChain, uniqueID) {
-        var svc = this;
 
-        return new Promise(function (resolve, reject) {
-                resolve([svc.getMockAppServerAction("MAJOR")]);
-        });
-    }
     getTurboActions(critOnly) {
 
         //
@@ -299,6 +263,173 @@ module.exports = class CWOMService {
             });
 
         }); // end Promise
+    }
+    getTurboActionListMockData(critOnly, supplyChain, uniqueID) {
+        var svc = this;
+
+        return new Promise(function (resolve, reject) {
+            var actions = [];
+            for(var i = 0; i < getRandomInt(1,6); i++) { 
+                actions.push(svc.getMockAppServerAction(severitys[getRandomInt(0,3)]))
+            }
+            for(var i = 0; i < getRandomInt(1,6); i++) { 
+                actions.push(svc.getMockVirtualServerAction(severitys[getRandomInt(0,3)]))
+            }
+            resolve(actions);
+        });
+    }
+    getMockVirtualServerAction(severity) {
+        var serverName = "Cisco - APPCWOM" + getRandomInt(1,20);
+        var VMEM = getRandomInt(13000000,23000000);
+        var VMEMDown = VMEM -  getRandomInt(4000000, 11000000 );
+        return new Action({
+            "uuid": uuidv4(),
+            "createTime": "2019-06-20T11:58:31-04:00",
+            "actionType": "RIGHT_SIZE",
+            "actionState": "PENDING_ACCEPT",
+            "actionMode": "MANUAL",
+            "details": "Scale VirtualMachine " + serverName + " from m5.xlarge to c5.large",
+            "importance": 0,
+            "target": {
+                "uuid": uuidv4(),
+                "displayName": serverName,
+                "className": "VirtualMachine",
+                "costPrice": 0.085,
+                "aspects": {
+                    "virtualMachineAspect": {
+                        "os": "cwom-base",
+                        "ip": [
+                            "127.0.0.1"
+                        ],
+                        "numVCPUs": 4,
+                        "ebsOptimized": true
+                    },
+                    "cloudAspect": {
+                        "businessAccount": {
+                            "uuid": uuidv4(),
+                            "displayName": uuidv4()
+                        },
+                        "riCoveragePercentage": 0,
+                        "riCoverage": {
+                            "capacity": {
+                                "max": 32,
+                                "min": 32,
+                                "avg": 32
+                            },
+                            "units": "RICoupon",
+                            "values": {
+                                "max": 0,
+                                "min": 0,
+                                "avg": 0,
+                                "total": 0
+                            },
+                            "value": 0
+                        }
+                    }
+                },
+                "environmentType": "CLOUD",
+                "onDemandRateBefore": 0.192,
+                "onDemandRateAfter": 0.085
+            },
+            "currentEntity": {
+                "uuid": "aws::VMPROFILE::m5.xlarge",
+                "displayName": "m5.xlarge",
+                "className": "VirtualMachineProfile"
+            },
+            "newEntity": {
+                "uuid": "aws::VMPROFILE::c5.large",
+                "displayName": "c5.large",
+                "className": "VirtualMachineProfile",
+                "aspects": {
+                    "virtualMachineAspect": {
+                        "os": "Unknown",
+                        "ebsOptimized": false
+                    }
+                }
+            },
+            "currentValue":VMEM,
+            "newValue": VMEMDown,
+            "resizeToValue": VMEMDown,
+            "template": {
+                "uuid": "aws::VMPROFILE::c5.large",
+                "displayName": "c5.large",
+                "className": "VirtualMachineProfile",
+                "discovered": false,
+                "family": "c5"
+            },
+            "risk": {
+                "uuid": "_QBP1UJN0Eem6Jsy0e5ifgw",
+                "subCategory": "Efficiency Improvement",
+                "description": "Matching VirtualMachine needs: CPU 1 Core, Virtual Memory 2.31 GB",
+                "severity": severity,
+                "reasonCommodity": "VMem",
+                "importance": 0
+            },
+            "stats": [
+                {
+                    "name": "costPrice",
+                    "filters": [
+                        {
+                            "type": "savingsType",
+                            "value": "savings"
+                        }
+                    ],
+                    "units": "$/h",
+                    "value": 0.107
+                }
+            ],
+            "currentLocation": {
+                "uuid": "aws::us-west-2::DC::us-west-2",
+                "displayName": "aws-US West (Oregon)",
+                "className": "DataCenter"
+            },
+            "newLocation": {
+                "uuid": "aws::us-west-2::DC::us-west-2",
+                "displayName": "aws-US West (Oregon)",
+                "className": "DataCenter"
+            },
+            "actionID": uuidv4()
+        })
+    }
+    getMockAppServerAction(severity) {
+        var serverName = "Mock AppDynamics Application Server[127.0.0.1,Mock:Server" + getRandomInt(1,20)+ "]";
+        var threads = getRandomInt(100,250);
+        var threadsdown = threads - getRandomInt(1, 50);
+        return new Action({
+            "uuid": uuidv4(),
+            "createTime": "2019-07-05T12:12:41-04:00",
+            "actionType": "RIGHT_SIZE",
+            "actionState": "RECOMMENDED",
+            "actionMode": "RECOMMEND",
+            "details": "Scale down Threads for " + serverName + " from " + threads + " Threads to " + threadsdown + " Threads",
+            "importance": 0,
+            "target": {
+                "uuid": uuidv4(),
+                "displayName": serverName,
+                "className": "ApplicationServer",
+                "environmentType": "ONPREM"
+            },
+            "currentEntity": {
+                "uuid": uuidv4(),
+                "className": "Threads"
+            },
+            "newEntity": {
+                "uuid": uuidv4(),
+                "className": "Threads"
+            },
+            "currentValue": threads,
+            "newValue": threadsdown,
+            "resizeToValue": threadsdown,
+            "risk": {
+                "uuid": uuidv4(),
+                "subCategory": "Efficiency Improvement",
+                "description": "Underutilized Threads in Application Server '" + serverName + "'",
+                "severity": severity || "MINOR",
+                "reasonCommodity": "Threads",
+                "importance": 0
+            },
+            "actionID": uuidv4()
+        })
     }
 
 }
