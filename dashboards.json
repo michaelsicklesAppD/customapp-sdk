@@ -7,7 +7,7 @@
 		},
 		{ 
 			"path":"/examples",
-			"views":["cwom.html", "appd.html","example-geomap-2.html","example-geomap.html","darkdash.html","lightdash.html","example-starter.html","sankeys.html","layout.html","table.html","boxcomponent.html","gettingstarted.html","timechart.html","piechart.html","examples.html","sankey.html","example-drilldown.html","example-tab.html","intro.html","donutchart.html"]
+			"views":["cwomMockData.html", "cwom.html", "appd.html","example-geomap-2.html","example-geomap.html","darkdash.html","lightdash.html","example-starter.html","sankeys.html","layout.html","table.html","boxcomponent.html","gettingstarted.html","timechart.html","piechart.html","examples.html","sankey.html","example-drilldown.html","example-tab.html","intro.html","donutchart.html"]
 		},
 		{ 
 		  "path":"/_design",

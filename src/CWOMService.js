@@ -394,14 +394,27 @@ module.exports = class CWOMService {
     getMockAppServerAction(severity) {
         var serverName = "Mock AppDynamics Application Server[127.0.0.1,Mock:Server" + getRandomInt(1,20)+ "]";
         var threads = getRandomInt(100,250);
-        var threadsdown = threads - getRandomInt(1, 50);
+        var threadsnew = threads - getRandomInt(1, 50);
+        var scaleText = '';
+        var risk = '';
+        if(getRandomInt(0,2)) {
+            scaleText = "Scale up";
+            risk = "Performance Assurance";
+            var temp = threads;
+            threads = threadsnew;
+            threadsnew = temp;
+
+        } else {
+            scaleText = "Scale down";
+            risk = "Efficiency Improvement";
+        }
         return new Action({
             "uuid": uuidv4(),
             "createTime": "2019-07-05T12:12:41-04:00",
             "actionType": "RIGHT_SIZE",
             "actionState": "RECOMMENDED",
             "actionMode": "RECOMMEND",
-            "details": "Scale down Threads for " + serverName + " from " + threads + " Threads to " + threadsdown + " Threads",
+            "details": scaleText + " Threads for " + serverName + " from " + threads + " Threads to " + threadsnew + " Threads",
             "importance": 0,
             "target": {
                 "uuid": uuidv4(),
@@ -418,11 +431,11 @@ module.exports = class CWOMService {
                 "className": "Threads"
             },
             "currentValue": threads,
-            "newValue": threadsdown,
-            "resizeToValue": threadsdown,
+            "newValue": threadsnew,
+            "resizeToValue": threadsnew,
             "risk": {
                 "uuid": uuidv4(),
-                "subCategory": "Efficiency Improvement",
+                "subCategory": risk,
                 "description": "Underutilized Threads in Application Server '" + serverName + "'",
                 "severity": severity || "MINOR",
                 "reasonCommodity": "Threads",
