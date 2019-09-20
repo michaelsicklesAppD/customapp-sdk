@@ -269,7 +269,7 @@ module.exports = class CWOMService {
 
         return new Promise(function (resolve, reject) {
             var actions = [];
-            for(var i = 0; i < getRandomInt(1,6); i++) { 
+            for(var i = 0; i < getRandomInt(3,6); i++) { 
                 actions.push(svc.getMockAppServerAction(severitys[getRandomInt(0,3)]))
             }
             for(var i = 0; i < getRandomInt(1,6); i++) { 
