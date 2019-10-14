@@ -36,7 +36,7 @@ function jsonDates(start,end){
 function getTimeBucketFromDate(date){
     var start = startDate(date);
     var end = endDate(date);
-    end.setMinutes(end.getMinutes() + getTimeBucketAsMinutes() - 1);
+    start.setMinutes(start.getMinutes() - getTimeBucketAsMinutes());
     return jsonDates(start,end);
 }
 
@@ -286,7 +286,7 @@ function searchWithOptions(options,callback){
         url = options.url;
     }
     if(options.date){
-        timeRange = getTimeRangeFromDate(options.date);
+        timeRange = getTimeBucketFromDate(options.date);
     }else if(options.timeRange){
         timeRange = options.timeRange;
     }else if(options.start && options.end){
@@ -351,6 +351,27 @@ function postQuery (analyticsUrl,query,start,end,callback){
     }).fail(function (jqXHR, message) { 
         alert(jqXHR.statusText+" : "+jqXHR.responseText);
         stopAnim(query);
+    });
+}
+
+function makePostCall (url,parms,callback){
+    startAnim(url);
+    $.ajax({
+            url: url,
+            method: "POST",
+            data : parms
+    }).done(function (data) {
+        appLog(data);
+        if(data[0].error){
+            alert("An Error Occurred \n :"+data[0].error);
+        }else{
+            appLog(data[0].results);
+            callback(data[0].results);
+        }
+        stopAnim(url);
+    }).fail(function (jqXHR, message) { 
+        alert(jqXHR.statusText+" : "+jqXHR.responseText);
+        stopAnim(url);
     });
 }
 

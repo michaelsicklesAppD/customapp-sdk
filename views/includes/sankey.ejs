@@ -1,22 +1,12 @@
 <!-- Dependencies -->
-<script src="/vendor/sankey/lib/d3.js"></script>
-<link rel="stylesheet" href="/vendor/sankey/css/c3.css" />
-<script src="/vendor/sankey/js/c3.js"></script>
-<script src="/vendor/sankey/js/c3-graph.js"></script>
+<script src="/node_modules/d3-sankey/dist/d3-sankey.min.js"></script>
+
 <style>
-    .c3.chart, h1 {
-        font-family: sans-serif;
+    .sankeyNode:hover {
+      fill-opacity: .5;
+      cursor: pointer;
     }
-
-    form {
-        margin-bottom: 1em;
-    }
-
-    .c3.sankey .link.backedge path {
-        stroke: red !important;
-    }
-
-    .c3.sankey .link path:hover {
-        stroke: gold !important;
+    .sankeyLink:hover {
+      stroke-opacity: .5;
     }
 </style>

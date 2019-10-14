@@ -1,5 +1,6 @@
 var config	= require("../config.json");
 var dashboards	= require("../dashboards.json");
+var libraries = require("../public-libraries.json");
 
 exports.getExcludedApps = function(){
 	return config.exclude_app_ids;
@@ -129,4 +130,7 @@ exports.getVersion = function(){
 
 exports.getDashboards = function(){
 	return dashboards.dashboards;
+}
+exports.getLibraries = function(){
+	return libraries.libraries;
 }

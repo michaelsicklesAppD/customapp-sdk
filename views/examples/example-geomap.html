@@ -110,18 +110,18 @@
 						values : [15,5,10,5,2]
 					}
 
-					sankeyChart = new PlotlySankeyChart({
-						targetId:"sankey",
-						title:"Flow",
-						data:plotlyData,
-						options:{
-							size:{width:"400",height:"400"}
-						}
-					});
-					sankeyChart.renderChart(function(selection){
-						alert(JSON.stringify(selection));
-					});
-					geoMap.showComponent(sankeyChart,mX+10,mY+355);
+					// sankeyChart = new PlotlySankeyChart({
+					// 	targetId:"sankey",
+					// 	title:"Flow",
+					// 	data:plotlyData,
+					// 	options:{
+					// 		size:{width:"400",height:"400"}
+					// 	}
+					// });
+					// sankeyChart.renderChart(function(selection){
+					// 	alert(JSON.stringify(selection));
+					// });
+					//geoMap.showComponent(sankeyChart,mX+10,mY+355);
 				})	
 				geoMap.showComponent(trendChart,mX+300,mY);
 			})	
