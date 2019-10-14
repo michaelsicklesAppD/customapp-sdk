@@ -1,13 +1,12 @@
 
 ## Required Frameworks
 
-1. NodeJS
+1. NodeJS V10+
 
 References:
 
 * https://nodejs.org/en/download/
 
-We are working on removing the bower dependency.
 
 ## Installing
 
