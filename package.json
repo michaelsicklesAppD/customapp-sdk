@@ -50,7 +50,6 @@
     "send": "^0.16.2",
     "serve-favicon": "^2.5.0",
     "should": "^7.0.2",
-    "spin.js": "^4.0.0",
-    "wait.for": "^0.6.6"
+    "spin.js": "^4.0.0"
   }
 }
