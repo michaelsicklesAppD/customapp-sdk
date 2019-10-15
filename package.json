@@ -10,7 +10,7 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.10.1",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "animsition": "^4.0.2",
     "async": "^2.6.3",
     "billboard.js": "^1.10.2",
@@ -35,7 +35,7 @@
     "jsrender": "^1.0.4",
     "leaflet": "^1.5.1",
     "log4js": "^0.6.38",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.1",
     "moment": "~> 2.19.3",
     "morgan": "^1.9.1",
     "ms": "~> 0.7.1",
