@@ -1,7 +1,7 @@
 
 ## Required Frameworks
 
-1. NodeJS V10+
+1. NodeJS V8+
 
 References:
 
