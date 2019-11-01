@@ -113,8 +113,8 @@
 			action:"View Details",
 			actionClick: "errorDetails()",
 			icon:"fa fa-exclamation fa-2x",
-			panelClass:"overview-item--c2",
-			options:{size:{height:75,width:200}}
+			
+			options:{size:{height:75}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 		
@@ -124,7 +124,7 @@
 			action:"View Details",
 			actionClick: "serviceDetails()",
 			icon:"fa fa-cogs fa-2x",
-			options:{size:{height:75,width:200}}
+			options:{size:{height:75}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 		
@@ -134,8 +134,8 @@
 			action:"View Details",
 			actionClick: "customerDetails()",
 			icon:"fa fa-tasks fa-2x",
-			panelClass:"overview-item--c4",
-			options:{size:{height:75,width:200}}
+			
+			options:{size:{height:75}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();
 	}
