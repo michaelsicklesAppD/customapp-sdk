@@ -1,6 +1,6 @@
 <script id="_chartComponent" type="text/x-jsrender">
-    <div class="au-card {{:panelClass}}">
-        <div class="au-card-inner">
+    <div class="card {{:panelClass}}">
+        <div class="card-body"">
             <h3 class="title-2">{{:title}}</h3>
             <div class="chart-info">
                 
@@ -15,8 +15,8 @@
 </script>
 
 <script id="_tableComponent" type="text/x-jsrender">
-    <div class="au-card {{:panelClass}}">
-        <div class="au-card-inner">
+    <div class="card {{:panelClass}}">
+        <div class="card-body">
             <h3 class="title-2">{{:title}}</h3>
             <br/>
             <table id="{{:div}}" style="width:100%;">
@@ -64,7 +64,7 @@
       </select>
 </script>
 
-<script id="_boxComponent" type="text/x-jsrender">
+<script id="_boxComponentOld" type="text/x-jsrender">
     <div id="{{:targetId}}-box" class="overview-item {{:panelClass}}" onClick="{{:actionClick}}" style="cursor: pointer;">
         <div class="overview__inner">
             <div class="overview-box clearfix">
@@ -87,6 +87,28 @@
     </div>	
 </script>
 
+<script id="_boxComponent" type="text/x-jsrender">
+
+    <div id="{{:targetId}}-box"class="card rounded {{:panelClass}}"  onClick="{{:actionClick}}" style="cursor: pointer;">
+
+            <div class="card-body">
+              <h2 class="card-title">            
+                  <div class="icon">
+                    <i class="{{:icon}}" {{if iconColor}} style="color:{{:iconColor}}" {{/if}}></i> {{:value}}
+                    </div></h2>
+              <p class="card-text">{{:title}}</p>
+              {{if hasChart}}
+                <div class="overview-chart">
+                    <div id="{{:targetId}}-chart"></div>
+                </div>
+            {{else}}
+                <div class="overview-chart" style="height:30px;"></div>
+            {{/if}}
+            </div>
+    </div>
+	
+</script>
+
 <script id="_filtersComponent" type="text/x-jsrender">
     <li class="sidebar-search">
         <div class="form-group">
@@ -107,23 +129,24 @@
 
 <script id="_modalComponent" type="text/x-jsrender">
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
-      </div>
     </div>
+</div>
 </script>

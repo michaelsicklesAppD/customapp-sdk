@@ -11,7 +11,7 @@
 		<aside class="menu-sidebar">
 			<div class="logo">
 				<a href="#">
-					<img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" />
+					<img width="200" height="18" src="/img/AppDynamicsLogo_black.svg" alt="AppDynamics" />
 				</a>
 			</div>
 			<div class="menu-sidebar__content js-scrollbar1">
@@ -29,14 +29,14 @@
 					<div id="comp3" class="col"></div>
 				</div>
 				<div class="row"> 
-					<div class="col-md-12">
+					<div class="col-12">
 						<div id="errorTable"></div>
 						<div id="serviceTable"></div>
 						<div id="customerTable"></div>
 					</div>
 				</div>
 				<div class="row" style="padding-top:25px">
-					<div class="col-md-12">
+					<div class="col-12">
 						<div id="errorTrend"></div>
 						<div id="serviceTrend"></div>
 						<div id="customerTrend"></div>
@@ -124,7 +124,6 @@
 			action:"View Details",
 			actionClick: "serviceDetails()",
 			icon:"fa fa-cogs fa-2x",
-			panelClass:"overview-item--c3",
 			options:{size:{height:75,width:200}}
 			//query:"SELECT series(eventTimestamp, '"+getTimeBucket()+"'), distinctcount(segments.userData.Error) FROM transactions WHERE application = 'xxx' and segments.userData.Error IS NOT NULL"
 		}).draw();

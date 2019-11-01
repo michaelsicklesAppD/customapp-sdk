@@ -22,18 +22,8 @@
         border-bottom : 0px;
     }
 
-    .menu-sidebar .logo {
-        background:#5a5959;
-    }
 
-    .menu-sidebar {
-        width:200px;
-    }
 
-    .page-container {
-        padding-left:200px;
-        padding-top:10px;
-    }
 </style>
 </head>
 <body>
@@ -43,7 +33,7 @@
         <aside class="menu-sidebar ">
             <div class="logo">
                 <a href="#">
-                    <img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" />
+                    <img width="200" height="18" src="/img/AppDynamicsLogo_black.svg" alt="AppDynamics" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -91,9 +81,9 @@
                             </div>
                             <div class="col-lg-3">
                                 <h2 class="title-1 m-b-25">Top countries</h2>
-                                <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
-                                    <div class="au-card-inner">
-                                        <div class="table-responsive">
+                                <div class="card au-card au-card--bg-blue au-card-top-countries m-b-40">
+                                    <div class="au-card-inner card-body">
+                                        <div class="table-responsive color-primary">
                                             <div id="countries"></div>
                                         </div>
                                     </div>
@@ -114,7 +104,7 @@
         panelClass:"overview-item--c1",
         animate:"zoomIn",
         options:{
-            size:{height:75,width:250},
+            size:{height:75},
             type:"area-step",
             color:{
                 pattern:['ff7f0e']
@@ -130,7 +120,7 @@
         panelClass:"overview-item--c2",
         animate:"zoomIn",
         options:{
-            size:{height:75,width:250}
+            size:{height:75}
         },
     }).draw();
 
@@ -139,10 +129,9 @@
         title:"orders sold",
         targetId:"thisWeek",
         icon:"zmdi zmdi-calendar-note",
-        panelClass:"overview-item--c3",
         animate:"zoomIn",
         options:{
-            size:{height:75,width:250},
+            size:{height:75},
             type:"bar"
         },
     }).draw();
@@ -152,10 +141,9 @@
         title:"total earnings",
         targetId:"totalEarnings",
         icon:"zmdi zmdi-money",
-        panelClass:"overview-item--c3",
         animate:"zoomIn",
         options:{
-            size:{height:75,width:250},
+            size:{height:75},
             type:"area-step"
         },
     }).draw();
