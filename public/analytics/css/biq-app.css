@@ -18,8 +18,40 @@ spinnerDiv {
 .page-wrapper{
   min-height: 100%;
 }
+.overview-item {
+  background: white;
+  color: #585e67;
+  border: 1px solid #DBDFE2
+}
+.overview-box .text h2, .overview-box .text span {
+  color: #585e67;
 
-.overview-item--c0 {
+}
+.overview-box .icon i {
+  font-size: 60px;
+  color: #585e67;
+}
+
+.overview-item:hover {
+  background: #e8eaec;
+  color: #7a66ff !important;
+}
+.overview-item:hover * {
+  background: #e8eaec;
+  color: #7a66ff !important;
+}
+.btn-primary {
+  background-color:#7a66ff;
+  border-color:#7a66ff;
+}
+.btn-primary:hover {
+  background-color:rgb(100, 77, 255);
+  border-color:rgb(100, 77, 255);
+}
+
+
+
+/* .overview-item--c0 {
   background-image: -moz-linear-gradient(90deg, #050c30 0%, #575354 100%);
   background-image: -webkit-linear-gradient(90deg, #050c30 0%, #575354 100%);
   background-image: -ms-linear-gradient(90deg, #050c30 0%, #575354 100%);
@@ -29,4 +61,12 @@ spinnerDiv {
   background-image: -moz-linear-gradient(90deg, #ecedf5 0%, #5f5d5e 100%);
   background-image: -webkit-linear-gradient(90deg, #ecedf5 0%, #5f5d5e 100%);
   background-image: -ms-linear-gradient(90deg, #ecedf5 0%, #5f5d5e 100%);
+} */
+.navbar-sidebar {
+  padding-top:15px;
+  padding-left:15px;
+}
+
+.img[alt="AppDynamics"]:hover{
+	content:url("/img/AppDynamicsLogo_purple.svg");
 }

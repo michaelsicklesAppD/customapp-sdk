@@ -20,7 +20,7 @@
       "leaflet/dist/leaflet.css",
       "jsrender/jsrender.min.js",
       "prismjs/prism.js",
-      "prismjs/themes/prism.css",
+      "prismjs/themes/prism-tomorrow.css",
       "spin.js/spin.js",
       "spin.js/spin.css",
       "@fortawesome/fontawesome-free/css/all.min.css",

@@ -20,14 +20,14 @@
                     <div id="boxexample" class="col-md-4"></div>
                     <div id="drilldown" class="col-md-4"></div>
                 </div>
-                <div class="row">
-                    <div id="light" class="col-md-4"></div>
-                    <div id="dark" class="col-md-4"></div>
-                </div>
+
                 <div class="row">
                     <div id="appd" class="col-md-4"></div>
                     <div id="geo" class="col-md-4"></div>
                     <div id="geo2" class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div id="light" class="col-md-4"></div>
                 </div>
             </div>
         </div>
@@ -41,8 +41,7 @@
             title:"Starter Dashboard",
             targetId:"newdash",
             actionClick: "window.location.href='/views/examples/example-starter.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c2"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
 
         new BoxComponent({
@@ -50,8 +49,7 @@
             title:"Tab Dashboard",
             targetId:"boxexample",
             actionClick: "window.location.href='/views/examples/example-tab.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c2"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
 
         new BoxComponent({
@@ -59,8 +57,7 @@
             title:"Drill Down Dashboard",
             targetId:"drilldown",
             actionClick: "window.location.href='/views/examples/example-drilldown.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c2"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
 
          new BoxComponent({
@@ -68,26 +65,16 @@
             title:"Light Theme Dashboard",
             targetId:"light",
             actionClick: "window.location.href='/views/examples/lightdash.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c0"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
 
-        new BoxComponent({
-            value:"Dark",
-            title:"Dark Theme Dashboard",
-            targetId:"dark",
-            actionClick: "window.location.href='/views/examples/darkdash.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c0"
-        }).draw();
 
         new BoxComponent({
             value:"MyAppD",
             title:"AppD Theme Dashboard",
             targetId:"appd",
             actionClick: "window.location.href='/views/examples/appd.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c0"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
 
         new BoxComponent({
@@ -95,8 +82,7 @@
             title:"Geo Map Dashboard",
             targetId:"geo",
             actionClick: "window.location.href='/views/examples/example-geomap.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c0"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
 
         new BoxComponent({
@@ -104,8 +90,7 @@
             title:"Geo Map With Filter",
             targetId:"geo2",
             actionClick: "window.location.href='/views/examples/example-geomap-2.html'",
-            icon:"fa fa-cogs fa-2x",
-            panelClass:"overview-item--c0"
+            icon:"fa fa-cogs fa-2x"
         }).draw();
     }
 
