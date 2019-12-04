@@ -22,7 +22,7 @@ exports.init = function () {
 	try {
 		if (!fs.existsSync(configpath)) {
 			config = configjson;
-			console.log('Config file "config.json" was missing.  Created with default values.');
+			console.warn('Config file "config.json" was missing.  Created with default values.');
 			fs.writeFileSync(configpath, JSON.stringify(configjson));
 		} else {
 			config = JSON.parse(fs.readFileSync(configpath));
