@@ -1,16 +1,16 @@
 {
   "name": "biqapp",
-  "version": "0.0.0",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "test": "./node_modules/.bin/mocha --recursive --timeout 30000 --reporter spec",
     "test_debug": "./node_modules/.bin/mocha --debug-brk --recursive --timeout 30000 --reporter spec",
     "develop": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "sass ./scss/appdynamics_bootstrap.scss ./public/css/appdynamics_bootstrap.css"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.10.1",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "animsition": "^4.0.2",
     "async": "^2.6.3",
     "billboard.js": "^1.10.2",
@@ -26,17 +26,15 @@
     "express": "^4.16.3",
     "file-system": "^2.2.2",
     "font-awesome": "^4.7.0",
-    "growl": "~> 1.10.0",
-    "hoek": "~> 4.2.1",
     "http-debug": "^0.1.2",
     "http-proxy-agent": "^2.1.0",
-    "https-proxy-agent": "^2.2.2",
+    "https-proxy-agent": "^2.2.3",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "jsrender": "^1.0.4",
     "leaflet": "^1.5.1",
     "log4js": "^0.6.38",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.1",
     "moment": "~> 2.19.3",
     "morgan": "^1.9.1",
     "ms": "~> 0.7.1",
@@ -49,9 +47,10 @@
     "querystring": "^0.2.0",
     "request": "^2.87.0",
     "send": "^0.16.2",
-    "serve-favicon": "^2.5.0",
     "should": "^7.0.2",
-    "spin.js": "^4.0.0",
-    "wait.for": "^0.6.6"
+    "spin.js": "^4.0.0"
+  },
+  "devDependencies": {
+    "sass": "^1.23.1"
   }
 }

@@ -269,10 +269,11 @@ class TimeChart extends BaseChart {
   renderChart(data, clickFunction) {
     var options = super.getOptions();
     super.renderOuterComponent(this.template);
+    super.show();
     super.setTitle(options);
     var keyAndData = this.prepKeyAndData(options,data);
     this.renderGraph(keyAndData.key, keyAndData.chartData, clickFunction);
-    super.show();
+
     super.animate();
   }
 
@@ -309,6 +310,7 @@ class TimeChart extends BaseChart {
     super.updateChartOptions(chartOptions);
     debug(this, JSON.stringify(chartOptions));
     this.chart = bb.generate(chartOptions);
+    
   }
 }
 

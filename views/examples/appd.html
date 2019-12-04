@@ -4,38 +4,16 @@
 <title>BiQ App - Dashboard</title>
 <meta charset="UTF-8">
 <% include ../partials/theme %>
-<style>
 
-html,body{  height: 100%; }
-body, .wrapper, .page-container {
-    background-color: #3c3c3c;
-}
 
-.page-container{
-	margin-top:15px;
-}
-
-.menu-sidebar {
-	background-color:#38383a;
-}
-
-.menu-sidebar .logo {
-	background-color:#38383a;
-	border-right: 1px solid #38383a;
-}
-
-.navbar-sidebar .navbar__list li a {
-	color:white;
-}
-
-</style>
 </head>
 <body>
-    <div class="wrapper">
+    <div class="page-wrapper">
+		
 		<aside class="menu-sidebar">
 			<div class="logo">
 				<a href="#">
-					<img width="180px" src="/img/AppDynamicsLogo.svg" alt="AppDynamics" />
+					<img width="200" height="18" src="/img/AppDynamicsLogo_black.svg" alt="AppDynamics" />
 				</a>
 			</div>
 			<nav class="navbar-sidebar">
@@ -127,7 +105,6 @@ body, .wrapper, .page-container {
 			targetId:"eventsTrends",
 			title:"Events Trends",
 			animate:"zoomIn",
-			panelClass:"overview-item--c3",
 			xLabel:"Events"
 		}).draw(function(selection){
 			alert(JSON.stringify(selection));
@@ -142,7 +119,7 @@ body, .wrapper, .page-container {
 			actionClick: "deviceTrend()",
 			icon:"fa fa-download",
 			options:{size:{height:75,width:250}},
-			panelClass:"overview-item--c4",
+			
 			animate:"zoomIn"
 		}).draw();
 
@@ -152,7 +129,7 @@ body, .wrapper, .page-container {
 			actionClick: "appsTrend()",
 			icon:"fas fa-desktop",
 			options:{size:{height:75,width:250}},
-			panelClass:"overview-item--c2",
+			
 			animate:"zoomIn"
 		}).draw();	
 
@@ -162,7 +139,6 @@ body, .wrapper, .page-container {
 			actionClick: "eventsTrend()",
 			icon:"fa fa-database",
 			options:{size:{height:75,width:250}},
-			panelClass:"overview-item--c3",
 			animate:"zoomIn"
 		}).draw();	
 	}

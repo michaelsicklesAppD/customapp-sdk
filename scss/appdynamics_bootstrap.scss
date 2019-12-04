@@ -1,0 +1,107 @@
+
+
+$body-bg: #F1F3F5;
+$body-color: #585e67;
+
+$primary:      #7a66ff;
+$brand-success: #00D180; 
+$brand-info: cyan; 
+$brand-warning: #FFD303; 
+$brand-danger: #FE202F;
+
+#timeRange {
+    margin-right: 10px;
+}
+.card {
+    margin: 5px;
+}
+.page-container {
+    background: transparent;
+    padding-left:250px;
+    padding-top:10px;
+    min-height: 100%;
+}
+.menu-sidebar {
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: #F1F3F5;
+    overflow-y: auto;
+    border-right: 1px solid #DBDFE2;
+}
+
+.menu-sidebar .logo {
+    background: #FFF;
+    height: 50px;
+    padding: 0 25px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    border-bottom: 1px solid #DBDFE2;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+}
+
+.menu-sidebar .navbar__list .navbar__sub-list {
+    display: none;
+    padding-left: 34px;
+}
+
+.menu-sidebar .navbar__list .navbar__sub-list li a {
+    padding: 11.5px 0;
+}
+
+.menu-sidebar__content {
+    position: relative;
+    height: -webkit-calc(100vh - 75px);
+    height: -moz-calc(100vh - 75px);
+    height: calc(100vh - 75px);
+}
+
+.navbar-sidebar {
+    padding-bottom: 0;
+}
+
+.navbar-sidebar .navbar__list li a {
+    display: block;
+    color: #585e67;
+    font-size: 16px;
+    padding: 15px 0;
+    padding-left: 15px;
+}
+
+.navbar-sidebar .navbar__list li a i {
+    margin-right: 19px;
+}
+
+.navbar-sidebar .navbar__list li a:hover {
+    color: #7a66ff;
+    background-color: #e8eaec;
+}
+
+.navbar-sidebar .navbar__list li.active > a {
+    color: #7a66ff;
+}
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.panel-blue {
+    background-color: $brand-info;
+}
+.panel-green {
+    background-color: $brand-success;
+}
+.panel-yellow {
+    background-color: $brand-warning;
+}
+.panel-red {
+    background-color: $brand-danger;
+}
