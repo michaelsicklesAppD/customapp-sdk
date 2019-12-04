@@ -2,9 +2,7 @@
 var configManager = require('../src/ConfigManager');
 var app = require('../app');
 var server = require('http').Server(app);
-
 app.set('port', process.env.PORT || configManager.getLocalPort());
-
 /**
  * make a log directory, just in case it isn't there.
  */
