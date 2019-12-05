@@ -9757,4 +9757,9 @@ h3 {
   background-color: #FE202F;
 }
 
+.bb {
+  display: flex;
+  justify-content: center;
+}
+
 /*# sourceMappingURL=appdynamics_bootstrap.css.map */
