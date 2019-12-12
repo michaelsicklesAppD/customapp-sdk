@@ -10,8 +10,8 @@ References:
 
 ## Installing
 
-1. Download the latest release https://github.com/Appdynamics/biqapp-sdk/releases
-1. Change into the directory: `cd biqapp-sdk`
+1. Download the latest release https://github.com/Appdynamics/customapp-sdk/releases
+1. Change into the directory: `cd customapp-sdk`
 1. Download npm dependencies: `npm install`
 1. Create a config.json file in the root directory with the following :
 
