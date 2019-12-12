@@ -71,14 +71,7 @@ if (configManager.getLibraries()) {
         var url = "/node_modules/" + library;
         app.get(url, function (req, res) {
             res.sendFile(__dirname + url);
-        });
-        //Serves all the request which includes /images in the url from Images folder
-        //app.use('/library', express.static('node_modules/' + library));
-
-        // app.get( path, function(req, res){ 
-        //     //console.log(".."+req.path);
-        //     res.render(".."+url); 
-        // }); 
+        }); 
     });
 }
 if (configManager.getDashboards()) {
@@ -98,7 +91,7 @@ if (configManager.getDashboards()) {
             });
         });
     });
-    console.log("\n\nAccess website at \"http://localhost:3000/views/index.html\"");
+    console.log("\n\nAccess website at \""+configManager.getProtocol()+"://localhost:"+configManager.getLocalPort()+"/views/index.html\"");
 }
 
 // catch 404 and forward to error handler

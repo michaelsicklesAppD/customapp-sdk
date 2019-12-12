@@ -12,7 +12,7 @@ exports.init = function () {
 	const configjson = {
 		"localport": 3000,
 		"controller": "",
-		"https": true,
+		"https": false,
 		"globalKey": "",
 		"accessKey": "",
 		"analyticsUrl": "https://analytics.api.appdynamics.com",
@@ -164,4 +164,16 @@ exports.getDashboards = function () {
 }
 exports.getLibraries = function () {
 	return libraries.libraries;
+}
+
+exports.isHTTPs = function(){
+	return config.https;
+}
+
+exports.getProtocol = function(){
+	if (config.https){
+		return "https";
+	}else{
+		return "http";
+	}
 }
