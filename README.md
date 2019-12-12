@@ -36,7 +36,7 @@ If you copy the above default text, you can still run the node.js server. Only c
 * `globalKey`: The Global Account Key for the controller
 * `accessKey`: The Analytics API access key, used to execute the analytics query
 * `restdebug`: If set to true, will print debug statements on the console
-* `proxy_old`: Rename this to proxy if you are using a proxy on the server you running the BiQ App framework on.
+* `proxy_old`: Rename this to proxy if you are using a proxy on the server you running the Custom App framework on.
 
 If you are running your controller with a different port e.g. 8090 then you need to add the port element e.g.
 
