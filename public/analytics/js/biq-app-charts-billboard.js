@@ -1119,7 +1119,7 @@ class TimeLineChart extends BaseChart {
   
     const nCategories = Math.ceil(Math.random()*MAXCATEGORIES),
     categoryLabels = ['Normal','Slow','Very Slow','Stall','Error'];
-    const groupLabels = ["Aero","E-Aero","UROC","SmartScan","CSL","CSL-Aero"];
+    const groupLabels = ["App1","App2","App3","App4","App5","App6"];
   
     return [...Array(NGROUPS).keys()].map(i => ({
     group: groupLabels[i],
