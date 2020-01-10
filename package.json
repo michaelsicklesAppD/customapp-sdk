@@ -48,7 +48,8 @@
     "request": "^2.87.0",
     "send": "^0.16.2",
     "should": "^7.0.2",
-    "spin.js": "^4.0.0"
+    "spin.js": "^4.0.0",
+    "timelines-chart": "2.8.4"
   },
   "devDependencies": {
     "sass": "^1.23.1"

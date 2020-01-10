@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <% include ../partials/theme %>
 <% include head %>
+<% include ../includes/sankey %>
 </head>
 <body>
 	<div class="wrapper">
@@ -25,19 +26,25 @@
 			<div class="container-fluid">   
 				<!-- Main Page -->
 				<div class="row">
-					<p class="col">Click on the view details and the then the error breakdown.</p>
+                    <div class="col-12">
+                    <p class="col">Step 1: Click on Error Counts.</p>
+                    <p class="col">Step 2: Click on a segment in the Pie Chart</p>
+                    <p class="col">Step 3: Click on an entry in the table</p>
+                    <p class="col">Step 4: Click on a data point in the time series graph</p>
+                    <p class="col">Step 5: Click on a segment in the sankey chart</p>
+                    </div>
+					
 				</div>	
 				<div class="row">
-					<div id="ErrorTotals" class="col-md-3"></div>
-					<div id="ErrorBreakDown" class="col-md-6"></div>
-				</div>
+					<div id="ErrorTotals" class="col-4"></div>
+					<div id="ErrorBreakDown" class="col-4"></div>
+                    <div id="ErrorTable" class="col-4"></div>
+                </div>
 				<div class="row">
-					<p>Click on a table record and then a point in the time series graph.</p>
-				</div>
-				<div class="row">
-					<div id="ErrorTable" class="col-md-4"></div>
-					<div id="ErrorTrend" class="col-md-4"></div>
-					<div id="sankeyChart" class="col-md-4"></div>
+					<div id="ErrorTrend" class="col-6"></div>
+					<div id="sankeyChart" class="col-6">
+                        <svg id='chart' xmlns="http://www.w3.org/2000/svg"></svg>
+                    </div>
 				</div>
 			</div>
         </div>
@@ -75,7 +82,6 @@
 				//query : "",
 				targetId:"ErrorTable",
 				title:"Table Chart",
-				panelClass:"panel-red",
 				columns: [{ title: "Name" },{ title: "Counts" }],
 				animate:"zoomIn"
 			}).draw(function(record){
@@ -83,29 +89,31 @@
 					//query: "",    
 					targetId:"ErrorTrend",
 					title:"Error Trend Chart",
-					panelClass:"panel-red",
 					animate:"zoomInDown"
 				}).draw(function(rec){
 					
-					var data={
-						nodes : ["RuntimeException",
-						"Login Service",
-						"DB Service",
-						"Customer A",
-						"Customer B"],
-						source : [1,1,2,2,3],
-						target : [2,3,4,5,5],
-						values : [15,5,10,5,2]
-					}
+                    var data = {
+                      nodes: [{ "id": 0, "name": "RuntimeException" },
+                      { "id": 1, "name": "Login Service" },
+                      { "id": 2, "name": "DB Service" },
+                      { "id": 3, "name": "Customer A" },
+                      { "id": 4, "name": "Customer B" }],
+                      links: [{ "source": 0, "target": 1, "value": 15 },
+                      { "source": 0, "target": 2, "value": 5 },
+                      { "source": 1, "target": 3, "value": 10 },
+                      { "source": 1, "target": 4, "value": 5 }
+                      ]
+                    }
 
-					sankeyChart = new PlotlySankeyChart({
-						targetId:"sankeyChart",
-						title:"Flow",
-						animate:"zoomIn"
-					});
-					sankeyChart.renderChart(data,function(selection){
-						alert(JSON.stringify(selection));
-					});
+                    sankeyChart = new SankeyChart({
+                      targetId: "chart",
+                      data: data,
+                      options: { height: "500", width: "800" }
+                    });
+
+                    sankeyChart.renderChart(function (selection) {
+                      alert(selection.value);
+                    });
 				});
 			});
 		});
