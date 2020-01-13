@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BiQ App - Dashboard</title>
+    <meta charset="UTF-8">
+    <% include ../partials/theme %>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <aside class="menu-sidebar">
+            <div class="logo">
+                <a href="#">
+                    <img width="200" height="18" src="/img/AppDynamicsLogo_black.svg" alt="AppDynamics" />
+                </a>
+            </div>
+            <nav class="navbar-sidebar">
+                <ul class="list-unstyled navbar__list">
+                    <li style="margin-bottom:25px">
+                        <ul class="nav" id="time"></ul>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="page-container">
+            <div class="container-fluid">
+                <!-- Your html here -->
+                <div id="MyCustomComponent">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    //Your BiQ App Components ...
+
+    new FilterComponent({
+        targetId: "time",
+        filters: [{
+            label: "Field1",
+            id: "Field1",
+            adqlField: "<field name required>",
+            query: ""
+        }]
+    }).draw(function (filters) {
+        alert(JSON.stringify(filters));
+    });
+
+    
+    var customRouteURL = "http://localhost:3000/custom";
+    $.ajax({
+            url: customRouteURL,
+            method: "POST"
+    }).done(function (data) {
+        new CustomComponent({
+            targetId: "MyCustomComponent",
+            title: "Testing",
+            customText: data
+
+        }).draw(function () {
+            alert('click');
+        });
+    });
+
+</script>
+
+</html>

@@ -11,7 +11,7 @@ var configManager = require('./src/ConfigManager.js');
 var analyticsManager = require('./src/AnalyticsManager.js');
 var analyticsRoute = require('./routes/analytics-route.js');
 
-
+var customRoute = require('./routes/custom-route.js');
 
 var log = log4js.getLogger("app");
 var app = express();
@@ -56,6 +56,7 @@ app.get('/public/images/*', function (req, res) {
 app.use(express.static(__dirname + '/public/images'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/analytics', analyticsRoute);
+app.use('/custom', customRoute);
 
 app.get('/', function (req, res) {
     res.redirect('/views/index.html');

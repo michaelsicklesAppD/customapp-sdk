@@ -8,7 +8,7 @@ var _boxComponentTemplate = "#_boxComponent";
 var _filterComponentTemplate = "#_filtersComponent";
 var _debugBiQAppCharts = false;
 
-var generateRandomTimeData = function() {
+var generateRandomTimeData = function () {
   //For last 60 mins generate random counts
   var date = new Date();
   var results = [];
@@ -20,7 +20,7 @@ var generateRandomTimeData = function() {
   return results;
 };
 
-var generateColumnData = function() {
+var generateColumnData = function () {
   return [
     ["Normal", 1000],
     ["Slow", 2000],
@@ -30,9 +30,9 @@ var generateColumnData = function() {
   ];
 };
 
-var defaultColorPattern =  ['#2ca02c','#1f77b4','#ff7f0e','#d62728','#9467bd'];
+var defaultColorPattern = ['#2ca02c', '#1f77b4', '#ff7f0e', '#d62728', '#9467bd'];
 
-var animateDiv = function(div, animate) {
+var animateDiv = function (div, animate) {
   $("#" + div).addClass("animated " + animate);
 };
 
@@ -73,9 +73,9 @@ class BaseChart {
     this.options = options;
     var template = options.template ? options.template : _noPanelComponentTemplate;
     debug(this, "chart template : " + template);
-    try{
+    try {
       this.template = $.templates(template);
-    }catch(error){
+    } catch (error) {
       //typically fails because jquery is not loaded in our unit tests
     }
   }
@@ -215,11 +215,11 @@ class TimeChart extends BaseChart {
     var columnArrays = [];
     columnArrays.push(dates);
     columnArrays.push(counts);
-    data.forEach(function(rec) {
+    data.forEach(function (rec) {
       dates.push(parseInt(rec[0]));
-      if(rec[1]){
+      if (rec[1]) {
         counts.push(rec[1]);
-      }else{
+      } else {
         counts.push(0);
       }
     });
@@ -233,7 +233,7 @@ class TimeChart extends BaseChart {
   prepRowData(data, options) {
     //set timestamp to int
     //row data is epected to be timestamp, group, count
-    data.forEach(function(rec) {
+    data.forEach(function (rec) {
       rec[0] = parseInt(rec[0]);
     });
 
@@ -243,7 +243,7 @@ class TimeChart extends BaseChart {
     return data;
   }
 
-  prepKeyAndData(options,data){
+  prepKeyAndData(options, data) {
     var chartData = [];
     var key = options.dataKey;
     if (!key) {
@@ -262,8 +262,8 @@ class TimeChart extends BaseChart {
       }
     } else if (key) {
       chartData = data;
-    } 
-    return {key:key,chartData:chartData};
+    }
+    return { key: key, chartData: chartData };
   }
 
   renderChart(data, clickFunction) {
@@ -271,7 +271,7 @@ class TimeChart extends BaseChart {
     super.renderOuterComponent(this.template);
     super.show();
     super.setTitle(options);
-    var keyAndData = this.prepKeyAndData(options,data);
+    var keyAndData = this.prepKeyAndData(options, data);
     this.renderGraph(keyAndData.key, keyAndData.chartData, clickFunction);
 
     super.animate();
@@ -288,7 +288,7 @@ class TimeChart extends BaseChart {
       data: {
         x: "dates",
         type: type,
-        onclick: function(e) {
+        onclick: function (e) {
           var date = new Date(e.x.getTime());
           if (clickFunction) {
             clickFunction({ id: e.id, date: date });
@@ -310,7 +310,7 @@ class TimeChart extends BaseChart {
     super.updateChartOptions(chartOptions);
     debug(this, JSON.stringify(chartOptions));
     this.chart = bb.generate(chartOptions);
-    
+
   }
 }
 
@@ -330,7 +330,7 @@ class SparkLineChart extends TimeChart {
       data: {
         x: "dates",
         type: type,
-        onclick: function(e) {
+        onclick: function (e) {
           var date = new Date(e.x.getTime());
           if (clickFunction) {
             clickFunction({ id: e.id, date: date });
@@ -365,7 +365,7 @@ class DonutChart extends BaseChart {
       data: {
         columns: data,
         type: "donut",
-        onclick: function(d, i) {
+        onclick: function (d, i) {
           if (clickFunction) {
             debug(this, JSON.stringify(d));
             clickFunction(d);
@@ -399,7 +399,7 @@ class PieChart extends BaseChart {
       data: {
         columns: data,
         type: "pie",
-        onclick: function(d, i) {
+        onclick: function (d, i) {
           if (clickFunction) {
             debug(this, JSON.stringify(d));
             clickFunction(d);
@@ -410,8 +410,8 @@ class PieChart extends BaseChart {
     };
 
     super.updateChartOptions(chartOptions);
-    if(!chartOptions.color){
-      chartOptions.color = {pattern: defaultColorPattern};
+    if (!chartOptions.color) {
+      chartOptions.color = { pattern: defaultColorPattern };
     }
     this.chart = bb.generate(chartOptions);
     super.show();
@@ -432,7 +432,7 @@ class GaugeChart extends BaseChart {
       data: {
         columns: data,
         type: "gauge",
-        onclick: function(d, i) {
+        onclick: function (d, i) {
           if (clickFunction) {
             debug(this, JSON.stringify(d));
             clickFunction(d);
@@ -479,7 +479,7 @@ class Table extends BaseChart {
       initOptions.order = this.order;
 
       table.DataTable(initOptions);
-      table.DataTable().on("click", 'tr[role="row"]', function() {
+      table.DataTable().on("click", 'tr[role="row"]', function () {
         table
           .DataTable()
           .$("tr.selected")
@@ -505,14 +505,14 @@ class Table extends BaseChart {
   }
 }
 
-var biqUpdateQuery = function(options,query,filters) {
+var biqUpdateQuery = function (options, query, filters) {
   if (options.ignoreFilters) {
     return query;
   } else {
     if (filters && filters.length > 0) {
       var orderByPos = query.toLowerCase().indexOf("order by");
-      var preQuery,postQuery = "";
-      
+      var preQuery, postQuery = "";
+
       if (orderByPos > 0) {
         preQuery = query.substring(0, orderByPos);
         postQuery = query.substring(orderByPos, query.length);
@@ -520,26 +520,26 @@ var biqUpdateQuery = function(options,query,filters) {
         preQuery = query;
       }
       var hasWhere = false;
-      if(preQuery.toLowerCase().indexOf("where") > 0){
+      if (preQuery.toLowerCase().indexOf("where") > 0) {
         hasWhere = true;
       }
 
-      if(!hasWhere){
+      if (!hasWhere) {
         preQuery += " WHERE ";
       }
 
       for (let index = 0; index < filters.length; index++) {
         const filter = filters[index];
-        if(!hasWhere && index==0){
+        if (!hasWhere && index == 0) {
           preQuery += filter.field + " = '" + filter.value + "'";
-        }else{
+        } else {
           preQuery += " AND " + filter.field + " = '" + filter.value + "'";
         }
       }
 
-      if(postQuery.length > 1){
+      if (postQuery.length > 1) {
         return preQuery + " " + postQuery;
-      }else{
+      } else {
         return preQuery;
       }
     } else {
@@ -576,7 +576,7 @@ class BaseComponent {
 
   resetChildren(children) {
     if (children) {
-      children.forEach(function(child) {
+      children.forEach(function (child) {
         $("#" + child).hide();
       });
     }
@@ -587,7 +587,7 @@ class BaseComponent {
   }
 
   _updateQuery(options, query) {
-    return biqUpdateQuery(options,query,_biqFilters);
+    return biqUpdateQuery(options, query, _biqFilters);
   }
 
   draw(onClick, callback) {
@@ -624,7 +624,7 @@ class BaseComponent {
       } else {
         queryOptions.query = this._updateQuery(options, queryOptions.query);
       }
-      search(queryOptions, function(data) {
+      search(queryOptions, function (data) {
         _render(
           chart,
           options,
@@ -682,12 +682,24 @@ class BaseComponent {
     if (preRender) {
       preRender(chart, options, data);
     }
-    chart.renderChart(data, function(result) {
-      resetChildrenFunction(options.reset);
-      if (onClick) {
-        onClick(result);
-      }
-    });
+    if (chart) {
+      chart.renderChart(data, function (result) {
+        resetChildrenFunction(options.reset);
+        if (onClick) {
+          onClick(result);
+        }
+      });
+    } else {
+      $("#" + options.targetId).html(
+        $.templates(options.template).render(options)
+      );
+      $("#" + options.targetId).click(function() {
+        if (onClick) {
+          onClick(data);
+        }
+      });
+    }
+
     if (postRender) {
       postRender(chart, options, data);
     }
@@ -732,7 +744,7 @@ class TimeRangeComponent extends BaseComponent {
     var options = this.getOptions();
     this.template = $.templates(options.template);
     $("#" + options.targetId).html(this.template.render(options));
-    $("#timeRange").on("change", function() {
+    $("#timeRange").on("change", function () {
       if (onClick) {
         onClick({
           timebucket: getTimeBucket(),
@@ -748,57 +760,57 @@ class TimeRangeComponent extends BaseComponent {
   }
 }
 
-box_setAbbreviation = function(options,value){
-    value = roundValue(value);
-    if(!options.hasOwnProperty('abbreviate')){
-        options.value = abbreviateNumber(value);
-    }else if(options.abbreviate){
-        options.value = abbreviateNumber(value);
-    }else{
-        options.value = value;
-    }
+box_setAbbreviation = function (options, value) {
+  value = roundValue(value);
+  if (!options.hasOwnProperty('abbreviate')) {
+    options.value = abbreviateNumber(value);
+  } else if (options.abbreviate) {
+    options.value = abbreviateNumber(value);
+  } else {
+    options.value = value;
+  }
 }
 
-box_getTotal = function(options,data) {
-    try {
-      var total = 0;
-      data.forEach(function(rec) {
-        total += rec[1];
-      });
-      box_setAbbreviation(options,total);
-    } catch (error) {
-      console.log(error);
-    }
+box_getTotal = function (options, data) {
+  try {
+    var total = 0;
+    data.forEach(function (rec) {
+      total += rec[1];
+    });
+    box_setAbbreviation(options, total);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-box_getMax = function(options,data) {
-    try {
-      var max = 0;
-      data.forEach(function(rec) {
-        if(rec[1] > max){
-            max = rec[1];
-        }
-      });
-      box_setAbbreviation(options,max);
-    } catch (error) {
-      console.log(error);
-    }
+box_getMax = function (options, data) {
+  try {
+    var max = 0;
+    data.forEach(function (rec) {
+      if (rec[1] > max) {
+        max = rec[1];
+      }
+    });
+    box_setAbbreviation(options, max);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-box_getAvg = function(options,data) {
-    try {
-        var total = 0;
-        data.forEach(function(rec) {
-            total += rec[1];
-        });
-        var avg = 0;
-        if(total>0){
-            avg = total/data.length;
-        }
-        box_setAbbreviation(options,avg);
-    } catch (error) {
-        console.log(error);
+box_getAvg = function (options, data) {
+  try {
+    var total = 0;
+    data.forEach(function (rec) {
+      total += rec[1];
+    });
+    var avg = 0;
+    if (total > 0) {
+      avg = total / data.length;
     }
+    box_setAbbreviation(options, avg);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 class BoxChartComponent extends BaseComponent {
@@ -811,15 +823,15 @@ class BoxChartComponent extends BaseComponent {
   preProcess(options, data) {
 
     if (!options.value) {
-        if(!options.rollup){
-            box_getTotal(options, data);
-        }else if(options.rollup == 'max'){
-            box_getMax(options, data);
-        }else if(options.rollup == 'avg'){
-            box_getAvg(options, data);
-        }else{
-            box_getTotal(options, data);
-        }
+      if (!options.rollup) {
+        box_getTotal(options, data);
+      } else if (options.rollup == 'max') {
+        box_getMax(options, data);
+      } else if (options.rollup == 'avg') {
+        box_getAvg(options, data);
+      } else {
+        box_getTotal(options, data);
+      }
     }
     return data;
   }
@@ -861,20 +873,20 @@ class FilterComponent extends BaseComponent {
     var options = this.getOptions();
     this.template = $.templates(options.template);
     $("#" + options.targetId).html(this.template.render(options));
-    options.filters.forEach(function(filter) {
+    options.filters.forEach(function (filter) {
       if (filter.query) {
         autoCompleteOnFilter(
           "#" + filter.id,
           filter.query,
           filter.adqlField,
-          function(selection) {}
+          function (selection) { }
         );
       }
     });
 
-    $("#_submitFilter").on("click", function() {
+    $("#_submitFilter").on("click", function () {
       var results = [];
-      options.filters.forEach(function(filter) {
+      options.filters.forEach(function (filter) {
         var value = $("#" + filter.id).val();
         if (value && value.length > 0) {
           results.push({ field: filter.adqlField, value: value });
@@ -885,8 +897,8 @@ class FilterComponent extends BaseComponent {
         onClick(_biqFilters);
       }
     });
-    $("#_resetFilter").on("click", function() {
-      options.filters.forEach(function(filter) {
+    $("#_resetFilter").on("click", function () {
+      options.filters.forEach(function (filter) {
         $("#" + filter.id).val("");
       });
       _biqFilters = [];
@@ -904,33 +916,33 @@ class FilterComponent extends BaseComponent {
   }
 }
 
-var hideElements = function(elems) {
+var hideElements = function (elems) {
   if (elems) {
-    elems.forEach(function(elem) {
+    elems.forEach(function (elem) {
       $("#" + elem).hide();
     });
   }
 };
 
-var showElements = function (elems){
-  if(elems){
-      elems.forEach(function(elem){
-          $("#"+elem).show();
-      });
+var showElements = function (elems) {
+  if (elems) {
+    elems.forEach(function (elem) {
+      $("#" + elem).show();
+    });
   }
 }
 
 var _biqComponents = [];
-var addComponent = function(comp) {
+var addComponent = function (comp) {
   //_biqComponents.push(comp); //For now do not add to this array list. This was meant to be a way of children auto listening to parent changes. But never got implemented.
   return comp;
 };
 
 var _biqFilters = [];
 
-var updateQueryWithFilters = function(query) {
+var updateQueryWithFilters = function (query) {
   if (_biqFilters && _biqFilters.length > 0) {
-    _biqFilters.forEach(function(filter) {
+    _biqFilters.forEach(function (filter) {
       var noSpaceQuery = query.replace(/\s/g, "");
       if (!noSpaceQuery.includes(filter.field + "=")) {
         query += " AND " + filter.field + " = '" + filter.value + "'";
@@ -973,7 +985,7 @@ class SankeyChart extends BaseChart {
   }
 
   generateSampleData() {
-    return  {
+    return {
       nodes: [{ "id": 0, "name": "RuntimeException" },
       { "id": 1, "name": "Login Service" },
       { "id": 2, "name": "DB Service" },
@@ -982,7 +994,7 @@ class SankeyChart extends BaseChart {
       links: [{ "source": 0, "target": 1, "value": 15 },
       { "source": 0, "target": 2, "value": 5 },
       { "source": 1, "target": 3, "value": 10 },
-      { "source": 1, "target": 4 , "value": 5 }
+      { "source": 1, "target": 4, "value": 5 }
       ]
     };
   }
@@ -994,113 +1006,114 @@ class SankeyChart extends BaseChart {
       data = this.generateSampleData();
     }
     var options = this.getOptions();
-    const width = options.width ||  964;
+    const width = options.width || 964;
     const height = options.height || 600;
     //input/output/path
-    let edgeColor =  options.pathColor || 'input';
-    
-    const _sankey = d3.sankey()
-          .nodeWidth(15)
-          .nodePadding(10)
-          .extent([[1, 1], [width - 1, height - 5]]);
-      const sankey = ({nodes, links}) => _sankey({
-        nodes: nodes.map(d => Object.assign({}, d)),
-        links: links.map(d => Object.assign({}, d))
-      });
-    
-    
-      const f = d3.format(",.0f");
-      const format = d => `${f(d)} TWh`;
-    
-      const _color = d3.scaleOrdinal(d3.schemeCategory10);
-      const color = name => _color(name.replace(/ .*/, ""));
-    
-    const svg = d3.select(sankeyId)
-          .attr("viewBox", `0 0 ${width} ${height}`)
-          .style("width", width)
-          .style("height", height);
-    
-    const {nodes, links} = sankey(data);
-    
-      svg.append("g")
-          .attr("stroke", "#000")
-        .selectAll("rect")
-        .data(nodes)
-        .join("rect")
-        .on("click",function(d){
-          if (d3.event.defaultPrevented) return;
-          if(onClick) { onClick(d); }
-      })
-          .attr("x", d => d.x0)
-          .attr("y", d => d.y0)
-          .attr("height", d => d.y1 - d.y0)
-          .attr("width", d => d.x1 - d.x0)
-          .attr("fill", d => color(d.name))
-          .attr("class", "sankeyNode")
-        .append("title")
-          .text(d => `${d.name}\n${format(d.value)}`)
-          ;
-    
-      const link = svg.append("g")
-          .attr("fill", "none")
-          .attr("stroke-opacity", 0.5)
-        .selectAll("g")
-        .data(links)
-        .join("g")
-          .style("mix-blend-mode", "multiply");
-          
+    let edgeColor = options.pathColor || 'input';
 
-    
+    const _sankey = d3.sankey()
+      .nodeWidth(15)
+      .nodePadding(10)
+      .extent([[1, 1], [width - 1, height - 5]]);
+    const sankey = ({ nodes, links }) => _sankey({
+      nodes: nodes.map(d => Object.assign({}, d)),
+      links: links.map(d => Object.assign({}, d))
+    });
+
+
+    const f = d3.format(",.0f");
+    const format = d => `${f(d)} TWh`;
+
+    const _color = d3.scaleOrdinal(d3.schemeCategory10);
+    const color = name => _color(name.replace(/ .*/, ""));
+
+    const svg = d3.select(sankeyId)
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .style("width", width)
+      .style("height", height);
+
+    const { nodes, links } = sankey(data);
+
+    svg.append("g")
+      .attr("stroke", "#000")
+      .selectAll("rect")
+      .data(nodes)
+      .join("rect")
+      .on("click", function (d) {
+        if (d3.event.defaultPrevented) return;
+        if (onClick) { onClick(d); }
+      })
+      .attr("x", d => d.x0)
+      .attr("y", d => d.y0)
+      .attr("height", d => d.y1 - d.y0)
+      .attr("width", d => d.x1 - d.x0)
+      .attr("fill", d => color(d.name))
+      .attr("class", "sankeyNode")
+      .append("title")
+      .text(d => `${d.name}\n${format(d.value)}`)
+      ;
+
+    const link = svg.append("g")
+      .attr("fill", "none")
+      .attr("stroke-opacity", 0.5)
+      .selectAll("g")
+      .data(links)
+      .join("g")
+      .style("mix-blend-mode", "multiply");
+
+
+
     function update() {
       if (edgeColor === "path") {
         const gradient = link.append("linearGradient")
-            .attr("id", (d,i) => {
+          .attr("id", (d, i) => {
             //  (d.uid = DOM.uid("link")).id
             const id = `link-${i}`;
             d.uid = `url(#${id})`;
             return id;
-            })
-            .attr("gradientUnits", "userSpaceOnUse")
-            .attr("x1", d => d.source.x1)
-            .attr("x2", d => d.target.x0);
-    
-        gradient.append("stop")
-            .attr("offset", "0%")
-            .attr("stop-color", d => color(d.source.name));
-    
-        gradient.append("stop")
-            .attr("offset", "100%")
-            .attr("stop-color", d => color(d.target.name));
-      }
-    
-      link.append("path")
-          .attr("d", d3.sankeyLinkHorizontal())
-          .attr("stroke", d => edgeColor === "path" ? d.uid
-              : edgeColor === "input" ? color(d.source.name)
-              : color(d.target.name))
-          .attr("stroke-width", d => Math.max(1, d.width))
-          .attr("class", "sankeyLink");
-          }
-          
-          update();
-    
-      link.append("title")
-          .text(d => `${d.source.name} → ${d.target.name}\n${format(d.value)}`);
-    
-      svg.append("g")
+          })
+          .attr("gradientUnits", "userSpaceOnUse")
+          .attr("x1", d => d.source.x1)
+          .attr("x2", d => d.target.x0);
 
-          .style("font", "10px sans-serif")
-        .selectAll("text")
-        .data(nodes)
-        .join("text")
-          .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
-          .attr("y", d => (d.y1 + d.y0) / 2)
-          .attr("dy", "0.35em")
-          .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
-          .text(d => d.name);
-          d3.selectAll('.sankeyLink').on('mouseover', function(){
-            d3.select(this).style("stroke-opacity", ".5"); })
-          }
+        gradient.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", d => color(d.source.name));
+
+        gradient.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", d => color(d.target.name));
+      }
+
+      link.append("path")
+        .attr("d", d3.sankeyLinkHorizontal())
+        .attr("stroke", d => edgeColor === "path" ? d.uid
+          : edgeColor === "input" ? color(d.source.name)
+            : color(d.target.name))
+        .attr("stroke-width", d => Math.max(1, d.width))
+        .attr("class", "sankeyLink");
+    }
+
+    update();
+
+    link.append("title")
+      .text(d => `${d.source.name} → ${d.target.name}\n${format(d.value)}`);
+
+    svg.append("g")
+
+      .style("font", "10px sans-serif")
+      .selectAll("text")
+      .data(nodes)
+      .join("text")
+      .attr("x", d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
+      .attr("y", d => (d.y1 + d.y0) / 2)
+      .attr("dy", "0.35em")
+      .attr("text-anchor", d => d.x0 < width / 2 ? "start" : "end")
+      .text(d => d.name);
+    d3.selectAll('.sankeyLink').on('mouseover', function () {
+      d3.select(this).style("stroke-opacity", ".5");
+    })
+  }
 
 }
 
@@ -1112,46 +1125,46 @@ class TimeLineChart extends BaseChart {
 
   getRandomData(ordinal = false) {
     const NGROUPS = 6,
-    MAXLINES = 15,
-    MAXSEGMENTS = 20,
-    MAXCATEGORIES = 20,
-    MINTIME = new Date(2013,2,21);
-  
-    const nCategories = Math.ceil(Math.random()*MAXCATEGORIES),
-    categoryLabels = ['Normal','Slow','Very Slow','Stall','Error'];
-    const groupLabels = ["App1","App2","App3","App4","App5","App6"];
-  
+      MAXLINES = 15,
+      MAXSEGMENTS = 20,
+      MAXCATEGORIES = 20,
+      MINTIME = new Date(2013, 2, 21);
+
+    const nCategories = Math.ceil(Math.random() * MAXCATEGORIES),
+      categoryLabels = ['Normal', 'Slow', 'Very Slow', 'Stall', 'Error'];
+    const groupLabels = ["App1", "App2", "App3", "App4", "App5", "App6"];
+
     return [...Array(NGROUPS).keys()].map(i => ({
-    group: groupLabels[i],
-    data: getGroupData()
+      group: groupLabels[i],
+      data: getGroupData()
     }));
-  
+
     function getGroupData() {
 
-      return [...Array(Math.ceil(Math.random()*MAXLINES)).keys()].map(i => ({
-        label: 'label' + (i+1),
+      return [...Array(Math.ceil(Math.random() * MAXLINES)).keys()].map(i => ({
+        label: 'label' + (i + 1),
         data: getSegmentsData()
       }));
-  
+
       function getSegmentsData() {
-        const nSegments = Math.ceil(Math.random()*MAXSEGMENTS),
-        segMaxLength = Math.round(((new Date())-MINTIME)/nSegments);
+        const nSegments = Math.ceil(Math.random() * MAXSEGMENTS),
+          segMaxLength = Math.round(((new Date()) - MINTIME) / nSegments);
         let runLength = MINTIME;
-  
+
         return [...Array(nSegments).keys()].map(i => {
-        const tDivide = [Math.random(), Math.random()].sort(),
-          start = new Date(runLength.getTime() + tDivide[0]*segMaxLength),
-          end = new Date(runLength.getTime() + tDivide[1]*segMaxLength);
-  
-        runLength = new Date(runLength.getTime() + segMaxLength);
-  
-        return {
-          timeRange: [start, end],
-          val: ordinal ? categoryLabels[Math.ceil(Math.random()*nCategories)] : Math.random()
-          //labelVal: is optional - only displayed in the labels
-        };
+          const tDivide = [Math.random(), Math.random()].sort(),
+            start = new Date(runLength.getTime() + tDivide[0] * segMaxLength),
+            end = new Date(runLength.getTime() + tDivide[1] * segMaxLength);
+
+          runLength = new Date(runLength.getTime() + segMaxLength);
+
+          return {
+            timeRange: [start, end],
+            val: ordinal ? categoryLabels[Math.ceil(Math.random() * nCategories)] : Math.random()
+            //labelVal: is optional - only displayed in the labels
+          };
         });
-  
+
       }
     }
   }
@@ -1166,28 +1179,28 @@ class TimeLineChart extends BaseChart {
     if (!data) {
       data = this.generateSampleData();
     }
-    
+
     var chartOptions = super.getChartOptions();
 
     TimelinesChart()(document.getElementById(id))
-		.maxHeight(chartOptions.height)
-		.width(chartOptions.width)
-		.zScaleLabel(chartOptions.scaleLabel)
-		.zQualitative(true)
-		.dateMarker(new Date() - 365 * 24 * 60 * 60 * 1000) // Add a marker 1y ago
-		.data(data);
+      .maxHeight(chartOptions.height)
+      .width(chartOptions.width)
+      .zScaleLabel(chartOptions.scaleLabel)
+      .zQualitative(true)
+      .dateMarker(new Date() - 365 * 24 * 60 * 60 * 1000) // Add a marker 1y ago
+      .data(data);
   }
 }
 
 
-try{
-  if(exports){
-      exports.TimeChart  = TimeChart;
-      var convertToGroupData = function(data,flag){
-        return data;
-      };
-      exports.biqUpdateQuery = biqUpdateQuery;
+try {
+  if (exports) {
+    exports.TimeChart = TimeChart;
+    var convertToGroupData = function (data, flag) {
+      return data;
+    };
+    exports.biqUpdateQuery = biqUpdateQuery;
   }
-}catch(error){
- // console.log(error);
+} catch (error) {
+  // console.log(error);
 }
