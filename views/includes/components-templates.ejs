@@ -64,33 +64,8 @@
       </select>
 </script>
 
-<script id="_boxComponentOld" type="text/x-jsrender">
-    <div id="{{:targetId}}-box" class="overview-item {{:panelClass}}" onClick="{{:actionClick}}" style="cursor: pointer;">
-        <div class="overview__inner">
-            <div class="overview-box clearfix">
-                <div class="icon">
-                    <i class="{{:icon}}" {{if iconColor}} style="color:{{:iconColor}}" {{/if}}></i>
-                </div>
-                <div class="text">
-                    <h2>{{:value}}</h2>
-					<span>{{:title}}</span>
-                </div>
-            </div>
-            {{if hasChart}}
-                <div class="overview-chart">
-                    <div id="{{:targetId}}-chart"></div>
-                </div>
-            {{else}}
-                <div class="overview-chart" style="height:30px;"></div>
-            {{/if}}
-        </div>
-    </div>	
-</script>
-
 <script id="_boxComponent" type="text/x-jsrender">
-
-    <div id="{{:targetId}}-box"class="card rounded {{:panelClass}}"  onClick="{{:actionClick}}" style="cursor: pointer;">
-
+    <div id="{{:targetId}}-box" class="{{:cardStyle}} rounded {{:panelClass}}"  onClick="{{:actionClick}}" style="cursor: pointer;">
             <div class="card-body">
               <h2 class="card-title">            
                   <div class="icon">
@@ -101,12 +76,9 @@
                 <div class="overview-chart">
                     <div id="{{:targetId}}-chart"></div>
                 </div>
-            {{else}}
-                <div class="overview-chart" style="height:30px;"></div>
             {{/if}}
             </div>
-    </div>
-	
+    </div>	
 </script>
 
 <script id="_filtersComponent" type="text/x-jsrender">

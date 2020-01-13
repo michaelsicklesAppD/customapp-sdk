@@ -36,7 +36,7 @@
                   href="https://github.com/ricklupton/d3-sankey-diagram">https://github.com/ricklupton/d3-sankey-diagram</a>
               </li>
               <li>This component allows you to drill in and zoom on just the element selected.</li>
-              <li>You must include the sankey partials.</li>
+              <li>You must include the sankey library.</li>
               <li>If you leave the data property empty then the chart will generate sample data.</li>
             </ul>
           </div>
@@ -45,7 +45,7 @@
           <div class="col-md-12">
             <pre><code class="language-javascript">	
 	
-	&lt;% include ../partials/sankey %&gt;
+	&lt;% include ../includes/sankey %&gt;
 
 	....
 
@@ -102,7 +102,7 @@
     sankeyChart = new SankeyChart({
       targetId: "chart",
       data: data,
-      options: { height: "1000px", width: "1000px" }
+      options: { height: "500", width: "800" }
     });
 
     sankeyChart.renderChart(function (selection) {

@@ -67,7 +67,7 @@
 			title:"Connection Trends",
 			animate:"zoomIn",
 			xLabel:"Connections",
-			chartOptions:{
+			options:{
 				type:"bar",
 				bar:{
 					width : {ratio:.15}
@@ -80,12 +80,13 @@
 
 	var appsTrend = function(){
 		hide();
-		new TimeChart({
+        
+        new TimeChart({
 			targetId:"appsTrends",
-			data:generateRandomTimeData(),
 			animate:"zoomIn",
 			xLabel:"Average Response",
-			chartOptions:{
+            data : generateRandomTimeData(),
+			options:{
 				type:"bar",
 				bar:{
 					width : {ratio:.15}

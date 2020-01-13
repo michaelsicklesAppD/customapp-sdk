@@ -63,27 +63,27 @@
 							<div class="row">
 								<div class="col-md-9">	
 									<pre><code class="language-javascript">			
-					var chartData =[
-						[1532966193039,5],
-						[1532966013039,10],
-						[1532965833039,20],
-						[1532965593039,7],
-						[1532965293039,30]
-					];
-				
-					new BoxChartComponent({
-						title:"Total Revenue",
-						targetId:"box2",
-						action:"Revenue Dashboard",
-						actionClick: "window.location.href ='/views/examples/boxcomponent.html'",
-						icon:"zmdi zmdi-shopping-cart",
-						data:chartData,
-						//query:,
-						options:{
-							size:{height:75}
-						},
-						
-					}).draw();
+        var chartData =[
+            [1532966193039,5],
+            [1532966013039,10],
+            [1532965833039,20],
+            [1532965593039,7],
+            [1532965293039,30]
+        ];
+
+        new BoxChartComponent({
+            title:"Total Revenue",
+            targetId:"box2",
+            action:"Revenue Dashboard",
+            actionClick: "window.location.href ='/views/examples/boxcomponent.html'",
+            icon:"zmdi zmdi-shopping-cart",
+            data:chartData,
+            //query:,
+            options:{
+                size:{height:75}
+            },
+
+        }).draw();
 				</code></pre>
 				
 								</div>	
@@ -91,42 +91,97 @@
 									<div id="box2" ></div>				
 								</div>
 							</div>
-							<div class="row"><hr/></div>
+							<div class="row">
+                                <p>The following example since we did not provide a query or data property, the chart generates its own data.</p>
+                            </div>
 							<div class="row">
 									<div class="col-md-9">
-										<p>The following example since we did not provide a query or data property, the chart generates its own data.</p>
 										<pre><code class="language-javascript">			
-					new BoxChartComponent({
-						title:"Total Revenue",
-						targetId:"box3",
-						action:"Revenue Dashboard",
-						actionClick: "window.location.href='/views/examples/boxcomponent.html'",
-						icon:"fa fa-shopping-cart fa-2x",
-						//data:,
-						//query:,
-						options:{
-							size:{height:75}
-						}
-					}).draw();			
+    new BoxChartComponent({
+        title:"Total Revenue",
+        targetId:"box3",
+        action:"Revenue Dashboard",
+        actionClick: "window.location.href='/views/examples/boxcomponent.html'",
+        icon:"fa fa-shopping-cart fa-2x",
+        //data:,
+        //query:,
+        options:{
+            size:{height:75}
+        }
+    }).draw();			
 					</code></pre>
 					
 									</div>	
 									<div id="box3" class="col-md-3"></div>				
 								</div>
-							<div class="row"><hr/></div>
 							<div class="row">
-									<div class="col-md-6">
-										<p>ActionClick</p>
-										<ul>
-											<li>To navigate to another page then use this javascript function</li>
-										</ul>
+                                <p>To navigate to another page then use this javascript function for your actionClick replacing the href property.</p>
+                            </div>
+							<div class="row">
+									<div class="col-md-9">
 										<pre><code class="language-javascript">			
-					actionClick: "window.location.href ='/views/newdash.html'",					
+    actionClick: "window.location.href ='/views/newdash.html'"					
 					</code></pre>
 					
 									</div>	
 									<div id="chartComponentCustomized" class="col-md-6"></div>				
 								</div>
+                            <div class="row">
+                                <p>To Remove the outer html i.e. the white background in this case. Set the cardStyle to a blank value</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">                                
+                                   <pre><code class="language-javascript">			
+        new BoxChartComponent({
+            title:"Total Revenue",
+            targetId:"noCardStyle",
+            action:"Revenue Dashboard",
+            actionClick: "window.location.href='/views/examples/boxcomponent.html'",
+            icon:"fa fa-shopping-cart fa-2x",
+            //data:,
+            //query:,
+            cardStyle:' ',
+            options:{
+                size:{height:75}
+            }
+        }).draw();                            				
+                                    </code></pre>
+
+                                </div>	
+                                <div id="noCardStyle" class="col-md-3"></div>				
+				           </div>
+                            <div class="row">
+                                <p>Now we will customize the graph, using the options settings: </p>
+                                <ul>
+                                    <li>max: Sets the max Y value</li>
+                                    <li>size: Sets the height and width</li>
+                                    <li>axis: sets properties for the x and y axis</li>
+                                    <li>culling: sets the max number of entries on the axis</li>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">                                
+                                   <pre><code class="language-javascript">			
+        var boxChartOptions = {
+            max:10,
+            size:{height:75,width:300},
+            axis: {
+                x: { show: true, "type": "timeseries",tick:{fit:false, culling:{max:3}} },
+                y: { show: true, tick:{fit:false, culling:{max:3}} }
+            }
+        }
+		new BoxChartComponent({
+		    title:"Inbound Suspects (Past 60 mins)",
+		    targetId:"custGraph1",
+		    actionClick: "alert('clicked')",
+		    icon:"fa fa-sitemap fa-2x",
+		    options:boxChartOptions
+		}).draw();                     				
+                                    </code></pre>
+
+                                </div>	
+                                <div id="custGraph1" class="col-md-3"></div>				
+				           </div>
 						
 			</div>
 		</div>
@@ -139,7 +194,6 @@
 		new BoxComponent({
 			title:"Total Revenue",
 			targetId:"box1",
-			action:"Revenue Dashboard",
 			actionClick: "window.location.href='/views/examples/boxcomponent.html'",
 			icon:"fa fa-shopping-cart fa-5x",
 			value:"2 Million",
@@ -157,7 +211,6 @@
 		new BoxChartComponent({
 			title:"Total Revenue",
 			targetId:"box2",
-			action:"Revenue Dashboard",
 			actionClick: "window.location.href='/views/examples/boxcomponent.html'",
 			icon:"zmdi zmdi-shopping-cart",
 			data:chartData,
@@ -179,6 +232,36 @@
 			options:{
 				size:{height:75}
 			}
+		}).draw();
+        
+        new BoxChartComponent({
+			title:"Total Revenue",
+			targetId:"noCardStyle",
+			action:"Revenue Dashboard",
+			actionClick: "window.location.href='/views/examples/boxcomponent.html'",
+			icon:"fa fa-shopping-cart fa-2x",
+			//data:,
+			//query:,
+            cardStyle:' ',
+			options:{
+				size:{height:75}
+			}
+		}).draw();
+        
+        var boxChartOptions = {
+            max:10,
+            size:{height:75,width:300},
+            axis: {
+                x: { show: true, "type": "timeseries",tick:{fit:false, culling:{max:3}} },
+                y: { show: true, tick:{fit:false, culling:{max:3}} }
+            }
+        }
+		new BoxChartComponent({
+		    title:"Inbound Suspects (Past 60 mins)",
+		    targetId:"custGraph1",
+		    actionClick: "alert('clicked')",
+		    icon:"fa fa-sitemap fa-2x",
+		    options:boxChartOptions
 		}).draw();
 	}
 

@@ -8,15 +8,51 @@ var _boxComponentTemplate = "#_boxComponent";
 var _filterComponentTemplate = "#_filtersComponent";
 var _debugBiQAppCharts = false;
 
-var generateRandomTimeData = function () {
-  //For last 60 mins generate random counts
+var generateRandomTimeData = function(max, intervals, bucket, xmin, xmax) {
+  if(!max){
+    max = 1000; //max y value
+  }
+  if(!intervals){
+    intervals = 14; //two weeks
+  }
+  if(!bucket){
+    bucket = "days"; // time interval is days
+  }
+
+  if(!xmin){
+    xmin =0;
+  }
+
+  if(!xmax){
+    xmax =0;
+  }
+
   var date = new Date();
   var results = [];
-  var i = 0;
-  for (i = 1; i < 61; i++) {
-    results.push([date.getTime(), Math.floor(Math.random() * 1000)]);
-    date.setMinutes(date.getMinutes() - 1);
+  for (i = 0; i < intervals; i++) {
+    results.push([date.getTime(), Math.floor(Math.random() * max)]);
+    if(bucket == "mins")
+      date.setMinutes(date.getMinutes() - 1);
+    if(bucket == "hrs")
+      date.setHours(date.getHours() - 1);
+    if(bucket == "days")
+      date.setDate(date.getDate() - 1);
   }
+
+  if(xmin > 0){
+    for(i=intervals-1; i >= (intervals-xmin) ; i--){
+        var rec = results[i];
+        rec[1] = 0;
+    }
+  }
+
+  if(xmax != intervals){
+    for(i=0; i < xmax ; i++){
+        var rec = results[i];
+        rec[1] = 0;
+    }
+  }
+
   return results;
 };
 
@@ -66,8 +102,29 @@ function debug(comp, message) {
   }
 }
 
-class BaseChart {
+class CoreComponent {
+
+  constructor(options){
+    this.options = options;
+  }
+
+  getOptions() {
+    return this.options;
+  }
+
+  getChartOptions() {
+    if (this.getOptions().options) {
+      return this.getOptions().options;
+    }
+    if (this.getOptions().chartOptions) {
+      return this.getOptions().chartOptions;
+    }
+  }
+}
+
+class BaseChart extends CoreComponent {
   constructor(options) {
+    super(options);
     this.animate = true;
     this.updateDivs(options);
     this.options = options;
@@ -95,19 +152,6 @@ class BaseChart {
         debug("animating " + this.getDivId() + " : " + animateOption);
         animateDiv(this.getDivId(), animateOption);
       }
-    }
-  }
-
-  getOptions() {
-    return this.options;
-  }
-
-  getChartOptions() {
-    if (this.options.options) {
-      return this.options.options;
-    }
-    if (this.options.chartOptions) {
-      return this.options.chartOptions;
     }
   }
 
@@ -461,6 +505,14 @@ class Table extends BaseChart {
     }
   }
 
+  clearSelection(){
+    var id = this.getDiv();
+    if ($.fn.DataTable.isDataTable(id)) {
+      var table = $(id);
+      table.DataTable().$("tr.selected").removeClass("selected");
+    }
+  }
+
   renderChart(data, clickFunction) {
     super.renderOuterComponent(this.template);
     super.setTitle(super.getOptions());
@@ -548,9 +600,9 @@ var biqUpdateQuery = function (options, query, filters) {
   }
 }
 
-class BaseComponent {
+class BaseComponent extends CoreComponent {
   constructor(options, chart) {
-    this.options = options;
+    super(options)
     this.chart = chart;
     addComponent(this);
     if (this.options.preProcessFn) {
@@ -568,10 +620,6 @@ class BaseComponent {
     if (this.chart) {
       this.chart.setAnimation(false);
     }
-  }
-
-  getOptions() {
-    return this.options;
   }
 
   resetChildren(children) {
@@ -662,7 +710,32 @@ class BaseComponent {
   }
 
   generateRandomData() {
-    return generateRandomTimeData();
+    var max = 1000;
+    if(this.getChartOptions() && this.getChartOptions().max){
+      max = this.getChartOptions().max;
+    }
+
+    var intervals = 60;
+    if(this.getChartOptions() && this.getChartOptions().intervals){
+      intervals = this.getChartOptions().intervals;
+    }
+
+    var bucket = "mins";
+    if(this.getChartOptions() && this.getChartOptions().bucket){
+      bucket = this.getChartOptions().bucket;
+    }
+
+    var xmin = 0;
+    if(this.getChartOptions() && this.getChartOptions().xmin){
+      xmin = this.getChartOptions().xmin;
+    }
+
+    var xmax = intervals;
+    if(this.getChartOptions() && this.getChartOptions().xmax){
+      xmax = this.getChartOptions().xmax;
+    }
+
+    return generateRandomTimeData(max, intervals, bucket, xmin, xmax);
   }
 
   _render(
@@ -722,6 +795,10 @@ class TableComponent extends BaseComponent {
 
   generateRandomData() {
     return generateColumnData();
+  }
+
+  clearSelection(){
+    this.getChart().clearSelection();
   }
 }
 
@@ -817,6 +894,9 @@ class BoxChartComponent extends BaseComponent {
   constructor(options) {
     options.div = options.targetId + "-chart";
     options.hasChart = true;
+    if(!options.cardStyle){
+      options.cardStyle = "card";
+    }
     super(options, new SparkLineChart(options));
   }
 
@@ -849,6 +929,9 @@ class BoxComponent extends BaseComponent {
       options.action = options.title;
     }
     options.hasChart = false;
+    if(!options.cardStyle){
+      options.cardStyle = "card";
+    }
     super(options, null);
   }
 
@@ -1005,12 +1088,12 @@ class SankeyChart extends BaseChart {
     if (!data) {
       data = this.generateSampleData();
     }
-    var options = this.getOptions();
-    const width = options.width || 964;
-    const height = options.height || 600;
+    var chartOptions = this.getChartOptions();
+    const width = chartOptions.width ||  964;
+    const height = chartOptions.height || 600;
     //input/output/path
-    let edgeColor = options.pathColor || 'input';
-
+    let edgeColor =  chartOptions.pathColor || 'input';
+    
     const _sankey = d3.sankey()
       .nodeWidth(15)
       .nodePadding(10)
@@ -1124,45 +1207,91 @@ class TimeLineChart extends BaseChart {
   }
 
   getRandomData(ordinal = false) {
-    const NGROUPS = 6,
-      MAXLINES = 15,
-      MAXSEGMENTS = 20,
-      MAXCATEGORIES = 20,
-      MINTIME = new Date(2013, 2, 21);
+    const NGROUPS = 4,
+    MAXLINES = 5,
+    MAXSEGMENTS = 5,
+    MAXCATEGORIES = 5;
+    var lastTwoWeeks = new Date(Date.now() - (24 * 60 * 60 * 1000 * 14));
+    const MINTIME = lastTwoWeeks;
+  
+    const nCategories = Math.ceil(Math.random()*MAXCATEGORIES),
+    categoryLabels = ['Normal','Slow','Very Slow','Stall','Error'];
 
-    const nCategories = Math.ceil(Math.random() * MAXCATEGORIES),
-      categoryLabels = ['Normal', 'Slow', 'Very Slow', 'Stall', 'Error'];
-    const groupLabels = ["App1", "App2", "App3", "App4", "App5", "App6"];
+    var chartOptions = super.getChartOptions();
+    
+    var groupLabels = chartOptions.groupLabels;
+    if(!groupLabels){
+      groupLabels = [{app:"App1",bts:["BT1","BT2","BT3","BT4","BT5"]},{app:"App2",bts:["BT6","BT7","BT8","BT9","BT10"]},{app:"App3",bts:["BT11","BT12","BT13","BT14","BT15"]},{app:"App4",bts:["BT16","BT17","BT18","BT19","BT20"]}];
+    }
+
+    var nSegments = Math.ceil(Math.random()*MAXSEGMENTS);
+    var runLength = MINTIME;
+
+    //duration of the activity
+    var duration = chartOptions.activityDuration;
+    if(!duration){
+      duration = 10000; //10 seconds
+    }
+
+    //wether the activitiy is random or more like a real user where things are sequential
+    var sequential = chartOptions.sequential;
+    if(!sequential){
+      sequential = false;
+    }else{
+      sequential = true;
+    }
 
     return [...Array(NGROUPS).keys()].map(i => ({
-      group: groupLabels[i],
-      data: getGroupData()
+      group: groupLabels[i].app,
+      data: getGroupData(groupLabels[i])
     }));
+  
+    function getGroupData(group) {
 
-    function getGroupData() {
-
-      return [...Array(Math.ceil(Math.random() * MAXLINES)).keys()].map(i => ({
-        label: 'label' + (i + 1),
+      return [...Array(Math.ceil(Math.random()*MAXLINES)).keys()].map(i => ({
+        label: group.bts[i],
         data: getSegmentsData()
       }));
 
       function getSegmentsData() {
-        const nSegments = Math.ceil(Math.random() * MAXSEGMENTS),
-          segMaxLength = Math.round(((new Date()) - MINTIME) / nSegments);
-        let runLength = MINTIME;
+        
+        if(!sequential){
+          nSegments = Math.ceil(Math.random()*MAXSEGMENTS);
+          var segMaxLength = Math.round(((new Date())-MINTIME)/nSegments);
+          runLength = MINTIME;
+        }
 
         return [...Array(nSegments).keys()].map(i => {
-          const tDivide = [Math.random(), Math.random()].sort(),
-            start = new Date(runLength.getTime() + tDivide[0] * segMaxLength),
-            end = new Date(runLength.getTime() + tDivide[1] * segMaxLength);
 
-          runLength = new Date(runLength.getTime() + segMaxLength);
+          var timeLengths;
+          if(sequential){
+            var len1 = Math.floor(Math.random() * duration) + 1 ;
+            var len2 = Math.floor(Math.random() * duration) + 1 ;
+            timeLengths = [len1,len2];
+          }else{
+            const tDivide = [Math.random(), Math.random()].sort();
+            var len1 = tDivide[0]*segMaxLength;
+            var len2 = tDivide[1]*segMaxLength;
+            timeLengths = [len1,len2];
+          }
 
-          return {
-            timeRange: [start, end],
-            val: ordinal ? categoryLabels[Math.ceil(Math.random() * nCategories)] : Math.random()
-            //labelVal: is optional - only displayed in the labels
-          };
+          
+          timeLengths.sort(function(a,b){
+            return a-b;
+          });
+
+          var start = new Date(runLength.getTime() + timeLengths[0]);
+          var end = new Date(runLength.getTime() + timeLengths[1]);
+
+          if(sequential){
+            runLength = new Date(runLength.getTime() + timeLengths[0]+timeLengths[1]);
+          }else{
+            runLength = new Date(runLength.getTime() + Math.round(((new Date())-MINTIME)/nSegments));
+          }
+
+          var cat = Math.ceil(Math.random()*nCategories)-1;
+          var catLabel = categoryLabels[cat];
+          return { timeRange: [start, end],val: catLabel};
         });
 
       }
@@ -1183,12 +1312,14 @@ class TimeLineChart extends BaseChart {
     var chartOptions = super.getChartOptions();
 
     TimelinesChart()(document.getElementById(id))
-      .maxHeight(chartOptions.height)
-      .width(chartOptions.width)
-      .zScaleLabel(chartOptions.scaleLabel)
-      .zQualitative(true)
-      .dateMarker(new Date() - 365 * 24 * 60 * 60 * 1000) // Add a marker 1y ago
-      .data(data);
+    .maxLineHeight(chartOptions.maxLineHeight)
+		.maxHeight(chartOptions.height)
+		.width(chartOptions.width)
+		.zScaleLabel(chartOptions.scaleLabel)
+		.zQualitative(true)
+    .dateMarker(new Date() - 365 * 24 * 60 * 60 * 1000) // Add a marker 1y ago
+    .zColorScale(d3.scaleOrdinal().domain(['Normal','Slow','Very Slow','Error','Stall']).range(['green', 'yellow', 'orange','red','purple']))
+		.data(data);
   }
 }
 

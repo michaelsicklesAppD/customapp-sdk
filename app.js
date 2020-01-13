@@ -92,7 +92,7 @@ if (configManager.getDashboards()) {
             });
         });
     });
-    console.log("\n\nAccess website at \""+configManager.getProtocol()+"://localhost:"+configManager.getLocalPort()+"/views/index.html\"");
+    console.log("\n\nAccess website at: "+configManager.getProtocol()+"://localhost:"+configManager.getLocalPort()+"/views/index.html");
 }
 
 // catch 404 and forward to error handler

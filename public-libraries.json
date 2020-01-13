@@ -19,6 +19,8 @@
       "animsition/dist/css/animsition.min.css",
       "leaflet/dist/leaflet.js",
       "leaflet/dist/leaflet.css",
+      "leaflet/dist/images/marker-icon.png",
+      "leaflet/dist/images/marker-shadow.png",
       "jsrender/jsrender.min.js",
       "prismjs/prism.js",
       "prismjs/themes/prism-tomorrow.css",
@@ -39,7 +41,8 @@
       "jsrender/jsrender.min.js.map",
       "p5/lib/p5.min.js",
       "p5/lib/addons/p5.dom.min.js",
-      "d3-sankey/dist/d3-sankey.min.js"
+      "d3-sankey/dist/d3-sankey.min.js",
+      "timelines-chart/dist/timelines-chart.min.js"
 
     ]
 }
