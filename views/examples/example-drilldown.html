@@ -61,10 +61,7 @@
 			icon:"fa fa-exclamation fa-2x",
 			options:{
 				size:{height:75},
-			},
-			animate:"bounceInLeft",
-						
-			//query:""
+			}
 		}).draw();
 	}
 
@@ -72,8 +69,7 @@
 		new DonutChartComponent({
 			//query: "",    
 			targetId:"ErrorBreakDown",
-			title:"Error Breakdown",
-			animate:"bounceInRight"
+			title:"Error Breakdown"
 		}).draw(function(id){
 			//hide elements lower down the chain
 			hideElements(["ErrorTrend"]);
@@ -82,14 +78,12 @@
 				//query : "",
 				targetId:"ErrorTable",
 				title:"Table Chart",
-				columns: [{ title: "Name" },{ title: "Counts" }],
-				animate:"zoomIn"
+				columns: [{ title: "Name" },{ title: "Counts" }]
 			}).draw(function(record){
 				new TimeChartComponent({
 					//query: "",    
 					targetId:"ErrorTrend",
-					title:"Error Trend Chart",
-					animate:"zoomInDown"
+					title:"Error Trend Chart"
 				}).draw(function(rec){
 					
                     var data = {

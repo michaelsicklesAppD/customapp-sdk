@@ -21,16 +21,25 @@
 						<li>Table component is a wrapper around <a href="https://datatables.net/">datatables.net</a></li>
 						<li>Using the table component you must provide the data property</li>
 						<li>When selecting a row, the row data is passed as an array. If you click on the row you will see the values.</li>
+                        <li>Adds an outer panel and you can provide a title. The title property can be dynamic and include some variable and or html</li>
+						<li>All chart components allow you to pass in an ADQL query instead of the data property. If you pass in both, the query would be executed first.</li>
+						<li>if you remove the data and query properties then the component will generate test data.</li>
+                        <li>To customize the table component use the options parameter.</li>
+                        <li>The columns attribute shows the columns and matches the order of the data.</li>
 					</ul>
+                </div>
+            </div>
+            <div class="row">
+				<div class="col-md-6">
 					<pre><code class="language-javascript">
 	var data = [
-		["Apple",1000],
-		["Amazon",2000],
-		["Cisco",3000],
-		["AppDynamics",4000],
+		["Cust1",1000],
+		["Cust2",2000],
+		["Cust3",3000],
+		["Cust4",4000],
 	]
 
-	new Table({
+	new TableComponent({
 		targetId:"table",
 		title:"Errors By Customers",
 		data:data,
@@ -43,46 +52,23 @@
 				</div>	
 				<div id="table" class="col-md-6"></div>				
 			</div>
-			<div class="row"><hr/></div>
-			<div class="row">
-				<div class="col-md-6">
-					<p>Table Component</p>
-					<ul>
-						<li>Adds an outer panel and you can provide a title. The title property can be dynamic and include some variable and or html</li>
-						<li>All chart components allow you to pass in an ADQL query instead of the data property. If you pass in both, the query would be executed first.</li>
-						<li>if you remove the data and query properties then the component will generate random or test data.</li>
-					</ul>
-					<pre><code class="language-javascript">	
-	var data = [
-		["Apple",1000],
-		["Amazon",2000],
-		["Cisco",3000],
-		["AppDynamics",4000],
-	]	
-	.....	
-	new TableComponent({
-		targetId:"table2",
-		title:"Errors By Customers",
-		data:data,
-		columns: [{ title: "Customer" },{ title: "Counts" }]
-	}).draw(function(row){
-		alert(JSON.stringify(row));
-	});					
-</code></pre>
-
-				</div>	
-				<div id="table2" class="col-md-6"></div>				
-			</div>
-			<div class="row"><hr/></div>
 			<div class="row">
 					<div class="col-md-6">
-						<p>No Data provided</p>
-						
+						<p>Customizing </p>
+						<ul>
+                             <li>Use the options attribute to set the datatables.net options.</li>
+                             <li>Set the style attribute to none to remove the outer card layout.</li>
+                        </ul>
+                </div>
+                </div>
+                <div class="row">
+				<div class="col-md-6">
 						<pre><code class="language-javascript">			
 	new TableComponent({
 		targetId:"table3",
 		title:"Errors By Customers",
 		columns: [{ title: "Customer" },{ title: "Counts" }],
+        style:'none'
 		options : {
 			"searching": false,
 			"paging": false,
@@ -97,32 +83,7 @@
 					<div id="table3" class="col-md-6"></div>				
 				</div>
 			<div class="row"><hr/></div>
-			<div class="row">
-					<div class="col-md-6">
-						<p>Customizing Table Options</p>
-						<ul>
-							<li>To pass in C3 chart options provide a chartOptions property.</li>
-							<li>This will work for both Table and TableComponents.</li>
-						</ul>
-						<pre><code class="language-javascript">			
-	new TableComponent({
-		targetId:"table3",
-		title:"Errors By Customers",
-		data:data,
-		columns: [{ title: "Customer" },{ title: "Counts" }],
-		options : {
-			"searching": false,
-			"paging": false,
-			"ordering": false
-		}
-	}).draw(function(row){
-		alert(JSON.stringify(row));
-	});					
-	</code></pre>
-	
-					</div>	
-					<div id="table4" class="col-md-6"></div>				
-				</div>
+			
 				<div class="row">
 					<div class="col-md-12">
 						<p>Query Examples</p>
@@ -150,23 +111,14 @@ query: "SELECT segments.userData.Error, count(*) as count FROM transactions WHER
 
 	var chartSection = function(){
 		var data = [
-			["Apple",1000],
-			["Amazon",2000],
-			["Cisco",3000],
-			["AppDynamics",4000],
+			["Cust1",1000],
+			["Cust2",2000],
+			["Cust3",3000],
+			["Cust4",4000],
 		]
 
-		new Table({
-			targetId:"table",
-			title:"Errors By Customers",
-			data:data,
-			columns: [{ title: "Customer" },{ title: "Counts" }]
-		}).draw(function(row){
-			alert(JSON.stringify(row));
-		});
-
 		new TableComponent({
-			targetId:"table2",
+			targetId:"table",
 			title:"Errors By Customers",
 			data:data,
 			columns: [{ title: "Customer" },{ title: "Counts" }]
@@ -179,6 +131,7 @@ query: "SELECT segments.userData.Error, count(*) as count FROM transactions WHER
 			targetId:"table3",
 			title:"Errors By Customers",
 			columns: [{ title: "Customer" },{ title: "Counts" }],
+            style:'none',
 			options : {
 				"searching": false,
 				"paging": false,
@@ -188,19 +141,7 @@ query: "SELECT segments.userData.Error, count(*) as count FROM transactions WHER
 			alert(JSON.stringify(row));
 		});
 
-		new TableComponent({
-			targetId:"table4",
-			title:"Errors By Customers",
-			data:data,
-			columns: [{ title: "Customer" },{ title: "Counts" }],
-			options : {
-				"searching": false,
-				"paging": false,
-				"ordering": false
-			}
-		}).draw(function(row){
-			alert(JSON.stringify(row));
-		});
+		
 
 	}
 

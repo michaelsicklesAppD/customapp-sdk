@@ -1,21 +1,18 @@
 <script id="_chartComponent" type="text/x-jsrender">
-    <div class="card {{:panelClass}}">
+    <div class="{{:cardStyle}} {{:panelClass}}">
         <div class="card-body"">
             <h3 class="title-2">{{:title}}</h3>
-            <div class="chart-info">
-                
-            </div>
-            <div id="{{:div}}" class="{{:div}}"></div>
+            <div id="{{:div}}"></div>
         </div>
     </div>
 </script>
 
 <script id="_noPanelComponent" type="text/x-jsrender">
-    <div id="{{:div}}"></div>
+    <div id="{{:div}}" {{if panelClass}} class="{{:panelClass}}" {{/if}}></div>
 </script>
 
 <script id="_tableComponent" type="text/x-jsrender">
-    <div class="card {{:panelClass}}">
+    <div class="{{:cardStyle}} {{:panelClass}}">
         <div class="card-body">
             <h3 class="title-2">{{:title}}</h3>
             <br/>
@@ -66,18 +63,19 @@
 
 <script id="_boxComponent" type="text/x-jsrender">
     <div id="{{:targetId}}-box" class="{{:cardStyle}} rounded {{:panelClass}}"  onClick="{{:actionClick}}" style="cursor: pointer;">
-            <div class="card-body">
-              <h2 class="card-title">            
-                  <div class="icon">
-                    <i class="{{:icon}}" {{if iconColor}} style="color:{{:iconColor}}" {{/if}}></i> {{:value}}
-                    </div></h2>
-              <p class="card-text">{{:title}}</p>
-              {{if hasChart}}
-                <div class="overview-chart">
-                    <div id="{{:targetId}}-chart"></div>
-                </div>
-            {{/if}}
+        <div class="card-body">
+          <h2 class="card-title">            
+              <div class="icon">
+                <i class="{{:icon}}" {{if iconColor}} style="color:{{:iconColor}}" {{/if}}></i> {{:value}}
+              </div>
+          </h2>
+          <p class="card-text">{{:title}}</p>
+        {{if hasChart}}
+            <div class="overview-chart">
+                <div id="{{:targetId}}-chart"></div>
             </div>
+        {{/if}}
+        </div>
     </div>	
 </script>
 

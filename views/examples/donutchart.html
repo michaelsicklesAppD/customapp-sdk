@@ -16,12 +16,13 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div id="chartInfo" class="col-md-6">
-					<p>Donut Chart :</p>
+					<p>DonutChart Component:</p>
 					<ul>
-						<li>When working with the Donut Chart object you have to provide the data using the data property.</li>
-						<li>A wrapper for a C3.js Donut Chart (see <a href="https://c3js.org/samples/chart_donut.html">c3.js donut chart</a> ) </li>
-						<li>You would use the Donut Chart when you want to have control over the data and the chart itself.</li>
-					</ul>
+						<li>Displays the data in donut chart</li>
+                        <li>Wraps the chart in a default card layout</li>
+                        <li>In this example we can pass in the data to be displayed</li>
+                        <li>It defaults to showing the percentages</li>
+				    </ul>
 					<pre><code class="language-javascript">
 	var data = [
 		["Customer Apple",1000],
@@ -30,7 +31,7 @@
 		["Customer Facebook",4000],
 	]
 	
-	new DonutChart({
+	new DonutChartComponent({
 		targetId:"chart",
 		data:data,
 		title:"Customers"
@@ -47,9 +48,8 @@
 				<div class="col-md-6">
 					<p>Donut Chart Component</p>
 					<ul>
-						<li>Adds an outer panel and you can provide a title. The title property can be dynamic and include some variable and or html</li>
-						<li>All chart components allow you to pass in an ADQL query instead of the data property. If you pass in both, the query would be executed first.</li>
-						<li>if you remove the data and query properties then the component will generate random or test data.</li>
+						<li>All chart components allow you to pass in an ADQL query instead of the data property. If you pass in both, the query property would take precendence.</li>
+						<li>if you remove the data and query properties then the component will generate performance test data</li>
 					</ul>
 					<pre><code class="language-javascript">			
 	new DonutChartComponent({
@@ -69,14 +69,13 @@
 					<div class="col-md-6">
 						<p>Customizing Chart Options</p>
 						<ul>
-							<li>To pass in C3 chart options provide a chartOptions property.</li>
-							<li>This will work for both Chart and ChartComponents.</li>
+							<li>To customize the donut chart use the options attribute.</li>
 						</ul>
 						<pre><code class="language-javascript">			
 	new DonutChartComponent({
 		targetId:"chartComponentCustomized",
 		title:"All Red",
-		chartOptions:{
+		options:{
 			size:{width:"200",height:"200"},
 			color:{pattern: ['#FF0000']},
 			legend: {show: false}
@@ -88,6 +87,33 @@
 	
 					</div>	
 					<div id="chartComponentCustomized" class="col-md-6"></div>				
+				</div>
+            
+            <div class="row"><hr/></div>
+			<div class="row">
+					<div class="col-md-6">
+						<p>Removing the card layout:</p>
+						<ul>
+							<li>set style:none</li>
+                            <li>This will remove the outer card layout</li>
+                            <li>You can pass in your own style see the card css element.</li>
+						</ul>
+						<pre><code class="language-javascript">			
+	new DonutChartComponent({
+			targetId:"chartNoLayout",
+			style:'none',
+			chartOptions:{
+				size:{width:"200",height:"200"},
+				color:{pattern: ['#FF0000']},
+				legend: {show: false}
+			}
+		}).draw(function(selection){
+			alert(selection);
+		})					
+	</code></pre>
+	
+					</div>	
+					<div id="chartNoLayout" class="col-md-6"></div>				
 				</div>
 		</div>
 		</div>
@@ -105,7 +131,7 @@
 			["Facebook",4000],
 		]
 		
-		new DonutChart({
+		new DonutChartComponent({
 			targetId:"chart",
 			data:data,
 			title:"Customers"
@@ -124,6 +150,18 @@
 		new DonutChartComponent({
 			targetId:"chartComponentCustomized",
 			title:"All Red",
+			chartOptions:{
+				size:{width:"200",height:"200"},
+				color:{pattern: ['#FF0000']},
+				legend: {show: false}
+			}
+		}).draw(function(selection){
+			alert(selection);
+		})
+        
+        new DonutChartComponent({
+			targetId:"chartNoLayout",
+			style:'none',
 			chartOptions:{
 				size:{width:"200",height:"200"},
 				color:{pattern: ['#FF0000']},

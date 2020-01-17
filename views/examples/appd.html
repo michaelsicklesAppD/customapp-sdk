@@ -43,7 +43,7 @@
 						<div id="deviceTrends"></div>
 					</div>
 					<div class="col-md-9">
-						<div id="appsTrends" class="darkChart"></div>	
+						<div id="appsTrends"></div>	
 					</div>	
 					<div class="col-md-9">
 						<div id="eventsTrends"></div>	
@@ -65,14 +65,14 @@
 		new TimeChartComponent({
 			targetId:"deviceTrends",
 			title:"Connection Trends",
-			animate:"zoomIn",
 			xLabel:"Connections",
 			options:{
 				type:"bar",
 				bar:{
 					width : {ratio:.15}
 				}
-			}
+			},
+            animte:'zoomIn'
 		}).draw(function(selection){
 			alert(JSON.stringify(selection));
 		})
@@ -83,7 +83,6 @@
         
         new TimeChart({
 			targetId:"appsTrends",
-			animate:"zoomIn",
 			xLabel:"Average Response",
             data : generateRandomTimeData(),
 			options:{
@@ -105,7 +104,6 @@
 		new TimeChartComponent({
 			targetId:"eventsTrends",
 			title:"Events Trends",
-			animate:"zoomIn",
 			xLabel:"Events"
 		}).draw(function(selection){
 			alert(JSON.stringify(selection));
@@ -119,9 +117,7 @@
 			targetId:"deviceConnections",
 			actionClick: "deviceTrend()",
 			icon:"fa fa-download",
-			options:{size:{height:75,width:250}},
-			
-			animate:"zoomIn"
+			options:{size:{height:75,width:250}}
 		}).draw();
 
 		new BoxChartComponent({
@@ -129,9 +125,7 @@
 			targetId:"apps",
 			actionClick: "appsTrend()",
 			icon:"fas fa-desktop",
-			options:{size:{height:75,width:250}},
-			
-			animate:"zoomIn"
+			options:{size:{height:75,width:250}}
 		}).draw();	
 
 		new BoxChartComponent({
@@ -139,8 +133,7 @@
 			targetId:"events",
 			actionClick: "eventsTrend()",
 			icon:"fa fa-database",
-			options:{size:{height:75,width:250}},
-			animate:"zoomIn"
+			options:{size:{height:75,width:250}}
 		}).draw();	
 	}
 

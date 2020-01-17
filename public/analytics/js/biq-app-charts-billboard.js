@@ -614,8 +614,19 @@ class BaseComponent extends CoreComponent {
     if (this.options.postRenderFn) {
       this.postRender = this.options.postRenderFn;
     }
-    if (!options.template) {
-      options.template = _chartComponentTemplate;
+
+    if(options.template){
+      if(options.template.toLowerCase() === 'none'){
+        options.template = _noPanelComponentTemplate;
+      }
+    } 
+
+    if(!options.style){
+      options.cardStyle = "card";
+    }else{
+      if (options.style.toLowerCase() == 'none'){
+        options.cardStyle = null;
+      }
     }
     if (this.chart) {
       this.chart.setAnimation(false);
@@ -813,7 +824,9 @@ class TimeChartComponent extends BaseComponent {
 
 class TimeRangeComponent extends BaseComponent {
   constructor(options) {
-    options.template = _timeRangeComponentTemplate;
+    if (!options.template) {
+      options.template = _timeRangeComponentTemplate;
+    }
     super(options);
   }
 
@@ -894,8 +907,8 @@ class BoxChartComponent extends BaseComponent {
   constructor(options) {
     options.div = options.targetId + "-chart";
     options.hasChart = true;
-    if(!options.cardStyle){
-      options.cardStyle = "card";
+    if (!options.template) {
+      options.template = _boxComponentTemplate;
     }
     super(options, new SparkLineChart(options));
   }
@@ -918,19 +931,16 @@ class BoxChartComponent extends BaseComponent {
 
   preRender(chart, options, data) {
     $("#" + options.targetId).html(
-      $.templates(_boxComponentTemplate).render(options)
+      $.templates(options.template).render(options)
     );
   }
 }
 
 class BoxComponent extends BaseComponent {
   constructor(options) {
-    if (!options.action) {
-      options.action = options.title;
-    }
     options.hasChart = false;
-    if(!options.cardStyle){
-      options.cardStyle = "card";
+    if (!options.template) {
+      options.template = _boxComponentTemplate;
     }
     super(options, null);
   }
@@ -938,7 +948,7 @@ class BoxComponent extends BaseComponent {
   draw(onClick, callback) {
     var options = super.getOptions();
     $("#" + options.targetId).html(
-      $.templates(_boxComponentTemplate).render(options)
+      $.templates(options.template).render(options)
     );
     if (options.animate) {
       animateDiv(options.targetId, options.animate);
@@ -948,7 +958,9 @@ class BoxComponent extends BaseComponent {
 
 class FilterComponent extends BaseComponent {
   constructor(options) {
-    options.template = _filterComponentTemplate;
+    if (!options.template) {
+      options.template = _filterComponentTemplate;
+    }
     super(options);
   }
 
@@ -1037,7 +1049,9 @@ var updateQueryWithFilters = function (query) {
 
 class PieChartComponent extends BaseComponent {
   constructor(options) {
-    options.template = _chartComponentTemplate;
+    if (!options.template) {
+      options.template = _chartComponentTemplate;
+    }
     super(options, new PieChart(options));
   }
 

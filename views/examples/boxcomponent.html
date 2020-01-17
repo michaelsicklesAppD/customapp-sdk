@@ -36,7 +36,6 @@
 		new BoxComponent({
 			title:"Total Revenue",
 			targetId:"box1",
-			action:"Revenue Dashboard",
 			actionClick: "window.location.href ='/views/examples/boxcomponent.html'",
 			icon:"fa fa-shopping-cart fa-5x",
 			value:"2 Million",
@@ -74,7 +73,6 @@
         new BoxChartComponent({
             title:"Total Revenue",
             targetId:"box2",
-            action:"Revenue Dashboard",
             actionClick: "window.location.href ='/views/examples/boxcomponent.html'",
             icon:"zmdi zmdi-shopping-cart",
             data:chartData,
@@ -100,7 +98,6 @@
     new BoxChartComponent({
         title:"Total Revenue",
         targetId:"box3",
-        action:"Revenue Dashboard",
         actionClick: "window.location.href='/views/examples/boxcomponent.html'",
         icon:"fa fa-shopping-cart fa-2x",
         //data:,
@@ -127,7 +124,7 @@
 									<div id="chartComponentCustomized" class="col-md-6"></div>				
 								</div>
                             <div class="row">
-                                <p>To Remove the outer html i.e. the white background in this case. Set the cardStyle to a blank value</p>
+                                <p>To Remove the outer html i.e. the white background in this case. Set style:'none'</p>
                             </div>
                             <div class="row">
                                 <div class="col-md-9">                                
@@ -135,12 +132,11 @@
         new BoxChartComponent({
             title:"Total Revenue",
             targetId:"noCardStyle",
-            action:"Revenue Dashboard",
             actionClick: "window.location.href='/views/examples/boxcomponent.html'",
             icon:"fa fa-shopping-cart fa-2x",
             //data:,
             //query:,
-            cardStyle:' ',
+            style:'none',
             options:{
                 size:{height:75}
             }
@@ -224,7 +220,6 @@
 		new BoxChartComponent({
 			title:"Total Revenue",
 			targetId:"box3",
-			action:"Revenue Dashboard",
 			actionClick: "window.location.href='/views/examples/boxcomponent.html'",
 			icon:"fa fa-shopping-cart fa-2x",
 			//data:,
@@ -237,12 +232,11 @@
         new BoxChartComponent({
 			title:"Total Revenue",
 			targetId:"noCardStyle",
-			action:"Revenue Dashboard",
 			actionClick: "window.location.href='/views/examples/boxcomponent.html'",
 			icon:"fa fa-shopping-cart fa-2x",
 			//data:,
 			//query:,
-            cardStyle:' ',
+            style:'none',
 			options:{
 				size:{height:75}
 			}
