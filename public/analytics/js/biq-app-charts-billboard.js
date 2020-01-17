@@ -1081,7 +1081,7 @@ class DonutChartComponent extends BaseComponent {
 
 
 
-class SankeyChart extends BaseChart {
+class SankeyComponent extends BaseChart {
   constructor(options) {
     options.div = options.targetId;
     super(options);
@@ -1220,7 +1220,7 @@ class SankeyChart extends BaseChart {
 
 }
 
-class TimeLineChart extends BaseChart {
+class TimeLineComponent extends BaseChart {
   constructor(options) {
     options.div = options.targetId;
     super(options);

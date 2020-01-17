@@ -23,16 +23,12 @@
       <div class="container-fluid">
         <!-- Main Page -->
         <div class="row">
-          <p>Sankey Charts</p>
-        </div>
-        <div class="row">
-          <hr />
+          <p>SankeyComponent</p>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <p>D3 Sankey Chart</p>
             <ul>
-              <li>See : <a
+              <li>Based on the following d3 open source project see : <a
                   href="https://github.com/ricklupton/d3-sankey-diagram">https://github.com/ricklupton/d3-sankey-diagram</a>
               </li>
               <li>This component allows you to drill in and zoom on just the element selected.</li>
@@ -63,7 +59,7 @@
       ]
     }
 
-    sankeyChart = new SankeyChart({
+    sankeyChart = new SankeyComponent({
       targetId: "chart",
       data: data,
       options: { height: "1000px", width: "1000px" }
@@ -99,7 +95,7 @@
       ]
     }
 
-    sankeyChart = new SankeyChart({
+    sankeyChart = new SankeyComponent({
       targetId: "chart",
       data: data,
       options: { height: "500", width: "800" }

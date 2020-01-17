@@ -37,7 +37,7 @@
         <div class="row">
           <div class="col-md-12">
             <pre><code class="language-javascript">	
-  new TimeLineChart({
+  new TimeLineComponent({
     targetId:"timeline"
   }).draw(function(selection){
     alert(JSON.stringify(selection));
@@ -69,7 +69,7 @@
       {app:"Affliate Portal",bts:["Login","Home","Account","Sales","Orders"]}
     ];
 
-    new TimeLineChart({
+    new TimeLineComponent({
         targetId:"sequential",
         options : {
             maxLineHeight:20,
@@ -97,7 +97,7 @@
 
   var chartSection = function () {
     
-    new TimeLineChart({
+    new TimeLineComponent({
       targetId:"timeline",
       options:{
         height:1200,
@@ -114,7 +114,7 @@
       {app:"Tracking",bts:["Lookup","Form","Submit","Details","Contact US"]},
       {app:"Affliate Portal",bts:["Login","Home","Account","Sales","Orders"]}];
         
-    new TimeLineChart({
+    new TimeLineComponent({
         targetId:"sequential",
         options : {
             maxLineHeight:20,
