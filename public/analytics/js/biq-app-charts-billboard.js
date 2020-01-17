@@ -113,11 +113,17 @@ class CoreComponent {
   }
 
   getChartOptions() {
+    var options = null;
     if (this.getOptions().options) {
-      return this.getOptions().options;
+      options = this.getOptions().options;
     }
     if (this.getOptions().chartOptions) {
-      return this.getOptions().chartOptions;
+      options = this.getOptions().chartOptions;
+    }
+    if(!options){
+      return {};
+    }else{
+      return options;
     }
   }
 }

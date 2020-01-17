@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BiQ App - Dashboard</title>
+  <meta charset="UTF-8">
+ 
+  <% include ../partials/theme%>
+  <% include head %>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- Menu -->
+    <%- include ./menu %>
+    <div class="page-container">
+      <div class="container-fluid">
+        <!-- Main Page -->
+        <div class="row">
+          <p>TimelineComponent Charts</p>
+        </div>
+        <div class="row">
+          <hr />
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p>This component is based on the timelines-chart project</p>
+            <ul>
+              <li>See : <a
+                  href="https://www.npmjs.com/package/timelines-chart">https://www.npmjs.com/package/timelines-chart</a>
+              </li>
+              <li>It will generate test data if you do not supply any data.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <pre><code class="language-javascript">	
+  new TimeLineChart({
+    targetId:"timeline"
+  }).draw(function(selection){
+    alert(JSON.stringify(selection));
+  }); 
+						</code></pre>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div id="timeline"></div>
+          </div>
+        </div>
+        <div class="row">
+         <div class="col-md-12">
+            <ul>
+              <li>
+                You can supply the group labels and tell the component to generate test data in a sequential manner
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <pre><code class="language-javascript">	
+    var pageGroupLabels = [
+      {app:"Retail Website",bts:["Landing","Search","Checkout","Add To Cart","Payment"]},
+      {app:"Order Lookup",bts:["Orders","Login","Forgot Password","Order","Lookup"]},
+      {app:"Tracking",bts:["Lookup","Form","Submit","Details","Contact US"]},
+      {app:"Affliate Portal",bts:["Login","Home","Account","Sales","Orders"]}
+    ];
+
+    new TimeLineChart({
+        targetId:"sequential",
+        options : {
+            maxLineHeight:20,
+            height:1200,
+            width : 800,
+            scaleLabel : 'Time Spent',
+            groupLabels : pageGroupLabels,
+            sequential:true
+        }
+    }).draw(function(selection){
+        alert(selection);
+    })
+            </code></pre>
+           </div>
+          </div>
+          <div class="row">
+           <div class="col-md-12">
+              <div id="sequential"></div>
+          </div>
+         </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+
+  var chartSection = function () {
+    
+    new TimeLineChart({
+      targetId:"timeline",
+      options:{
+        height:1200,
+        width : 1200
+      }
+    }).draw(function(selection){
+      alert(JSON.stringify(selection));
+    });
+
+
+    var pageGroupLabels = [
+      {app:"Retail Website",bts:["Landing","Search","Checkout","Add To Cart","Payment"]},
+      {app:"Order Lookup",bts:["Orders","Login","Forgot Password","Order","Lookup"]},
+      {app:"Tracking",bts:["Lookup","Form","Submit","Details","Contact US"]},
+      {app:"Affliate Portal",bts:["Login","Home","Account","Sales","Orders"]}];
+        
+    new TimeLineChart({
+        targetId:"sequential",
+        options : {
+            maxLineHeight:20,
+            height:1200,
+            width : 1200,
+            scaleLabel : 'Time Spent',
+            groupLabels : pageGroupLabels,
+            sequential:true
+        }
+    }).draw(function(selection){
+        alert(selection);
+    })
+
+
+  }
+
+
+  //Your BiQ App Components ...
+  var buildDashboard = function () {
+    chartSection();
+  }
+  buildDashboard();
+
+
+</script>
+
+</html>
